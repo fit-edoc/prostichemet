@@ -1,0 +1,362 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+}
+
+:root {
+  /* Vintage Light Palette */
+  --bg-canvas: #FAF9F6;           /* Alabaster / Ivory base */
+  --bg-surface: #FFFFFF;          /* Pure crisp white */
+  --bg-elevated: #F3EFEA;         /* Warm vintage cream / linen */
+  --bg-muted: #EBE5DC;            /* Subtle parchment */
+  
+  --text-primary: #1C1917;        /* Warm deep charcoal / stone-900 */
+  --text-secondary: #57534E;      /* Vintage stone-600 */
+  --text-muted: #8C857B;          /* Muted warm grey / stone-400 */
+
+  --border-subtle: rgba(28, 25, 23, 0.08);
+  --border-medium: rgba(28, 25, 23, 0.16);
+  --border-focus: #1C1917;
+
+  --accent-vintage: #B45309;      /* Warm vintage amber / bronze */
+  --accent-vintage-light: rgba(180, 83, 9, 0.08);
+  --accent-glow: rgba(180, 83, 9, 0.18);
+
+  --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.04);
+  --shadow-md: 0 4px 12px rgba(28, 25, 23, 0.06);
+  --shadow-lg: 0 12px 32px rgba(28, 25, 23, 0.08);
+  --shadow-glow: 0 0 40px rgba(180, 83, 9, 0.14);
+  --shadow-inset-top: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  --shadow-inset-card: inset 0 0 0 1px rgba(255, 255, 255, 0.4), inset 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+[data-theme='dark'] {
+  /* Vintage Dark Palette (Obsidian & Warm Charcoal with Vintage Brass) */
+  --bg-canvas: #0A0A0B;           /* Deep obsidian black */
+  --bg-surface: #121215;          /* Warm dark slate */
+  --bg-elevated: #18181D;         /* Charcoal card surface */
+  --bg-muted: #22222A;            /* Elevated pill / border */
+
+  --text-primary: #FDFBF7;        /* Vintage off-white / bone */
+  --text-secondary: #A8A29E;      /* Warm stone-400 */
+  --text-muted: #78716C;          /* Muted warm stone-500 */
+
+  --border-subtle: rgba(253, 251, 247, 0.08);
+  --border-medium: rgba(253, 251, 247, 0.16);
+  --border-focus: #FDFBF7;
+
+  --accent-vintage: #D97706;      /* Vintage warm brass gold */
+  --accent-vintage-light: rgba(217, 119, 6, 0.12);
+  --accent-glow: rgba(217, 119, 6, 0.24);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 50px rgba(217, 119, 6, 0.18);
+  --shadow-inset-top: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  --shadow-inset-card: inset 0 0 0 1px rgba(255, 255, 255, 0.06), inset 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--text-primary);
+  color: var(--bg-canvas);
+}
+
+/* Typography Scales */
+.text-display {
+  font-size: clamp(2.5rem, 5vw + 1rem, 4.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  font-weight: 600;
+}
+
+.text-title-1 {
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+}
+
+.text-title-2 {
+  font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+}
+
+.text-title-3 {
+  font-size: clamp(1.15rem, 1.8vw, 1.5rem);
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+}
+
+/* Gradient Text */
+.gradient-text-vintage {
+  background: linear-gradient(135deg, var(--text-primary) 20%, var(--accent-vintage) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Animated Pattern Backgrounds */
+.bg-animated-grid {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, var(--border-subtle) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border-subtle) 1px, transparent 1px);
+  animation: gridDrift 40s linear infinite;
+}
+
+@keyframes gridDrift {
+  0% { background-position: 0 0; }
+  100% { background-position: 32px 32px; }
+}
+
+.bg-radial-gradient {
+  background: radial-gradient(circle at 50% 0%, var(--accent-glow) 0%, transparent 65%);
+}
+
+.ambient-mesh {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 20% 30%, var(--accent-glow) 0%, transparent 40%),
+              radial-gradient(circle at 80% 70%, var(--accent-vintage-light) 0%, transparent 50%);
+  filter: blur(80px);
+  opacity: 0.6;
+  animation: meshPulse 12s ease-in-out infinite alternate;
+}
+
+@keyframes meshPulse {
+  0% { transform: scale(1) translateY(0); opacity: 0.5; }
+  100% { transform: scale(1.08) translateY(-20px); opacity: 0.8; }
+}
+
+/* ===== 1. Hero Reveal Keyframes ===== */
+@keyframes heroFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(28px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-hero-reveal {
+  animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.15s; }
+.stagger-3 { animation-delay: 0.25s; }
+.stagger-4 { animation-delay: 0.38s; }
+.stagger-5 { animation-delay: 0.5s; }
+
+/* ===== 2. Text Reveal Clipping Masks ===== */
+.text-mask-reveal {
+  overflow: hidden;
+  display: inline-block;
+}
+
+.text-mask-reveal > span {
+  display: inline-block;
+  transform: translateY(110%);
+  animation: textSlideUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes textSlideUp {
+  0% { transform: translateY(110%); }
+  100% { transform: translateY(0%); }
+}
+
+/* ===== 3 & 4. Scroll Reveal Classes ===== */
+.reveal-init {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-init.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-left.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-right.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ===== 5. Image / Card Mask Flare Reveal ===== */
+@keyframes maskFlare {
+  0% {
+    clip-path: inset(0 100% 0 0);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.mask-flare-reveal {
+  animation: maskFlare 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ===== 6. Card Spotlight & Inset Shadow ===== */
+.spotlight-card {
+  position: relative;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-inset-card), var(--shadow-sm);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  overflow: hidden;
+}
+
+.spotlight-card::before {
+  content: '';
+  position: absolute;
+  top: var(--mouse-y, -100px);
+  left: var(--mouse-x, -100px);
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.spotlight-card:hover::before {
+  opacity: 1;
+}
+
+.spotlight-card:hover {
+  border-color: var(--border-medium);
+  box-shadow: var(--shadow-inset-card), var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* ===== 7. Button Rolling Text Animation ===== */
+.btn-rolling {
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-inset-top), var(--shadow-sm);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-rolling:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-inset-top), var(--shadow-md);
+}
+
+.btn-rolling:active {
+  transform: translateY(1px) scale(0.985);
+  box-shadow: var(--shadow-inset-top), var(--shadow-sm);
+}
+
+.btn-rolling-track {
+  display: inline-flex;
+  flex-direction: column;
+  height: 1.25em;
+  overflow: hidden;
+}
+
+.btn-rolling-inner {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-rolling:hover .btn-rolling-inner {
+  transform: translateY(-50%);
+}
+
+.btn-rolling-slot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.25em;
+  line-height: 1.25em;
+}
+
+/* ===== 10. Infinite Marquee Ticker ===== */
+@keyframes marqueeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee-container {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  gap: 2rem;
+  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+}
+
+.marquee-content {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-around;
+  gap: 2rem;
+  min-width: 100%;
+  animation: marqueeScroll 25s linear infinite;
+}
+
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+/* Glass panel */
+.glass-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-inset-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}

@@ -1,0 +1,97 @@
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { User, Workspace } from '../../types';
+import { authApi } from '../../services/api';
+
+interface AuthState {
+  user: User | null;
+  workspace: Workspace | null;
+  token: string | null;
+  isLoading: boolean;
+  error: string | null;
+}
+
+const initialState: AuthState = {
+  user: null,
+  workspace: null,
+  token: typeof window !== 'undefined' ? localStorage.getItem('postrichment_token') : null,
+  isLoading: false,
+  error: null,
+};
+
+export const loginWithGoogle = createAsyncThunk(
+  'auth/loginWithGoogle',
+  async (payload: { idToken?: string; email?: string; name?: string; avatarUrl?: string; googleId?: string }, { rejectWithValue }) => {
+    try {
+      const data = await authApi.loginWithGoogle(payload);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('postrichment_token', data.token);
+      }
+      return data;
+    } catch (err: any) {
+      return rejectWithValue(err.message || 'Login failed');
+    }
+  }
+);
+
+export const fetchCurrentUser = createAsyncThunk(
+  'auth/fetchCurrentUser',
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await authApi.getMe();
+      return data;
+    } catch (err: any) {
+      return rejectWithValue(err.message || 'Failed to fetch user session');
+    }
+  }
+);
+
+const authSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {
+    logout: (state) => {
+      state.user = null;
+      state.workspace = null;
+      state.token = null;
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('postrichment_token');
+      }
+    },
+    setActiveWorkspace: (state, action: PayloadAction<Workspace>) => {
+      state.workspace = action.payload;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      // loginWithGoogle
+      .addCase(loginWithGoogle.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(loginWithGoogle.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload.user;
+        state.workspace = action.payload.workspace;
+        state.token = action.payload.token;
+      })
+      .addCase(loginWithGoogle.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      })
+      // fetchCurrentUser
+      .addCase(fetchCurrentUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload.user;
+        state.workspace = action.payload.workspace;
+      })
+      .addCase(fetchCurrentUser.rejected, (state) => {
+        state.isLoading = false;
+      });
+  },
+});
+
+export const { logout, setActiveWorkspace } = authSlice.actions;
+export default authSlice.reducer;
