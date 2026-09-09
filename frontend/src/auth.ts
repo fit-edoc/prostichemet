@@ -12,14 +12,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: "/login",
   },
   callbacks: {
-    authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user;
-      const isOnDashboard = nextUrl.pathname.startsWith('/crm') || nextUrl.pathname.startsWith('/overview');
-      
-      if (isOnDashboard) {
-        if (isLoggedIn) return true;
-        return false; // Redirect unauthenticated users to login page
+    async jwt({ token, account, user }) {
+      if (account) {
+        token.idToken = account.id_token;
+        token.googleId = account.providerAccountId;
       }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = (token.sub || token.googleId) as string;
+        (session as any).idToken = token.idToken;
+        (session as any).googleId = token.googleId;
+      }
+      return session;
+    },
+    authorized({ auth, request: { nextUrl } }) {
       return true;
     },
   },
