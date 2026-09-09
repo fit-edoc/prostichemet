@@ -131,8 +131,11 @@ Buying Signals:
       scoredDocs.sort((a, b) => b.similarity - a.similarity);
       return scoredDocs.slice(0, limit);
     } catch (err) {
-      console.warn('Vector retrieval error, falling back to recent docs:', err.message);
-      return await db.select().from(knowledgeBase).limit(limit);
+      try {
+        return await db.select().from(knowledgeBase).limit(limit);
+      } catch (fallbackErr) {
+        return [];
+      }
     }
   }
 

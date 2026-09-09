@@ -4,6 +4,7 @@ const cors = require('cors');
 const apiV1Router = require('./routes');
 const { errorHandler } = require('./middleware/errorHandler');
 const { successResponse } = require('./utils/response');
+const { initDatabase } = require('./db');
 const ragService = require('./services/ragService');
 
 const app = express();
@@ -45,6 +46,13 @@ app.listen(port, async () => {
   console.log(`🚀 Postrichment Backend running on port ${port}`);
   console.log(`📡 API Base: http://localhost:${port}/api/v1`);
   console.log(`=========================================`);
+
+  // Ensure tables exist
+  try {
+    await initDatabase();
+  } catch (err) {
+    console.warn('Database table check warning:', err.message);
+  }
 
   // Initialize RAG knowledge base with B2B outbound frameworks
   try {
