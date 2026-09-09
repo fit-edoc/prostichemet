@@ -4,23 +4,23 @@ import { IconRadar2, IconBrandGithub, IconBrandTwitter, IconBrandLinkedin } from
 
 export function Footer() {
   return (
-    <footer className="w-full border-t border-[var(--border-subtle)] bg-[var(--bg-surface)] py-16">
+    <footer className="w-full border-t border-[var(--border-subtle)] bg-[var(--bg-surface)] py-14">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-10 mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
           {/* Brand Col */}
-          <div className="col-span-2 space-y-4">
+          <div className="col-span-2 space-y-3.5">
             <Link href="/" className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-[var(--text-primary)] text-[var(--bg-canvas)] flex items-center justify-center font-bold text-sm">
-                <IconRadar2 className="w-4 h-4 text-[var(--bg-canvas)]" />
+              <div className="w-7 h-7 rounded-lg bg-[#20150F] text-[#FAF9F7] dark:bg-[#FAF9F7] dark:text-[#120D0A] flex items-center justify-center font-bold text-xs">
+                <IconRadar2 className="w-4 h-4" />
               </div>
-              <span className="font-semibold text-base tracking-tight text-[var(--text-primary)]">
+              <span className="font-bold text-base tracking-tight text-[var(--text-primary)]">
                 Postrichment
               </span>
             </Link>
             <p className="text-xs text-[var(--text-secondary)] leading-relaxed max-w-sm">
               The AI GTM Research and Outbound SaaS designed for modern software agencies, AI consultancies, and high-growth B2B startups.
             </p>
-            <div className="flex items-center gap-3 pt-2 text-[var(--text-muted)]">
+            <div className="flex items-center gap-3 pt-1 text-[var(--text-muted)]">
               <a href="#" className="hover:text-[var(--text-primary)] transition-colors">
                 <IconBrandTwitter className="w-4 h-4" />
               </a>
@@ -74,7 +74,7 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--text-muted)] font-mono">
+        <div className="pt-6 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--text-muted)] font-mono">
           <p>© 2026 Postrichment Inc. Built with RAG & Multi-Agent Intelligence.</p>
           <p className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />

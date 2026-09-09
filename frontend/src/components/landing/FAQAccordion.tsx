@@ -45,9 +45,9 @@ export function FAQAccordion() {
   };
 
   return (
-    <section className="w-full py-24 max-w-4xl mx-auto px-6">
-      <div className="text-center mb-16">
-        <Badge variant="vintage" size="sm">
+    <section className="w-full py-20 max-w-4xl mx-auto px-6">
+      <div className="text-center mb-12">
+        <Badge variant="brown" size="sm">
           Frequently Asked Questions
         </Badge>
         <h2 className="text-title-1 text-[var(--text-primary)] mt-3">
@@ -58,37 +58,31 @@ export function FAQAccordion() {
         </p>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         {faqs.map((faq, idx) => {
           const isOpen = openIndex === idx;
           return (
             <div
               key={idx}
-              className={`rounded-2xl transition-all duration-300 border ${
-                isOpen
-                  ? "bg-[var(--bg-surface)] border-[var(--border-medium)] shadow-[var(--shadow-md)]"
-                  : "bg-[var(--bg-canvas)] border-[var(--border-subtle)] hover:border-[var(--border-medium)]"
-              }`}
+              className="border border-[var(--border-subtle)] rounded-2xl bg-[var(--bg-surface)] overflow-hidden transition-all shadow-[var(--shadow-xs)]"
             >
               <button
+                type="button"
                 onClick={() => toggle(idx)}
-                aria-expanded={isOpen}
-                className="w-full p-6 text-left flex items-center justify-between gap-4 cursor-pointer select-none"
+                className="w-full px-6 py-4.5 flex items-center justify-between text-left cursor-pointer select-none"
               >
-                <span className="text-sm sm:text-base font-semibold text-[var(--text-primary)]">
+                <span className="text-sm font-semibold text-[var(--text-primary)]">
                   {faq.question}
                 </span>
-                <span
-                  className={`w-8 h-8 rounded-xl bg-[var(--bg-elevated)] text-[var(--text-primary)] flex items-center justify-center transition-transform duration-300 flex-shrink-0 ${
-                    isOpen ? "rotate-180 bg-[var(--accent-vintage-light)] text-[var(--accent-vintage)]" : ""
+                <IconChevronDown
+                  className={`w-4 h-4 text-[var(--text-muted)] transition-transform duration-200 shrink-0 ml-4 ${
+                    isOpen ? "rotate-180 text-[var(--accent-brown)]" : ""
                   }`}
-                >
-                  <IconChevronDown className="w-4 h-4" />
-                </span>
+                />
               </button>
 
               {isOpen && (
-                <div className="px-6 pb-6 pt-0 text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed border-t border-[var(--border-subtle)] mt-2 pt-4">
+                <div className="px-6 pb-5 pt-1 text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed border-t border-[var(--border-subtle)] bg-[var(--bg-canvas)]/50">
                   {faq.answer}
                 </div>
               )}

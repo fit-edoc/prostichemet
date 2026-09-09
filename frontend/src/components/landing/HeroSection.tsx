@@ -4,7 +4,6 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/Button";
 import { Badge } from "../ui/Badge";
-import { useMagnetic } from "../../hooks/useMagnetic";
 import {
   IconArrowRight,
   IconCheck,
@@ -16,46 +15,43 @@ import {
 
 export function HeroSection() {
   const router = useRouter();
-  const magneticButtonRef = useMagnetic(0.2);
 
   return (
-    <section className="relative w-full pt-32 pb-20 md:pt-40 md:pb-28 flex flex-col items-center text-center overflow-hidden bg-animated-grid">
-      {/* Ambient background mesh & radial glow */}
+    <section className="relative w-full pt-32 pb-16 md:pt-38 md:pb-24 flex flex-col items-center text-center overflow-hidden bg-subtle-grid">
+      {/* Ambient background glow */}
       <div className="ambient-mesh pointer-events-none" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[850px] h-[550px] bg-radial-gradient pointer-events-none -z-10" />
 
-      {/* Pill Badge (Stagger 1) */}
-      <div className="mb-6 inline-flex items-center animate-hero-reveal stagger-1">
-        <Badge variant="vintage" size="md" dot>
+      {/* Pill Badge */}
+      <div className="mb-5 inline-flex items-center animate-hero-reveal stagger-1">
+        <Badge variant="brown" size="md" dot>
           AI GTM Research & Lead Enrichment SaaS
         </Badge>
       </div>
 
-      {/* Main Headline (Text Mask Reveal + Stagger 2) */}
-      <h1 className="text-display max-w-4xl mx-auto text-[var(--text-primary)] mb-6 font-semibold tracking-tight animate-hero-reveal stagger-2">
+      {/* Main Headline */}
+      <h1 className="text-display max-w-4xl mx-auto text-[var(--text-primary)] mb-5 font-bold tracking-tight animate-hero-reveal stagger-2">
         Find high-value B2B buyers{" "}
-        <span className="gradient-text-vintage block sm:inline">
+        <span className="gradient-text-brown block sm:inline">
           backed by verifiable evidence.
         </span>
       </h1>
 
-      {/* Subtitle (Stagger 3) */}
-      <p className="text-base sm:text-lg md:text-xl text-[var(--text-secondary)] max-w-2xl mx-auto mb-10 leading-relaxed font-normal animate-hero-reveal stagger-3">
+      {/* Subtitle */}
+      <p className="text-base sm:text-lg text-[var(--text-secondary)] max-w-2xl mx-auto mb-8 leading-relaxed font-normal animate-hero-reveal stagger-3">
         Describe what you sell. Our RAG Research Agent discovers ideal companies, verifies decision-makers, detects growth signals, and drafts converting outreach.
       </p>
 
-      {/* Interactive Action Buttons with Magnetic Pull (Stagger 4) */}
-      <div className="flex flex-col sm:flex-row items-center gap-4 mb-14 animate-hero-reveal stagger-4">
-        <div ref={magneticButtonRef as any}>
-          <Button
-            variant="primary"
-            size="lg"
-            onClick={() => router.push("/login")}
-            rightIcon={<IconArrowRight className="w-5 h-5" />}
-          >
-            Start Free Research
-          </Button>
-        </div>
+      {/* Action Buttons */}
+      <div className="flex flex-col sm:flex-row items-center gap-3.5 mb-12 animate-hero-reveal stagger-4">
+        <Button
+          variant="primary"
+          size="lg"
+          onClick={() => router.push("/login")}
+          rightIcon={<IconArrowRight className="w-4 h-4" />}
+          className="shadow-[var(--shadow-sm)]"
+        >
+          Start Free Research
+        </Button>
         <Button
           variant="secondary"
           size="lg"
@@ -64,22 +60,22 @@ export function HeroSection() {
           }}
           leftIcon={<IconSearch className="w-4 h-4 text-[var(--text-muted)]" />}
         >
-          See Live Demo
+          Explore Live Demo
         </Button>
       </div>
 
-      {/* Key Guarantees (Stagger 5) */}
-      <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs font-mono text-[var(--text-secondary)] pt-4 border-t border-[var(--border-subtle)] max-w-2xl mx-auto animate-hero-reveal stagger-5">
+      {/* Key Guarantees */}
+      <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-xs text-[var(--text-secondary)] pt-4 border-t border-[var(--border-subtle)] max-w-xl mx-auto">
         <div className="flex items-center gap-2">
-          <IconShieldCheck className="w-4 h-4 text-[var(--accent-vintage)]" />
+          <IconShieldCheck className="w-4 h-4 text-[var(--accent-brown)]" />
           <span>Zero Hallucinations</span>
         </div>
         <div className="flex items-center gap-2">
-          <IconCheck className="w-4 h-4 text-emerald-500" />
+          <IconCheck className="w-4 h-4 text-emerald-600" />
           <span>RAG Vector Grounded</span>
         </div>
         <div className="flex items-center gap-2">
-          <IconTargetArrow className="w-4 h-4 text-[var(--accent-vintage)]" />
+          <IconTargetArrow className="w-4 h-4 text-[var(--accent-brown)]" />
           <span>Evidence-Backed Scoring</span>
         </div>
       </div>

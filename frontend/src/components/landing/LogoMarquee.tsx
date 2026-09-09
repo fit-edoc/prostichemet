@@ -21,10 +21,10 @@ export function LogoMarquee() {
   ];
 
   return (
-    <div className="w-full py-8 border-b border-[var(--border-subtle)] bg-[var(--bg-canvas)] overflow-hidden">
+    <div className="w-full py-8 border-b border-[var(--border-subtle)] bg-[var(--bg-surface)] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 mb-4 text-center">
         <span className="text-[11px] font-mono uppercase tracking-widest text-[var(--text-muted)]">
-          Trusted by 500+ B2B agency founders & outbound revenue teams
+          Powering outbound growth for 500+ B2B agencies & revenue teams
         </span>
       </div>
 
@@ -34,10 +34,10 @@ export function LogoMarquee() {
           {logos.map((item, idx) => (
             <div
               key={`logo-1-${idx}`}
-              className="flex items-center gap-2.5 px-6 py-2 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-medium)] transition-colors cursor-default"
+              className="flex items-center gap-2.5 px-5 py-2 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-medium)] transition-colors cursor-default shadow-[var(--shadow-xs)]"
             >
-              <item.icon className="w-4 h-4 text-[var(--accent-vintage)]" />
-              <span className="text-xs font-semibold font-mono tracking-tight">
+              <item.icon className="w-4 h-4 text-[var(--accent-brown)]" />
+              <span className="text-xs font-semibold tracking-tight">
                 {item.name}
               </span>
             </div>
@@ -49,10 +49,10 @@ export function LogoMarquee() {
           {logos.map((item, idx) => (
             <div
               key={`logo-2-${idx}`}
-              className="flex items-center gap-2.5 px-6 py-2 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-medium)] transition-colors cursor-default"
+              className="flex items-center gap-2.5 px-5 py-2 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-medium)] transition-colors cursor-default shadow-[var(--shadow-xs)]"
             >
-              <item.icon className="w-4 h-4 text-[var(--accent-vintage)]" />
-              <span className="text-xs font-semibold font-mono tracking-tight">
+              <item.icon className="w-4 h-4 text-[var(--accent-brown)]" />
+              <span className="text-xs font-semibold tracking-tight">
                 {item.name}
               </span>
             </div>
