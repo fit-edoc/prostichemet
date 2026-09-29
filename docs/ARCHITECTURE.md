@@ -21,3 +21,6 @@
 
 ## 7. Interactive Terminal Mockup
 - Displays simulated live payload inspector with one-click clipboard copy confirmation.
+
+## 8. Footer Cluster Telemetry
+- Dynamic cluster status pill with ping measurements and protocol status.
