@@ -24,3 +24,6 @@
 
 ## 8. Footer Cluster Telemetry
 - Dynamic cluster status pill with ping measurements and protocol status.
+
+## 9. CRM Table & Lead Outreach Drawer
+- Pure monochrome CRM table displaying enriched emails, websites, and Google Maps addresses with sliding right-hand outreach generation drawer.
