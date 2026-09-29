@@ -1,7 +1,7 @@
+"use client";
+
 import * as React from "react";
-import { GlassCard } from "../ui/GlassCard";
-import { Badge } from "../ui/Badge";
-import { IconStarFilled } from "@tabler/icons-react";
+import { IconStarFilled, IconQuote } from "@tabler/icons-react";
 
 export function TestimonialWall() {
   const testimonials = [
@@ -29,40 +29,45 @@ export function TestimonialWall() {
   ];
 
   return (
-    <section id="testimonials" className="w-full py-20 max-w-7xl mx-auto px-6">
-      <div className="text-center max-w-2xl mx-auto mb-14">
-        <Badge variant="brown" size="sm">
-          Verified Reviews
-        </Badge>
-        <h2 className="text-title-1 text-[var(--text-primary)] mt-3">
-          Loved by agency founders & sales leaders.
+    <section id="testimonials" className="w-full py-24 max-w-7xl mx-auto px-6">
+      <div className="text-center max-w-2xl mx-auto mb-16">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#121212] border border-[#262626] text-xs font-mono uppercase tracking-wider text-zinc-400 mb-4">
+          <IconQuote className="w-3.5 h-3.5 text-white" />
+          <span>Verified Field Proof</span>
+        </div>
+        <h2 className="font-serif text-3xl sm:text-5xl text-white tracking-tight leading-tight">
+          Loved by agency founders &{" "}
+          <span className="font-editorial italic text-zinc-400">enterprise revenue leaders.</span>
         </h2>
       </div>
 
       <div className="grid md:grid-cols-3 gap-6">
         {testimonials.map((t, idx) => (
-          <GlassCard key={idx} elevated className="flex flex-col justify-between shadow-[var(--shadow-xs)]">
+          <div
+            key={idx}
+            className="p-7 rounded-xl bg-[#0C0C0C] border border-[#242424] hover:border-zinc-500 transition-all flex flex-col justify-between shadow-[2px_2px_0px_rgba(255,255,255,0.15)] group"
+          >
             <div>
-              <div className="flex items-center gap-1 text-amber-600 mb-3.5">
+              <div className="flex items-center gap-1 text-white mb-5">
                 {[...Array(5)].map((_, i) => (
                   <IconStarFilled key={i} className="w-3.5 h-3.5" />
                 ))}
               </div>
-              <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed italic mb-6">
+              <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed italic mb-6">
                 "{t.quote}"
               </p>
             </div>
 
-            <div className="pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between">
+            <div className="pt-5 border-t border-[#1C1C1C] flex items-center justify-between">
               <div>
-                <p className="text-xs font-semibold text-[var(--text-primary)]">{t.author}</p>
-                <p className="text-[11px] text-[var(--text-muted)]">{t.role}</p>
+                <p className="text-xs font-serif text-white">{t.author}</p>
+                <p className="text-[11px] font-mono text-zinc-500">{t.role}</p>
               </div>
-              <span className="text-[10px] font-medium px-2 py-1 rounded-lg bg-[var(--accent-brown-light)] text-[var(--accent-brown)]">
+              <span className="text-[10px] font-mono px-2.5 py-1 rounded-full bg-white text-black font-semibold shadow-[1px_1px_0px_rgba(255,255,255,0.2)]">
                 {t.metric}
               </span>
             </div>
-          </GlassCard>
+          </div>
         ))}
       </div>
     </section>
