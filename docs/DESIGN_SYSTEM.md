@@ -18,3 +18,5 @@
 
 ## 4. Live Telemetry Visualizer
 - Pulsing SVG nodes with linear scanning beam animation representing real-time lead ingestion.
+
+- Hero actions use btn-invert-xl and btn-dark-xl.
