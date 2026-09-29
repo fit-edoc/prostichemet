@@ -18,3 +18,6 @@
 
 ## 6. Interactive Outbound Framework Switcher
 - Allows comparing PAS vs Observation-Insight frameworks with instant copy.
+
+## 7. Interactive Terminal Mockup
+- Displays simulated live payload inspector with one-click clipboard copy confirmation.
