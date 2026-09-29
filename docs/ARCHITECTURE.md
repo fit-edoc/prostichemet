@@ -14,3 +14,4 @@
 
 ## 5. Blur-to-No-Blur Pipeline Animation
 - Stages smoothly transition from backdrop-filter: blur(4px) to crystal clear state.
+- Users can freeze the stream or manually click between Signal, Crawl, Synthesize, and Dispatch steps.
