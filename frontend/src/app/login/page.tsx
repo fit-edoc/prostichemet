@@ -68,9 +68,13 @@ export default function LoginPage() {
     }
   }, [dispatch, router]);
 
+  // Guard redirect on mount
+  const hasRoutedRef = React.useRef(false);
+
   // If already logged in in Redux / local storage
   React.useEffect(() => {
-    if (token && user) {
+    if (token && user && !hasRoutedRef.current) {
+      hasRoutedRef.current = true;
       routeUserAfterLogin();
     }
   }, [token, user, routeUserAfterLogin]);
@@ -273,7 +277,7 @@ export default function LoginPage() {
 
           {/* Value Props Badge */}
           <div className="flex items-center justify-center">
-            <Badge variant="subtle" size="sm" className="gap-1.5 py-1 px-3">
+            <Badge variant="brown" size="sm" className="gap-1.5 py-1 px-3">
               <IconSparkles className="w-3.5 h-3.5 text-[var(--accent-brown)]" />
               <span>Google Verified Sign-In</span>
             </Badge>
