@@ -20,3 +20,6 @@
 - Pulsing SVG nodes with linear scanning beam animation representing real-time lead ingestion.
 
 - Hero actions use btn-invert-xl and btn-dark-xl.
+
+## 5. Pipeline Telemetry Badges
+- Monospace coordinates and execution time pills for technical credibility.
