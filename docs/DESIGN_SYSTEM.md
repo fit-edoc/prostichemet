@@ -6,3 +6,7 @@
 - Elevated: #141414
 - Borders: #1F1F1F / #2E2E2E
 - Tactile Shadow: 2px 2px 0px rgba(255,255,255,0.06)
+
+## 2. Typography Hierarchy
+- Headings & Numerals: Young Serif (Google Fonts) with relaxed font weight.
+- UI & Telemetry: Inter and JetBrains Mono.
