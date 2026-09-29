@@ -2,58 +2,80 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "../ui/Button";
-import { Badge } from "../ui/Badge";
-import { IconArrowRight, IconBrandGoogle, IconShieldCheck } from "@tabler/icons-react";
+import {
+  IconArrowRight,
+  IconShieldCheck,
+  IconCpu,
+  IconRadar2,
+  IconCheck,
+} from "@tabler/icons-react";
 
 export function BottomCTA() {
   const router = useRouter();
 
   return (
-    <section className="w-full py-24 border-t border-[var(--border-subtle)] bg-[var(--bg-canvas)] relative overflow-hidden text-center">
-      {/* Ambient background glow & mesh */}
-      <div className="ambient-mesh pointer-events-none" />
+    <section className="w-full py-28 border-t border-[#1F1F1F] bg-[#070707] relative overflow-hidden text-center">
+      {/* Halftone and carbon ambient texture */}
+      <div className="absolute inset-0 halftone-footer opacity-25 pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-white/[0.03] blur-[120px] pointer-events-none rounded-full" />
 
-      <div className="max-w-3xl mx-auto px-6 space-y-5">
-        <Badge variant="brown" size="sm">
-          Get Started in 60 Seconds
-        </Badge>
-
-        <h2 className="text-title-1 text-[var(--text-primary)]">
-          Ready to find your next{" "}
-          <span className="gradient-text-brown">best customer?</span>
-        </h2>
-
-        <p className="text-sm sm:text-base text-[var(--text-secondary)] max-w-xl mx-auto leading-relaxed">
-          Stop wasting hours on manual prospecting lists. Let our AI Research Agent discover verified decision-makers and generate evidence-backed outreach today.
-        </p>
-
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-3">
-          <Button
-            variant="primary"
-            size="lg"
-            onClick={() => router.push("/login")}
-            rightIcon={<IconArrowRight className="w-4 h-4" />}
-            className="shadow-[var(--shadow-sm)]"
-          >
-            Start Free Research
-          </Button>
-          <Button
-            variant="secondary"
-            size="lg"
-            onClick={() => router.push("/login")}
-          >
-            Sign In with Email
-          </Button>
+      <div className="max-w-4xl mx-auto px-6 space-y-7 relative z-10">
+        {/* Telemetry pill */}
+        <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#121212] border border-[#262626] text-xs font-mono text-zinc-300 shadow-[2px_2px_0px_rgba(255,255,255,0.15)]">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+          </span>
+          <span className="uppercase tracking-wider">DEPLOY AUTONOMOUS ICP CLUSTER</span>
         </div>
 
-        <div className="flex items-center justify-center gap-6 pt-4 text-xs text-[var(--text-muted)] font-mono">
+        {/* Headline in Young Serif */}
+        <h2 className="text-3xl sm:text-5xl md:text-6xl font-serif text-white tracking-tight leading-[1.1] max-w-3xl mx-auto">
+          Ready to discover your next{" "}
+          <span className="font-editorial italic text-zinc-400 font-normal">
+            high-conviction customer?
+          </span>
+        </h2>
+
+        <p className="text-sm sm:text-base text-zinc-400 max-w-xl mx-auto leading-relaxed">
+          Stop burning SDR hours on stale scraped databases. Deploy our multi-agent research nodes to discover verified buying signals and push grounded outreach directly to your CRM.
+        </p>
+
+        {/* Action Buttons: rounded-xl, 2px box shadow */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-3">
+          <button
+            onClick={() => router.push("/login")}
+            className="btn-invert-xl px-8 py-4 flex items-center justify-center gap-2 text-sm font-semibold cursor-pointer group w-full sm:w-auto"
+          >
+            <span>Start Free Research</span>
+            <IconArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </button>
+
+          <button
+            onClick={() => router.push("/login")}
+            className="btn-dark-xl px-8 py-4 flex items-center justify-center gap-2 text-sm font-medium cursor-pointer w-full sm:w-auto"
+          >
+            <IconRadar2 className="w-4 h-4 text-zinc-400" />
+            <span>Sign In with Email</span>
+          </button>
+        </div>
+
+        {/* Feature Guarantees */}
+        <div className="flex flex-wrap items-center justify-center gap-6 pt-6 text-xs text-zinc-500 font-mono">
           <div className="flex items-center gap-1.5">
-            <IconShieldCheck className="w-4 h-4 text-emerald-600" />
-            <span>Free 10 AI Research Leads</span>
+            <IconShieldCheck className="w-4 h-4 text-white" />
+            <span>10 Free AI Lead Runs Included</span>
           </div>
           <span>•</span>
-          <span>No Credit Card Required</span>
+          <div className="flex items-center gap-1.5">
+            <IconCpu className="w-4 h-4 text-white" />
+            <span>Vector Grounded (Zero Fake Data)</span>
+          </div>
+          <span>•</span>
+          <div className="flex items-center gap-1.5">
+            <IconCheck className="w-4 h-4 text-white" />
+            <span>No Credit Card Required</span>
+          </div>
         </div>
       </div>
     </section>
