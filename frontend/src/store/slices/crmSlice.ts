@@ -7,6 +7,7 @@ interface CRMState {
   selectedLead: ProspectLead | null;
   activeColdEmail: (ColdEmail & { personalizedTrigger?: string }) | null;
   isLoading: boolean;
+  hasLoaded: boolean;
   isGeneratingEmail: boolean;
   isResearching: boolean;
   filterStatus: string;
@@ -18,6 +19,7 @@ const initialState: CRMState = {
   selectedLead: null,
   activeColdEmail: null,
   isLoading: false,
+  hasLoaded: false,
   isGeneratingEmail: false,
   isResearching: false,
   filterStatus: 'ALL',
@@ -33,6 +35,14 @@ export const fetchAllLeads = createAsyncThunk(
     } catch (err: any) {
       return rejectWithValue(err.message);
     }
+  },
+  {
+    condition: (_, { getState }) => {
+      const { crm } = getState() as { crm: CRMState };
+      if (crm.isLoading || crm.hasLoaded) {
+        return false;
+      }
+    },
   }
 );
 
@@ -91,13 +101,16 @@ const crmSlice = createSlice({
       // fetchAllLeads
       .addCase(fetchAllLeads.pending, (state) => {
         state.isLoading = true;
+        state.error = null;
       })
       .addCase(fetchAllLeads.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.hasLoaded = true;
         state.leads = action.payload;
       })
       .addCase(fetchAllLeads.rejected, (state, action) => {
         state.isLoading = false;
+        state.hasLoaded = true;
         state.error = action.payload as string;
       })
       // updateLeadStatus
