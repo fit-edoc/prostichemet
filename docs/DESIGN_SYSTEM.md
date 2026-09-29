@@ -10,3 +10,8 @@
 ## 2. Typography Hierarchy
 - Headings & Numerals: Young Serif (Google Fonts) with relaxed font weight.
 - UI & Telemetry: Inter and JetBrains Mono.
+
+## 3. UI Primitives & Button Tokens
+- Buttons feature rounded-xl and 2px border shadow.
+- Active press effect: translate-x-[1px] translate-y-[1px].
+- Zero sparkles policy: All icons migrated to Tabler Icons.
