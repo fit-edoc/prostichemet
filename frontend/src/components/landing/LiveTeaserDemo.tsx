@@ -1,9 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { GlassCard } from "../ui/GlassCard";
-import { Badge } from "../ui/Badge";
-import { Button } from "../ui/Button";
 import {
   IconCpu,
   IconTarget,
@@ -11,8 +8,8 @@ import {
   IconMailFast,
   IconCopy,
   IconCheck,
-  IconBolt,
-  IconTrendingUp,
+  IconLayersLinked,
+  IconExternalLink,
 } from "@tabler/icons-react";
 
 export function LiveTeaserDemo() {
@@ -25,21 +22,23 @@ export function LiveTeaserDemo() {
   };
 
   return (
-    <section id="interactive-demo" className="w-full py-16 max-w-5xl mx-auto px-6">
-      <div className="text-center mb-8">
-        <Badge variant="brown" size="sm">
-          Interactive Architecture Preview
-        </Badge>
-        <h2 className="text-title-2 text-[var(--text-primary)] mt-3">
+    <section id="interactive-demo" className="w-full py-24 max-w-5xl mx-auto px-6">
+      {/* Section Header in Young Serif */}
+      <div className="text-center mb-10">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#121212] border border-[#262626] text-xs font-mono uppercase tracking-wider text-zinc-400 mb-4">
+          <IconLayersLinked className="w-3.5 h-3.5 text-white" />
+          <span>Interactive Execution Telemetry</span>
+        </div>
+        <h2 className="font-serif text-3xl sm:text-5xl text-white tracking-tight leading-tight">
           See the AI GTM Engine in action.
         </h2>
-        <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-2">
+        <p className="text-xs sm:text-sm text-zinc-400 mt-3 font-mono">
           Click through the 4 stages of autonomous B2B research.
         </p>
       </div>
 
-      {/* Tab Selectors */}
-      <div className="flex items-center justify-center gap-2 p-1.5 rounded-2xl bg-[var(--bg-elevated)] border border-[var(--border-subtle)] max-w-xl mx-auto mb-8">
+      {/* Tab Selectors with rounded-xl and 2px box shadow */}
+      <div className="flex items-center justify-center gap-2 p-1.5 rounded-xl bg-[#0D0D0D] border border-[#242424] max-w-2xl mx-auto mb-8 shadow-[2px_2px_0px_rgba(0,0,0,0.8)]">
         {[
           { id: "profile", label: "1. Business Input", icon: IconCpu },
           { id: "icp", label: "2. RAG ICP", icon: IconTarget },
@@ -49,10 +48,10 @@ export function LiveTeaserDemo() {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id as any)}
-            className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-medium transition-all duration-200 cursor-pointer ${
+            className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs font-mono transition-all duration-150 cursor-pointer ${
               activeTab === tab.id
-                ? "bg-[var(--bg-surface)] text-[var(--text-primary)] shadow-[var(--shadow-xs)] border border-[var(--border-subtle)] font-semibold"
-                : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                ? "bg-white text-black font-semibold shadow-[2px_2px_0px_rgba(255,255,255,0.3)] transform -translate-y-0.5"
+                : "text-zinc-400 hover:text-white"
             }`}
           >
             <tab.icon className="w-3.5 h-3.5" />
@@ -61,143 +60,172 @@ export function LiveTeaserDemo() {
         ))}
       </div>
 
-      {/* Interactive Mockup Panel */}
-      <GlassCard elevated className="border-[var(--border-medium)] shadow-[var(--shadow-md)]">
+      {/* Interactive Mockup Panel with strict monochrome styling */}
+      <div className="rounded-xl border border-[#262626] bg-[#0A0A0A] p-6 sm:p-8 shadow-[2px_2px_0px_rgba(255,255,255,0.2)]">
         {/* Terminal Header */}
-        <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-4 mb-6">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-red-400/70" />
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-400/70" />
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400/70" />
-            <span className="text-xs font-mono text-[var(--text-muted)] ml-2">
+        <div className="flex items-center justify-between border-b border-[#1E1E1E] pb-4 mb-6">
+          <div className="flex items-center gap-2.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
+            <span className="w-2.5 h-2.5 rounded-full bg-zinc-800" />
+            <span className="w-2.5 h-2.5 rounded-full bg-zinc-800" />
+            <span className="text-xs font-mono text-zinc-400 ml-2">
               postrichment-agent // {activeTab}.json
             </span>
           </div>
 
-          <Badge variant="brown" size="sm" dot>
-            Verified RAG Engine
-          </Badge>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#141414] border border-[#2B2B2B] text-[11px] font-mono text-zinc-300">
+            <svg className="w-3 h-3" viewBox="0 0 16 16">
+              <circle cx="8" cy="8" r="6" fill="#ffffff" className="svg-animated-pulse" />
+              <circle cx="8" cy="8" r="2" fill="#ffffff" />
+            </svg>
+            <span>VERIFIED RAG ENGINE</span>
+          </div>
         </div>
 
         {/* Tab 1: Profile */}
         {activeTab === "profile" && (
-          <div className="space-y-4 animate-in fade-in duration-200">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
-              <div className="p-4 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-subtle)]">
-                <span className="text-[var(--text-muted)] block mb-1">Company:</span>
-                <span className="text-[var(--text-primary)] font-semibold font-sans text-sm">
+          <div className="space-y-4 font-mono text-xs">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="p-4 rounded-xl bg-[#111111] border border-[#202020]">
+                <span className="text-zinc-500 block mb-1">Company:</span>
+                <span className="text-white font-serif text-base">
                   ScaleAgent AI
                 </span>
               </div>
-              <div className="p-4 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-subtle)]">
-                <span className="text-[var(--text-muted)] block mb-1">Target Niche:</span>
-                <span className="text-[var(--text-primary)] font-semibold font-sans text-sm">
+              <div className="p-4 rounded-xl bg-[#111111] border border-[#202020]">
+                <span className="text-zinc-500 block mb-1">Target Niche:</span>
+                <span className="text-white font-serif text-base">
                   B2B AI SDR Automation & Outbound
                 </span>
               </div>
             </div>
-            <div className="p-4 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-xs">
-              <span className="text-[var(--text-muted)] font-mono block mb-1">Value Proposition:</span>
-              <p className="text-[var(--text-primary)] leading-relaxed">
-                "We automate manual SDR prospect research by 70% and increase cold email reply rates from 1.8% to 6.4% using verifiable buying signals."
+            <div className="p-4 rounded-xl bg-[#111111] border border-[#202020]">
+              <span className="text-zinc-500 block mb-1">Value Proposition:</span>
+              <p className="text-zinc-300 leading-relaxed">
+                "We replace manual prospecting lists with autonomous AI research agents that discover buying signals and draft hyper-personalized cold emails."
               </p>
+            </div>
+            <div className="flex flex-wrap gap-2 pt-2">
+              {["Target ACV: $24k - $60k", "ICP Persona: VP Revenue / Head of Sales", "Target Geo: US & Europe"].map((pill, i) => (
+                <span key={i} className="px-3 py-1 rounded-full bg-[#181818] border border-[#2C2C2C] text-zinc-300 text-[11px]">
+                  {pill}
+                </span>
+              ))}
             </div>
           </div>
         )}
 
         {/* Tab 2: ICP */}
         {activeTab === "icp" && (
-          <div className="space-y-4 animate-in fade-in duration-200">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-mono text-[var(--accent-brown)] uppercase">
-                Generated ICP Matrix (RAG Vector Embeddings)
+          <div className="space-y-4 font-mono text-xs">
+            <div className="p-4 rounded-xl bg-[#111111] border border-[#202020] flex items-center justify-between">
+              <div>
+                <span className="text-zinc-500 block mb-1">Ideal Customer Profile:</span>
+                <span className="text-white font-serif text-lg">
+                  Mid-Market B2B SaaS (50–500 Employees)
+                </span>
+              </div>
+              <span className="px-3 py-1 rounded-full bg-white text-black font-semibold text-xs shadow-[1px_1px_0px_rgba(255,255,255,0.3)]">
+                FIT SCORE: 98%
               </span>
-              <Badge variant="brown" size="sm">94.8% Fit Accuracy</Badge>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-              <div className="p-4 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] space-y-2">
-                <span className="font-mono text-[var(--text-muted)] block">Target Personas</span>
-                <p className="font-semibold text-[var(--text-primary)]">VP of Sales, CRO, Head of Growth</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="p-3.5 rounded-xl bg-[#111111] border border-[#202020]">
+                <span className="text-zinc-500 block mb-1">Target Titles</span>
+                <span className="text-zinc-200">VP Sales, CRO, Head of Outbound</span>
               </div>
-              <div className="p-4 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] space-y-2">
-                <span className="font-mono text-[var(--text-muted)] block">Company Size</span>
-                <p className="font-semibold text-[var(--text-primary)]">25 - 200 Employees (Series A-C)</p>
+              <div className="p-3.5 rounded-xl bg-[#111111] border border-[#202020]">
+                <span className="text-zinc-500 block mb-1">Funding Signal</span>
+                <span className="text-zinc-200">Series A or B closed &lt; 90 days</span>
               </div>
-              <div className="p-4 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] space-y-2">
-                <span className="font-mono text-[var(--text-muted)] block">Core Trigger</span>
-                <p className="font-semibold text-[var(--text-primary)]">Hiring Sales Development Reps</p>
+              <div className="p-3.5 rounded-xl bg-[#111111] border border-[#202020]">
+                <span className="text-zinc-500 block mb-1">Hiring Trigger</span>
+                <span className="text-zinc-200">Active job posts for SDR/BDRs</span>
               </div>
             </div>
           </div>
         )}
 
-        {/* Tab 3: Discovered Lead */}
+        {/* Tab 3: Lead */}
         {activeTab === "lead" && (
-          <div className="space-y-4 animate-in fade-in duration-200">
-            <div className="p-5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] space-y-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h4 className="text-base font-bold text-[var(--text-primary)]">
-                    NexusFlow Technologies (nexusflow.io)
-                  </h4>
-                  <p className="text-xs text-[var(--text-secondary)]">
-                    Enterprise Workflow Automation • 85 Employees • San Francisco, CA
-                  </p>
+          <div className="space-y-4 font-mono text-xs">
+            <div className="p-4 rounded-xl bg-[#111111] border border-[#202020] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-white font-serif text-lg">Acme Cloud Solutions</span>
+                  <span className="px-2 py-0.5 rounded-full bg-white text-black text-[10px] font-bold">
+                    VERIFIED MATCH
+                  </span>
                 </div>
-                <Badge variant="brown" size="md">
-                  96% Fit Score
-                </Badge>
+                <span className="text-zinc-400">cloudsolutions.io · San Francisco, CA · 120 employees</span>
               </div>
+              <div className="text-right">
+                <span className="text-2xl font-serif text-white block">94/100</span>
+                <span className="text-[10px] text-zinc-500 uppercase">Intent Score</span>
+              </div>
+            </div>
 
-              <div className="p-3.5 rounded-lg bg-[var(--bg-canvas)] border border-[var(--border-subtle)] text-xs space-y-1">
-                <span className="font-mono text-[var(--accent-brown)] text-[10px] uppercase font-bold block">
-                  ⚡ Verifiable Buying Signal Detected
-                </span>
-                <p className="text-[var(--text-primary)]">
-                  "Posted 3 new SDR job listings on LinkedIn 4 days ago + Raised $3.5M Seed round from Sequoia Scout."
-                </p>
+            <div className="p-4 rounded-xl bg-[#080808] border border-[#202020] space-y-2">
+              <span className="text-zinc-500 block">EVIDENCE & BUYING SIGNALS EXTRACTED:</span>
+              <div className="space-y-1.5 text-zinc-300">
+                <div className="flex items-start gap-2">
+                  <IconCheck className="w-3.5 h-3.5 text-white shrink-0 mt-0.5" />
+                  <span>"Posted 4 new Enterprise SDR roles on Greenhouse (June 2026)"</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <IconCheck className="w-3.5 h-3.5 text-white shrink-0 mt-0.5" />
+                  <span>"Raised $18M Series B led by Benchmark Capital"</span>
+                </div>
               </div>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-[#111111] border border-[#202020] flex items-center justify-between">
+              <div>
+                <span className="text-zinc-500 text-[11px] block">DECISION MAKER IDENTIFIED</span>
+                <span className="text-white font-medium">Elena Rostova — VP of Revenue Operations</span>
+              </div>
+              <span className="text-zinc-400 text-[11px]">elena@cloudsolutions.io</span>
             </div>
           </div>
         )}
 
-        {/* Tab 4: Cold Email */}
+        {/* Tab 4: Email */}
         {activeTab === "email" && (
-          <div className="space-y-4 animate-in fade-in duration-200">
-            <div className="p-5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-mono text-[var(--accent-brown)] uppercase font-semibold">
-                  PAS Copywriting Framework (Problem-Agitate-Solve)
-                </span>
-                <Button variant="secondary" size="sm" onClick={handleCopy} leftIcon={copied ? <IconCheck className="w-3.5 h-3.5 text-emerald-600" /> : <IconCopy className="w-3.5 h-3.5" />}>
-                  {copied ? "Copied" : "Copy"}
-                </Button>
+          <div className="space-y-4 font-mono text-xs">
+            <div className="p-4 rounded-xl bg-[#111111] border border-[#202020] space-y-3 relative">
+              <button
+                onClick={handleCopy}
+                className="absolute top-4 right-4 p-2 rounded-lg bg-[#1C1C1C] hover:bg-[#282828] text-zinc-300 hover:text-white transition-colors cursor-pointer border border-[#2E2E2E]"
+                title="Copy cold email"
+              >
+                {copied ? <IconCheck className="w-4 h-4 text-white" /> : <IconCopy className="w-4 h-4" />}
+              </button>
+
+              <div>
+                <span className="text-zinc-500 block text-[10px]">SUBJECT:</span>
+                <span className="text-white font-medium">Quick question re: your 4 SDR postings</span>
               </div>
 
-              <div className="text-xs text-[var(--text-primary)] leading-relaxed space-y-2 font-sans">
-                <p className="font-semibold text-sm">Subject: quick question on nexusflow sdr onboarding</p>
-                <p>Hi Marcus,</p>
+              <div className="pt-2 border-t border-[#1F1F1F] text-zinc-300 leading-relaxed space-y-2.5 font-sans text-sm">
+                <p>Hi Elena,</p>
                 <p>
-                  Saw you're currently hiring 3 new SDRs after your Seed round—congrats on the growth.
-                </p>
-                <p>
-                  Usually when expanding outbound teams this quickly, reps spend 60%+ of their week manually digging through generic contact lists rather than running qualified discovery calls.
+                  Noticed Acme Cloud just posted 4 new Enterprise SDR roles following your Series B. Typically, ramping a larger outbound team dilutes pipeline quality if account research is still handled manually.
                 </p>
                 <p>
-                  ScaleAgent AI automatically tracks real buying signals and pre-enriches target accounts so new SDRs ramp in days, not months.
+                  We built Postrichment to uncover real-time buying signals and deliver verified evidence to SDRs automatically—without scraping stale directories.
                 </p>
-                <p>
-                  Worth a brief 5-minute chat next Tuesday?
-                </p>
-                <p className="text-[var(--text-muted)] font-mono text-[11px] pt-2">
-                  Alex | ScaleAgent AI
-                </p>
+                <p>Worth a 7-minute intro this Thursday at 2pm PT?</p>
+                <p className="text-zinc-400 text-xs">— Alex, Founder @ ScaleAgent AI</p>
               </div>
+            </div>
+
+            <div className="flex items-center justify-between text-[11px] text-zinc-500 px-1 font-mono">
+              <span>Framework: Problem-Agitate-Solve (PAS)</span>
+              <span>Length: 74 words (Optimal conversion)</span>
             </div>
           </div>
         )}
-      </GlassCard>
+      </div>
     </section>
   );
 }
