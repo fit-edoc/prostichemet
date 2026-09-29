@@ -5,3 +5,6 @@
 
 ## 2. 5% Architectural Carbon Rails
 - Left and right gutters occupy exactly 5% screen width with repetitive carbon mesh background and SYS.L05 / SYS.R05 telemetry markers.
+
+## 3. Dynamic Dock Navigation
+- Shrinks and transitions to a floating pill dock when scroll exceeds 30px.
