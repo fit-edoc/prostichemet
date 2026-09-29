@@ -11,3 +11,6 @@
 
 ## 4. Icon Uniformity
 - All sparkles/sprinkles strictly replaced by Tabler SVG icons.
+
+## 5. Blur-to-No-Blur Pipeline Animation
+- Stages smoothly transition from backdrop-filter: blur(4px) to crystal clear state.
