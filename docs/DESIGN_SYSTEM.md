@@ -23,3 +23,6 @@
 
 ## 5. Pipeline Telemetry Badges
 - Monospace coordinates and execution time pills for technical credibility.
+
+## 6. Footer Halftone & Watermark
+- Radial dot-matrix halftone backdrop with massive Young Serif watermark.
