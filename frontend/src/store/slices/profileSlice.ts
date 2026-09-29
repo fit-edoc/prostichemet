@@ -6,6 +6,7 @@ interface ProfileState {
   profiles: BusinessProfile[];
   activeProfile: BusinessProfile | null;
   isLoading: boolean;
+  hasLoaded: boolean;
   error: string | null;
 }
 
@@ -13,6 +14,7 @@ const initialState: ProfileState = {
   profiles: [],
   activeProfile: null,
   isLoading: false,
+  hasLoaded: false,
   error: null,
 };
 
@@ -25,6 +27,14 @@ export const fetchProfiles = createAsyncThunk(
     } catch (err: any) {
       return rejectWithValue(err.message);
     }
+  },
+  {
+    condition: (_, { getState }) => {
+      const { profile } = getState() as { profile: ProfileState };
+      if (profile.isLoading || profile.hasLoaded) {
+        return false;
+      }
+    },
   }
 );
 
@@ -50,11 +60,22 @@ const profileSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchProfiles.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(fetchProfiles.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.hasLoaded = true;
         state.profiles = action.payload;
         if (action.payload.length > 0 && !state.activeProfile) {
           state.activeProfile = action.payload[0];
         }
+      })
+      .addCase(fetchProfiles.rejected, (state, action) => {
+        state.isLoading = false;
+        state.hasLoaded = true;
+        state.error = action.payload as string;
       })
       .addCase(createBusinessProfile.pending, (state) => {
         state.isLoading = true;
