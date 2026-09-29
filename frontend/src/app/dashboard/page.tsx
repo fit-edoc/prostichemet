@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
 import { logout, fetchCurrentUser } from "../../store/slices/authSlice";
+import { signOut } from "next-auth/react";
 import { fetchProfiles, createBusinessProfile } from "../../store/slices/profileSlice";
 import { generateIcpWithRAG, fetchIcps } from "../../store/slices/icpSlice";
 import { fetchAllLeads, updateLeadStatus, generateLeadColdEmail, runCustomResearch } from "../../store/slices/crmSlice";
@@ -14,12 +15,15 @@ import { GlassCard } from "../../components/ui/GlassCard";
 import { Badge } from "../../components/ui/Badge";
 import { UserProfileDropdown } from "../../components/common/UserProfileDropdown";
 import {
+  IconMapPin,
+  IconWorld,
+  IconMail,
+  IconBrandLinkedin,
   IconRadar2,
   IconCpu,
   IconTarget,
   IconUsers,
   IconMailFast,
-  IconSparkles,
   IconPlus,
   IconTrendingUp,
   IconCheck,
@@ -73,19 +77,28 @@ export default function DashboardPage() {
   const [emailDrawerOpen, setEmailDrawerOpen] = React.useState(false);
   const [selectedFramework, setSelectedFramework] = React.useState("PAS");
   const [copiedEmail, setCopiedEmail] = React.useState(false);
+  const [copiedEmailAddress, setCopiedEmailAddress] = React.useState<string | null>(null);
   const [leadSearch, setLeadSearch] = React.useState("");
+
+  // Guard data initialization on mount
+  const initializedRef = React.useRef(false);
 
   // Initialize data on mount
   React.useEffect(() => {
-    if (!token && !user) {
+    const savedToken = typeof window !== "undefined" ? localStorage.getItem("postrichment_token") : token;
+    if (!savedToken && !token) {
       router.push("/login");
       return;
     }
-    dispatch(fetchCurrentUser());
-    dispatch(fetchProfiles());
-    dispatch(fetchIcps());
-    dispatch(fetchAllLeads());
-  }, [token, user, dispatch, router]);
+
+    if (!initializedRef.current) {
+      initializedRef.current = true;
+      dispatch(fetchCurrentUser());
+      dispatch(fetchProfiles());
+      dispatch(fetchIcps());
+      dispatch(fetchAllLeads());
+    }
+  }, [token, dispatch, router]);
 
   // Sync profile form when profiles load
   React.useEffect(() => {
@@ -164,6 +177,23 @@ export default function DashboardPage() {
     }
   };
 
+  const handleCopyLeadEmail = (email: string, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    navigator.clipboard.writeText(email);
+    setCopiedEmailAddress(email);
+    setTimeout(() => setCopiedEmailAddress(null), 2000);
+  };
+
+  const handleLogout = async () => {
+    dispatch(logout());
+    try {
+      await signOut({ redirect: false });
+    } catch {
+      // ignore
+    }
+    router.push("/login");
+  };
+
   // Filtered leads
   const filteredLeads = leads.filter(
     (lead) =>
@@ -173,21 +203,21 @@ export default function DashboardPage() {
   );
 
   return (
-    <div className="min-h-screen bg-[var(--bg-canvas)] text-[var(--text-primary)] flex flex-col md:flex-row">
+    <div className="min-h-screen bg-[#050505] text-white flex flex-col md:flex-row selection:bg-white selection:text-black">
       {/* 1. Modern Sidebar Navigation */}
-      <aside className="w-full md:w-64 bg-[var(--bg-surface)] border-b md:border-b-0 md:border-r border-[var(--border-subtle)] flex flex-col justify-between shrink-0 z-30">
+      <aside className="w-full md:w-64 bg-[#080808] border-b md:border-b-0 md:border-r border-[#1F1F1F] flex flex-col justify-between shrink-0 z-30">
         <div>
           {/* Brand Header */}
-          <div className="p-5 border-b border-[var(--border-subtle)] flex items-center justify-between">
+          <div className="p-5 border-b border-[#1F1F1F] flex items-center justify-between">
             <Link href="/" className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-[#20150F] text-[#FAF9F7] dark:bg-[#FAF9F7] dark:text-[#120D0A] flex items-center justify-center font-bold text-sm shadow-[var(--shadow-xs)]">
+              <div className="w-8 h-8 rounded-lg bg-white text-black flex items-center justify-center font-bold text-sm shadow-[2px_2px_0px_rgba(255,255,255,0.3)]">
                 <IconRadar2 className="w-4 h-4" />
               </div>
               <div>
-                <span className="font-bold text-sm tracking-tight text-[var(--text-primary)] block leading-none">
+                <span className="font-serif text-base tracking-tight text-white block leading-none">
                   Postrichment
                 </span>
-                <span className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider">
+                <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
                   GTM Engine
                 </span>
               </div>
@@ -195,14 +225,14 @@ export default function DashboardPage() {
           </div>
 
           {/* Navigation Menu */}
-          <nav className="p-3 space-y-1">
+          <nav className="p-3 space-y-1.5 font-mono text-xs">
             <button
               type="button"
               onClick={() => setActiveTab("overview")}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-all text-left cursor-pointer ${
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs transition-all text-left cursor-pointer ${
                 activeTab === "overview"
-                  ? "bg-[#20150F] text-[#FAF9F7] dark:bg-[#FAF9F7] dark:text-[#120D0A] shadow-[var(--shadow-xs)]"
-                  : "text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]"
+                  ? "bg-white text-black font-semibold shadow-[2px_2px_0px_rgba(255,255,255,0.3)]"
+                  : "text-zinc-400 hover:text-white hover:bg-[#141414]"
               }`}
             >
               <IconLayoutDashboard className="w-4 h-4" />
@@ -212,16 +242,16 @@ export default function DashboardPage() {
             <button
               type="button"
               onClick={() => setActiveTab("profile")}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-all text-left cursor-pointer ${
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs transition-all text-left cursor-pointer ${
                 activeTab === "profile"
-                  ? "bg-[#20150F] text-[#FAF9F7] dark:bg-[#FAF9F7] dark:text-[#120D0A] shadow-[var(--shadow-xs)]"
-                  : "text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]"
+                  ? "bg-white text-black font-semibold shadow-[2px_2px_0px_rgba(255,255,255,0.3)]"
+                  : "text-zinc-400 hover:text-white hover:bg-[#141414]"
               }`}
             >
               <IconBuildingSkyscraper className="w-4 h-4" />
               <span>Company Profile</span>
               {profiles.length > 0 && (
-                <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded bg-[var(--accent-brown-light)] text-[var(--accent-brown)]">
+                <span className="ml-auto text-[10px] px-2 py-0.5 rounded-full bg-[#181818] border border-[#2B2B2B] text-zinc-300">
                   {profiles.length}
                 </span>
               )}
@@ -230,16 +260,16 @@ export default function DashboardPage() {
             <button
               type="button"
               onClick={() => setActiveTab("icp")}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-all text-left cursor-pointer ${
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs transition-all text-left cursor-pointer ${
                 activeTab === "icp"
-                  ? "bg-[#20150F] text-[#FAF9F7] dark:bg-[#FAF9F7] dark:text-[#120D0A] shadow-[var(--shadow-xs)]"
-                  : "text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]"
+                  ? "bg-white text-black font-semibold shadow-[2px_2px_0px_rgba(255,255,255,0.3)]"
+                  : "text-zinc-400 hover:text-white hover:bg-[#141414]"
               }`}
             >
               <IconTarget className="w-4 h-4" />
               <span>AI ICP Discovery</span>
               {icps.length > 0 && (
-                <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded bg-[var(--accent-brown-light)] text-[var(--accent-brown)]">
+                <span className="ml-auto text-[10px] px-2 py-0.5 rounded-full bg-[#181818] border border-[#2B2B2B] text-zinc-300">
                   {icps.length}
                 </span>
               )}
@@ -248,16 +278,16 @@ export default function DashboardPage() {
             <button
               type="button"
               onClick={() => setActiveTab("pipeline")}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-all text-left cursor-pointer ${
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs transition-all text-left cursor-pointer ${
                 activeTab === "pipeline"
-                  ? "bg-[#20150F] text-[#FAF9F7] dark:bg-[#FAF9F7] dark:text-[#120D0A] shadow-[var(--shadow-xs)]"
-                  : "text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]"
+                  ? "bg-white text-black font-semibold shadow-[2px_2px_0px_rgba(255,255,255,0.3)]"
+                  : "text-zinc-400 hover:text-white hover:bg-[#141414]"
               }`}
             >
               <IconUsers className="w-4 h-4" />
               <span>CRM Intelligence</span>
               {leads.length > 0 && (
-                <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 font-semibold">
+                <span className="ml-auto text-[10px] px-2 py-0.5 rounded-full bg-white text-black font-semibold">
                   {leads.length}
                 </span>
               )}
@@ -266,48 +296,57 @@ export default function DashboardPage() {
             <button
               type="button"
               onClick={() => setActiveTab("research")}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-all text-left cursor-pointer ${
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs transition-all text-left cursor-pointer ${
                 activeTab === "research"
-                  ? "bg-[#20150F] text-[#FAF9F7] dark:bg-[#FAF9F7] dark:text-[#120D0A] shadow-[var(--shadow-xs)]"
-                  : "text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]"
+                  ? "bg-white text-black font-semibold shadow-[2px_2px_0px_rgba(255,255,255,0.3)]"
+                  : "text-zinc-400 hover:text-white hover:bg-[#141414]"
               }`}
             >
-              <IconSparkles className="w-4 h-4 text-[var(--accent-brown)]" />
+              <IconCpu className="w-4 h-4 text-white" />
               <span>Signal Research Agent</span>
             </button>
           </nav>
         </div>
 
         {/* Sidebar Footer Info */}
-        <div className="p-4 border-t border-[var(--border-subtle)] space-y-3">
-          <div className="p-3 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-1.5">
+        <div className="p-4 border-t border-[#1F1F1F] space-y-3 font-mono">
+          <div className="p-3 rounded-xl bg-[#0D0D0D] border border-[#222222] space-y-1.5">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-mono uppercase text-[var(--text-muted)]">RAG Vector Hub</span>
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[10px] uppercase text-zinc-500">RAG Vector Hub</span>
+              <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
             </div>
-            <p className="text-xs font-medium text-[var(--text-primary)] truncate">
+            <p className="text-xs font-serif text-white truncate">
               {profiles.length > 0 ? profiles[0].companyName : "Awaiting Setup"}
             </p>
-            <p className="text-[10px] text-[var(--text-secondary)]">
+            <p className="text-[10px] text-zinc-400">
               Curated B2B Outbound Frameworks Active
             </p>
           </div>
 
-          <div className="flex items-center justify-between text-xs text-[var(--text-muted)] pt-1">
+          <div className="flex items-center justify-between text-xs text-zinc-500 pt-1">
             <span>Postrichment v1.0</span>
-            <Link href="/onboarding" className="text-[var(--accent-brown)] hover:underline">
+            <Link href="/onboarding" className="text-zinc-300 hover:text-white hover:underline">
               New Intake
             </Link>
           </div>
+
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-xs text-zinc-400 hover:text-red-400 bg-[#121212] hover:bg-red-500/10 border border-[#242424] hover:border-red-500/30 transition-all cursor-pointer"
+          >
+            <IconLogout className="w-3.5 h-3.5" />
+            <span>Sign Out</span>
+          </button>
         </div>
       </aside>
 
       {/* 2. Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 bg-[#050505]">
         {/* Top Header Bar */}
-        <header className="h-16 px-6 border-b border-[var(--border-subtle)] bg-[var(--bg-surface)] flex items-center justify-between shrink-0 sticky top-0 z-20">
-          <div className="flex items-center gap-2 text-xs font-medium text-[var(--text-secondary)]">
-            <span className="capitalize text-[var(--text-primary)] font-semibold">
+        <header className="h-16 px-6 border-b border-[#1F1F1F] bg-[#080808] flex items-center justify-between shrink-0 sticky top-0 z-20">
+          <div className="flex items-center gap-2 text-xs font-mono text-zinc-400">
+            <span className="capitalize text-white font-serif text-sm">
               {activeTab === "overview" && "GTM Overview"}
               {activeTab === "profile" && "Business Profile"}
               {activeTab === "icp" && "AI ICP Generator"}
@@ -315,7 +354,7 @@ export default function DashboardPage() {
               {activeTab === "research" && "Signal Detector Agent"}
             </span>
             <span>/</span>
-            <span className="text-[11px] text-[var(--text-muted)] truncate max-w-[150px]">
+            <span className="text-[11px] text-zinc-500 truncate max-w-[150px]">
               {workspace?.name || "Default Workspace"}
             </span>
           </div>
@@ -329,7 +368,7 @@ export default function DashboardPage() {
                 size="sm"
                 onClick={handleRunResearch}
                 isLoading={isResearching}
-                leftIcon={<IconSparkles className="w-3.5 h-3.5" />}
+                leftIcon={<IconRadar2 className="w-3.5 h-3.5" />}
               >
                 Discover Signals
               </Button>
@@ -359,60 +398,60 @@ export default function DashboardPage() {
             <div className="space-y-6">
               {/* Quick Metrics Bar */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="p-5 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] shadow-[var(--shadow-xs)] space-y-1">
-                  <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider">
+                <div className="p-5 rounded-xl bg-[#0C0C0C] border border-[#222222] shadow-[2px_2px_0px_rgba(255,255,255,0.1)] space-y-1">
+                  <span className="text-[11px] font-mono text-zinc-500 uppercase tracking-wider">
                     Discovered Leads
                   </span>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-bold text-[var(--text-primary)]">{leads.length}</span>
-                    <span className="text-xs text-emerald-600 font-medium">Live Evidence</span>
+                    <span className="text-3xl font-serif text-white">{leads.length}</span>
+                    <span className="text-xs text-zinc-400 font-mono">Live Evidence</span>
                   </div>
                 </div>
 
-                <div className="p-5 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] shadow-[var(--shadow-xs)] space-y-1">
-                  <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider">
+                <div className="p-5 rounded-xl bg-[#0C0C0C] border border-[#222222] shadow-[2px_2px_0px_rgba(255,255,255,0.1)] space-y-1">
+                  <span className="text-[11px] font-mono text-zinc-500 uppercase tracking-wider">
                     High Fit ICP Matches
                   </span>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-bold text-[var(--accent-brown)]">
+                    <span className="text-3xl font-serif text-white">
                       {leads.filter((l) => (l.score || 0) >= 80).length}
                     </span>
-                    <span className="text-xs text-[var(--text-muted)]">Score ≥ 80%</span>
+                    <span className="text-xs text-zinc-500 font-mono">Score ≥ 80%</span>
                   </div>
                 </div>
 
-                <div className="p-5 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] shadow-[var(--shadow-xs)] space-y-1">
-                  <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider">
+                <div className="p-5 rounded-xl bg-[#0C0C0C] border border-[#222222] shadow-[2px_2px_0px_rgba(255,255,255,0.1)] space-y-1">
+                  <span className="text-[11px] font-mono text-zinc-500 uppercase tracking-wider">
                     Synthesized ICPs
                   </span>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-bold text-[var(--text-primary)]">{icps.length}</span>
-                    <span className="text-xs text-[var(--text-muted)]">RAG Enriched</span>
+                    <span className="text-3xl font-serif text-white">{icps.length}</span>
+                    <span className="text-xs text-zinc-500 font-mono">RAG Enriched</span>
                   </div>
                 </div>
 
-                <div className="p-5 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] shadow-[var(--shadow-xs)] space-y-1">
-                  <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider">
+                <div className="p-5 rounded-xl bg-[#0C0C0C] border border-[#222222] shadow-[2px_2px_0px_rgba(255,255,255,0.1)] space-y-1">
+                  <span className="text-[11px] font-mono text-zinc-500 uppercase tracking-wider">
                     Avg Response Uplift
                   </span>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-bold text-emerald-600">+340%</span>
-                    <span className="text-xs text-[var(--text-muted)]">PAS Framework</span>
+                    <span className="text-3xl font-serif text-white">+340%</span>
+                    <span className="text-xs text-zinc-500 font-mono">PAS Framework</span>
                   </div>
                 </div>
               </div>
 
               {/* Quick Action Prompt if no profiles */}
               {profiles.length === 0 ? (
-                <div className="p-8 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-center space-y-4 shadow-[var(--shadow-xs)]">
-                  <div className="w-12 h-12 rounded-xl bg-[var(--accent-brown-light)] text-[var(--accent-brown)] flex items-center justify-center mx-auto">
+                <div className="p-8 rounded-xl bg-[#0C0C0C] border border-[#222222] text-center space-y-4 shadow-[2px_2px_0px_rgba(255,255,255,0.1)]">
+                  <div className="w-12 h-12 rounded-xl bg-[#141414] border border-[#2B2B2B] text-white flex items-center justify-center mx-auto shadow-[1px_1px_0px_rgba(255,255,255,0.2)]">
                     <IconBuildingSkyscraper className="w-6 h-6" />
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-[var(--text-primary)]">
+                    <h3 className="font-serif text-lg text-white">
                       No Company Profile Configured Yet
                     </h3>
-                    <p className="text-xs text-[var(--text-secondary)] max-w-md mx-auto mt-1">
+                    <p className="text-xs text-zinc-400 max-w-md mx-auto mt-1 leading-relaxed">
                       Set up your company value proposition and target customer details to activate the autonomous lead discovery engine.
                     </p>
                   </div>
@@ -427,13 +466,13 @@ export default function DashboardPage() {
                 </div>
               ) : (
                 /* Recent Discovered Leads Preview */
-                <div className="p-6 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] shadow-[var(--shadow-xs)] space-y-4">
-                  <div className="flex items-center justify-between">
+                <div className="p-6 rounded-xl bg-[#0C0C0C] border border-[#222222] shadow-[2px_2px_0px_rgba(255,255,255,0.1)] space-y-4">
+                  <div className="flex items-center justify-between pb-3 border-b border-[#1C1C1C]">
                     <div>
-                      <h3 className="text-sm font-bold text-[var(--text-primary)]">
+                      <h3 className="font-serif text-base text-white">
                         Latest High-Intent Prospects
                       </h3>
-                      <p className="text-xs text-[var(--text-secondary)]">
+                      <p className="text-xs text-zinc-400 font-mono mt-0.5">
                         Real-time signals matched against your {profiles[0].companyName} ICP
                       </p>
                     </div>
@@ -446,27 +485,61 @@ export default function DashboardPage() {
                     </Button>
                   </div>
 
-                  <div className="divide-y divide-[var(--border-subtle)]">
+                  <div className="divide-y divide-[#1C1C1C]">
                     {leads.slice(0, 4).map((lead) => (
-                      <div key={lead.id} className="py-3.5 flex items-center justify-between">
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs font-semibold text-[var(--text-primary)]">
+                      <div key={lead.id} className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div className="space-y-1.5">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="font-serif text-sm text-white">
                               {lead.companyName}
                             </span>
-                            <Badge variant="brown" size="sm">
+                            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white text-black font-semibold">
                               {lead.score || 85}% Fit
-                            </Badge>
+                            </span>
+                            {lead.websiteLink && (
+                              <a
+                                href={lead.websiteLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-[11px] font-mono text-zinc-400 hover:text-white hover:underline"
+                              >
+                                <IconWorld className="w-3 h-3" />
+                                <span>{lead.websiteLink.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}</span>
+                                <IconExternalLink className="w-2.5 h-2.5 opacity-70" />
+                              </a>
+                            )}
                           </div>
-                          <p className="text-[11px] text-[var(--text-secondary)]">
-                            {lead.contactName ? `${lead.contactName} (${lead.contactTitle || "Decision-Maker"})` : lead.industry || "Target Company"}
-                          </p>
+                          <div className="flex items-center gap-3 text-xs text-zinc-400 flex-wrap font-mono">
+                            <span className="text-zinc-300">
+                              {lead.contactName ? `${lead.contactName} (${lead.contactTitle || "Decision-Maker"})` : lead.industry || "Target Company"}
+                            </span>
+                            {lead.contactEmail && (
+                              <span className="inline-flex items-center gap-1 text-zinc-400">
+                                <IconMail className="w-3 h-3 text-white" />
+                                <a href={`mailto:${lead.contactEmail}`} className="hover:underline hover:text-white">
+                                  {lead.contactEmail}
+                                </a>
+                              </span>
+                            )}
+                            {lead.location && (
+                              <a
+                                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(lead.location)}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-[11px] text-zinc-400 hover:text-white transition-colors"
+                              >
+                                <IconMapPin className="w-3 h-3 text-zinc-300 shrink-0" />
+                                <span>{lead.location}</span>
+                              </a>
+                            )}
+                          </div>
                         </div>
                         <Button
                           variant="secondary"
                           size="sm"
                           onClick={() => handleOpenEmailDrawer(lead)}
-                          leftIcon={<IconMailFast className="w-3.5 h-3.5 text-[var(--accent-brown)]" />}
+                          leftIcon={<IconMailFast className="w-3.5 h-3.5 text-white" />}
+                          className="shrink-0"
                         >
                           Draft PAS Email
                         </Button>
@@ -482,19 +555,19 @@ export default function DashboardPage() {
           {activeTab === "profile" && (
             <div className="max-w-3xl space-y-6">
               <div>
-                <h2 className="text-lg font-bold text-[var(--text-primary)]">
+                <h2 className="font-serif text-xl sm:text-2xl text-white">
                   Company & Product Profile
                 </h2>
-                <p className="text-xs text-[var(--text-secondary)]">
+                <p className="text-xs text-zinc-400 font-mono mt-0.5">
                   Define what your company sells, who benefits most, and the specific problems you solve.
                 </p>
               </div>
 
-              <GlassCard elevated className="p-6 sm:p-8 space-y-5">
+              <div className="p-6 sm:p-8 rounded-xl bg-[#0C0C0C] border border-[#222222] shadow-[2px_2px_0px_rgba(255,255,255,0.1)] space-y-5">
                 <form onSubmit={handleSaveProfile} className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-[var(--text-primary)] mb-1">
+                      <label className="block text-xs font-mono text-zinc-300 mb-1.5">
                         Company Name
                       </label>
                       <input
@@ -502,24 +575,24 @@ export default function DashboardPage() {
                         required
                         value={companyName}
                         onChange={(e) => setCompanyName(e.target.value)}
-                        className="w-full bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-xl p-2.5 text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-brown)]"
+                        className="w-full bg-[#0E0E0E] border border-[#262626] rounded-xl p-3 text-xs sm:text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:border-white shadow-[2px_2px_0px_rgba(0,0,0,0.8)]"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-[var(--text-primary)] mb-1">
+                      <label className="block text-xs font-mono text-zinc-300 mb-1.5">
                         Industry / Niche
                       </label>
                       <input
                         type="text"
                         value={industry}
                         onChange={(e) => setIndustry(e.target.value)}
-                        className="w-full bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-xl p-2.5 text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-brown)]"
+                        className="w-full bg-[#0E0E0E] border border-[#262626] rounded-xl p-3 text-xs sm:text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:border-white shadow-[2px_2px_0px_rgba(0,0,0,0.8)]"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-[var(--text-primary)] mb-1">
+                    <label className="block text-xs font-mono text-zinc-300 mb-1.5">
                       Core Value Proposition & Outcome
                     </label>
                     <textarea
@@ -527,43 +600,43 @@ export default function DashboardPage() {
                       required
                       value={valueProposition}
                       onChange={(e) => setValueProposition(e.target.value)}
-                      className="w-full bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-xl p-2.5 text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-brown)]"
+                      className="w-full bg-[#0E0E0E] border border-[#262626] rounded-xl p-3 text-xs sm:text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:border-white shadow-[2px_2px_0px_rgba(0,0,0,0.8)]"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-[var(--text-primary)] mb-1">
+                    <label className="block text-xs font-mono text-zinc-300 mb-1.5">
                       Product / Service Description
                     </label>
                     <textarea
                       rows={2}
                       value={productDescription}
                       onChange={(e) => setProductDescription(e.target.value)}
-                      className="w-full bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-xl p-2.5 text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-brown)]"
+                      className="w-full bg-[#0E0E0E] border border-[#262626] rounded-xl p-3 text-xs sm:text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:border-white shadow-[2px_2px_0px_rgba(0,0,0,0.8)]"
                     />
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-[var(--text-primary)] mb-1">
+                      <label className="block text-xs font-mono text-zinc-300 mb-1.5">
                         Typical Customer
                       </label>
                       <input
                         type="text"
                         value={typicalCustomer}
                         onChange={(e) => setTypicalCustomer(e.target.value)}
-                        className="w-full bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-xl p-2.5 text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-brown)]"
+                        className="w-full bg-[#0E0E0E] border border-[#262626] rounded-xl p-3 text-xs sm:text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:border-white shadow-[2px_2px_0px_rgba(0,0,0,0.8)]"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-[var(--text-primary)] mb-1">
+                      <label className="block text-xs font-mono text-zinc-300 mb-1.5">
                         Typical Deal Size ($)
                       </label>
                       <input
                         type="text"
                         value={typicalDealSize}
                         onChange={(e) => setTypicalDealSize(e.target.value)}
-                        className="w-full bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-xl p-2.5 text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-brown)]"
+                        className="w-full bg-[#0E0E0E] border border-[#262626] rounded-xl p-3 text-xs sm:text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:border-white shadow-[2px_2px_0px_rgba(0,0,0,0.8)]"
                       />
                     </div>
                   </div>
@@ -580,7 +653,7 @@ export default function DashboardPage() {
                     </Button>
                   </div>
                 </form>
-              </GlassCard>
+              </div>
             </div>
           )}
 
@@ -589,10 +662,10 @@ export default function DashboardPage() {
             <div className="space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-lg font-bold text-[var(--text-primary)]">
+                  <h2 className="font-serif text-xl sm:text-2xl text-white">
                     Ideal Customer Profile (ICP) Engine
                   </h2>
-                  <p className="text-xs text-[var(--text-secondary)]">
+                  <p className="text-xs text-zinc-400 font-mono mt-0.5">
                     Synthesized from RAG intelligence and market evidence
                   </p>
                 </div>
@@ -608,9 +681,9 @@ export default function DashboardPage() {
               </div>
 
               {icps.length === 0 ? (
-                <div className="p-8 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-center space-y-4">
-                  <IconTarget className="w-10 h-10 text-[var(--accent-brown)] mx-auto" />
-                  <p className="text-xs text-[var(--text-secondary)]">
+                <div className="p-8 rounded-xl bg-[#0C0C0C] border border-[#222222] text-center space-y-4 shadow-[2px_2px_0px_rgba(255,255,255,0.1)]">
+                  <IconTarget className="w-10 h-10 text-white mx-auto" />
+                  <p className="text-xs text-zinc-400 font-mono">
                     No ICP profiles generated yet. Click above to synthesize your profile using Gemini RAG.
                   </p>
                   <Button variant="primary" size="sm" onClick={handleGenerateIcp}>
@@ -620,13 +693,13 @@ export default function DashboardPage() {
               ) : (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {icps.map((icp) => (
-                    <GlassCard key={icp.id} elevated className="p-6 space-y-4">
+                    <div key={icp.id} className="p-6 rounded-xl bg-[#0C0C0C] border border-[#222222] shadow-[2px_2px_0px_rgba(255,255,255,0.1)] space-y-4">
                       <div className="flex items-start justify-between">
                         <div>
-                          <Badge variant="brown" size="sm">
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#181818] border border-[#2B2B2B] text-zinc-300">
                             ICP v1.0
-                          </Badge>
-                          <h3 className="text-base font-bold text-[var(--text-primary)] mt-1.5">
+                          </span>
+                          <h3 className="font-serif text-lg text-white mt-1.5">
                             {icp.title}
                           </h3>
                         </div>
@@ -635,12 +708,12 @@ export default function DashboardPage() {
                       {/* Industries */}
                       {icp.targetIndustries && (
                         <div className="space-y-1">
-                          <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase">
+                          <span className="text-[11px] font-mono text-zinc-500 uppercase">
                             Target Industries
                           </span>
                           <div className="flex flex-wrap gap-1.5">
                             {icp.targetIndustries.map((ind, i) => (
-                              <span key={i} className="text-xs px-2.5 py-1 rounded-md bg-[var(--bg-elevated)] border border-[var(--border-subtle)] text-[var(--text-primary)]">
+                              <span key={i} className="text-xs px-2.5 py-1 rounded-md bg-[#121212] border border-[#242424] text-zinc-300 font-mono">
                                 {ind}
                               </span>
                             ))}
@@ -651,12 +724,12 @@ export default function DashboardPage() {
                       {/* Target Roles */}
                       {icp.targetRoles && (
                         <div className="space-y-1">
-                          <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase">
+                          <span className="text-[11px] font-mono text-zinc-500 uppercase">
                             Decision Makers
                           </span>
                           <div className="flex flex-wrap gap-1.5">
                             {icp.targetRoles.map((role, i) => (
-                              <span key={i} className="text-xs px-2.5 py-1 rounded-md bg-[var(--accent-brown-light)] border border-[var(--accent-brown)]/20 text-[var(--accent-brown)] font-medium">
+                              <span key={i} className="text-xs px-2.5 py-1 rounded-md bg-[#181818] border border-[#2B2B2B] text-white font-mono">
                                 {role}
                               </span>
                             ))}
@@ -667,20 +740,20 @@ export default function DashboardPage() {
                       {/* Pain Points */}
                       {icp.painPoints && (
                         <div className="space-y-1">
-                          <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase">
+                          <span className="text-[11px] font-mono text-zinc-500 uppercase">
                             Top Pain Points Solved
                           </span>
-                          <ul className="space-y-1 text-xs text-[var(--text-secondary)]">
+                          <ul className="space-y-1 text-xs text-zinc-400 font-mono">
                             {icp.painPoints.map((pain, i) => (
                               <li key={i} className="flex items-start gap-1.5">
-                                <span className="text-[var(--accent-brown)]">•</span>
+                                <span className="text-white">•</span>
                                 <span>{pain}</span>
                               </li>
                             ))}
                           </ul>
                         </div>
                       )}
-                    </GlassCard>
+                    </div>
                   ))}
                 </div>
               )}
@@ -692,23 +765,23 @@ export default function DashboardPage() {
             <div className="space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-lg font-bold text-[var(--text-primary)]">
+                  <h2 className="font-serif text-xl sm:text-2xl text-white">
                     Evidence Pipeline & CRM
                   </h2>
-                  <p className="text-xs text-[var(--text-secondary)]">
+                  <p className="text-xs text-zinc-400 font-mono mt-0.5">
                     Prospects scored with verified buying signals & quotes
                   </p>
                 </div>
 
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <IconSearch className="w-4 h-4 text-[var(--text-muted)] absolute left-3 top-1/2 -translate-y-1/2" />
+                    <IconSearch className="w-4 h-4 text-zinc-500 absolute left-3 top-1/2 -translate-y-1/2" />
                     <input
                       type="text"
                       placeholder="Search company or contact..."
                       value={leadSearch}
                       onChange={(e) => setLeadSearch(e.target.value)}
-                      className="bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-xl py-1.5 pl-9 pr-3 text-xs text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-brown)]"
+                      className="bg-[#0E0E0E] border border-[#262626] rounded-xl py-2 pl-9 pr-3 text-xs text-white placeholder:text-zinc-500 focus:outline-none focus:border-white shadow-[2px_2px_0px_rgba(0,0,0,0.8)] font-mono"
                     />
                   </div>
                   <Button
@@ -716,7 +789,7 @@ export default function DashboardPage() {
                     size="sm"
                     onClick={handleRunResearch}
                     isLoading={isResearching}
-                    leftIcon={<IconSparkles className="w-3.5 h-3.5" />}
+                    leftIcon={<IconSearch className="w-3.5 h-3.5" />}
                   >
                     Find More Leads
                   </Button>
@@ -724,87 +797,164 @@ export default function DashboardPage() {
               </div>
 
               {/* Leads Table */}
-              <div className="bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-2xl overflow-hidden shadow-[var(--shadow-xs)]">
+              <div className="bg-[#0C0C0C] border border-[#222222] rounded-xl overflow-hidden shadow-[2px_2px_0px_rgba(255,255,255,0.1)]">
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs">
-                    <thead className="bg-[var(--bg-canvas)] border-b border-[var(--border-subtle)] text-[var(--text-muted)] font-mono uppercase text-[10px]">
+                  <table className="w-full text-left text-xs font-mono">
+                    <thead className="bg-[#121212] border-b border-[#202020] text-zinc-400 uppercase text-[10px]">
                       <tr>
-                        <th className="p-4">Company & Target</th>
-                        <th className="p-4">Decision-Maker</th>
+                        <th className="p-4">Company & Website</th>
+                        <th className="p-4">Decision-Maker & Email</th>
+                        <th className="p-4">Google Maps Address</th>
                         <th className="p-4">Verified Trigger Signal</th>
                         <th className="p-4">Fit Score</th>
                         <th className="p-4">Status</th>
                         <th className="p-4 text-right">Action</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[var(--border-subtle)]">
-                      {filteredLeads.map((lead) => (
-                        <tr key={lead.id} className="hover:bg-[var(--bg-elevated)] transition-colors">
-                          <td className="p-4">
-                            <div className="font-semibold text-[var(--text-primary)]">
-                              {lead.companyName}
-                            </div>
-                            <div className="text-[11px] text-[var(--text-muted)]">
-                              {lead.industry || "B2B Tech"}
-                            </div>
-                          </td>
+                    <tbody className="divide-y divide-[#1C1C1C]">
+                      {filteredLeads.map((lead) => {
+                        const websiteUrl = lead.websiteLink || `https://${lead.companyName.toLowerCase().replace(/[^a-z0-9]/g, "")}.com`;
+                        const displayWebsite = websiteUrl.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
+                        const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(lead.location || lead.companyName)}`;
 
-                          <td className="p-4">
-                            <div className="text-[var(--text-primary)] font-medium">
-                              {lead.contactName || "Decision Maker"}
-                            </div>
-                            <div className="text-[11px] text-[var(--text-muted)]">
-                              {lead.contactTitle || "VP Growth / Sales"}
-                            </div>
-                          </td>
+                        return (
+                          <tr key={lead.id} className="hover:bg-[#141414] transition-colors">
+                            {/* Company & Website */}
+                            <td className="p-4">
+                              <div className="font-serif text-sm text-white font-medium">
+                                {lead.companyName}
+                              </div>
+                              <div className="flex items-center gap-1.5 mt-0.5">
+                                <a
+                                  href={websiteUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1 text-[11px] text-zinc-400 hover:text-white hover:underline"
+                                  title={`Visit ${websiteUrl}`}
+                                >
+                                  <IconWorld className="w-3 h-3 shrink-0" />
+                                  <span className="truncate max-w-[130px]">{displayWebsite}</span>
+                                  <IconExternalLink className="w-2.5 h-2.5 opacity-70 shrink-0" />
+                                </a>
+                              </div>
+                              <div className="text-[10px] text-zinc-500 mt-0.5">
+                                {lead.industry || "B2B Tech"}
+                              </div>
+                            </td>
 
-                          <td className="p-4 max-w-xs">
-                            <div className="text-[11px] text-[var(--text-secondary)] line-clamp-2">
-                              {lead.evidence && Array.isArray(lead.evidence) && lead.evidence.length > 0
-                                ? lead.evidence[0]
-                                : "Recent expansion in sales team & active outbound hiring"}
-                            </div>
-                          </td>
+                            {/* Decision Maker & Email */}
+                            <td className="p-4">
+                              <div className="text-zinc-200 font-medium text-xs">
+                                {lead.contactName || "Decision Maker"}
+                              </div>
+                              <div className="text-[11px] text-zinc-500 truncate max-w-[150px]">
+                                {lead.contactTitle || "VP Growth / Sales"}
+                              </div>
+                              {lead.contactEmail ? (
+                                <div className="flex items-center gap-1 mt-1">
+                                  <a
+                                    href={`mailto:${lead.contactEmail}`}
+                                    className="inline-flex items-center gap-1 text-[11px] text-zinc-400 hover:text-white transition-colors hover:underline"
+                                    title={`Send email to ${lead.contactEmail}`}
+                                  >
+                                    <IconMail className="w-3 h-3 text-white shrink-0" />
+                                    <span className="truncate max-w-[140px]">{lead.contactEmail}</span>
+                                  </a>
+                                  <button
+                                    type="button"
+                                    onClick={(e) => handleCopyLeadEmail(lead.contactEmail!, e)}
+                                    className="p-1 rounded hover:bg-[#1C1C1C] text-zinc-400 hover:text-white transition-colors cursor-pointer"
+                                    title="Copy Email"
+                                  >
+                                    {copiedEmailAddress === lead.contactEmail ? (
+                                      <IconCheck className="w-3 h-3 text-white" />
+                                    ) : (
+                                      <IconCopy className="w-3 h-3" />
+                                    )}
+                                  </button>
+                                </div>
+                              ) : (
+                                <span className="text-[10px] text-zinc-500 italic">
+                                  Email not listed
+                                </span>
+                              )}
+                            </td>
 
-                          <td className="p-4">
-                            <Badge variant="brown" size="sm">
-                              {lead.score || 85}% Fit
-                            </Badge>
-                          </td>
+                            {/* Google Maps Address */}
+                            <td className="p-4 max-w-[180px]">
+                              {lead.location ? (
+                                <a
+                                  href={mapsUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="group inline-flex items-center gap-1.5 p-1.5 pr-2 rounded-lg bg-[#0E0E0E] border border-[#222222] hover:border-zinc-400 transition-all text-[11px] text-zinc-400 hover:text-white"
+                                  title={`View ${lead.location} on Google Maps`}
+                                >
+                                  <IconMapPin className="w-3.5 h-3.5 text-zinc-300 shrink-0 group-hover:scale-110 transition-transform" />
+                                  <span className="truncate max-w-[130px]">{lead.location}</span>
+                                  <IconExternalLink className="w-2.5 h-2.5 text-zinc-500 shrink-0" />
+                                </a>
+                              ) : (
+                                <span className="text-[10px] text-zinc-500 italic">
+                                  Location not mapped
+                                </span>
+                              )}
+                            </td>
 
-                          <td className="p-4">
-                            <select
-                              value={lead.status}
-                              onChange={(e) =>
-                                dispatch(
-                                  updateLeadStatus({
-                                    id: lead.id,
-                                    status: e.target.value as any,
-                                  })
-                                )
-                              }
-                              className="bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-lg px-2 py-1 text-[11px] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-brown)]"
-                            >
-                              <option value="New">New</option>
-                              <option value="Contacted">Contacted</option>
-                              <option value="Qualified">Qualified</option>
-                              <option value="Meeting Booked">Meeting Booked</option>
-                              <option value="Replied">Replied</option>
-                            </select>
-                          </td>
+                            {/* Verified Trigger Signal */}
+                            <td className="p-4 max-w-xs">
+                              <div className="text-[11px] text-zinc-400 line-clamp-2 leading-relaxed">
+                                {lead.evidence && typeof lead.evidence === "object"
+                                  ? (lead.evidence as any).trigger || (lead.evidence as any).reason || (lead.evidence as any).painPointMatch || "Verified Buying Signal"
+                                  : typeof lead.evidence === "string"
+                                  ? lead.evidence
+                                  : "Recent expansion in sales team & active outbound hiring"}
+                              </div>
+                            </td>
 
-                          <td className="p-4 text-right">
-                            <Button
-                              variant="secondary"
-                              size="sm"
-                              onClick={() => handleOpenEmailDrawer(lead)}
-                              leftIcon={<IconMailFast className="w-3.5 h-3.5 text-[var(--accent-brown)]" />}
-                            >
-                              Draft PAS
-                            </Button>
-                          </td>
-                        </tr>
-                      ))}
+                            {/* Fit Score */}
+                            <td className="p-4">
+                              <span className="font-mono text-xs px-2.5 py-0.5 rounded-full bg-white text-black font-semibold shadow-[1px_1px_0px_rgba(255,255,255,0.2)]">
+                                {lead.score || 85}% Fit
+                              </span>
+                            </td>
+
+                            {/* CRM Status */}
+                            <td className="p-4">
+                              <select
+                                value={lead.status}
+                                onChange={(e) =>
+                                  dispatch(
+                                    updateLeadStatus({
+                                      id: lead.id,
+                                      status: e.target.value as any,
+                                    })
+                                  )
+                                }
+                                className="bg-[#0E0E0E] border border-[#262626] rounded-lg px-2.5 py-1 text-[11px] text-zinc-200 focus:outline-none focus:border-white"
+                              >
+                                <option value="New">New</option>
+                                <option value="Contacted">Contacted</option>
+                                <option value="Qualified">Qualified</option>
+                                <option value="Meeting Booked">Meeting Booked</option>
+                                <option value="Replied">Replied</option>
+                              </select>
+                            </td>
+
+                            {/* Action Button */}
+                            <td className="p-4 text-right">
+                              <Button
+                                variant="secondary"
+                                size="sm"
+                                onClick={() => handleOpenEmailDrawer(lead)}
+                                leftIcon={<IconMailFast className="w-3.5 h-3.5 text-white" />}
+                              >
+                                Draft PAS
+                              </Button>
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>
@@ -816,53 +966,53 @@ export default function DashboardPage() {
           {activeTab === "research" && (
             <div className="max-w-3xl space-y-6">
               <div>
-                <h2 className="text-lg font-bold text-[var(--text-primary)]">
+                <h2 className="font-serif text-xl sm:text-2xl text-white">
                   Autonomous Signal Research Agent
                 </h2>
-                <p className="text-xs text-[var(--text-secondary)]">
+                <p className="text-xs text-zinc-400 font-mono mt-0.5">
                   Trigger automated web queries, extract leadership changes, and discover qualified buyer accounts.
                 </p>
               </div>
 
-              <GlassCard elevated className="p-6 space-y-5">
+              <div className="p-6 rounded-xl bg-[#0C0C0C] border border-[#222222] shadow-[2px_2px_0px_rgba(255,255,255,0.1)] space-y-5">
                 <div className="space-y-3">
-                  <span className="text-xs font-semibold text-[var(--text-primary)] block">
+                  <span className="text-xs font-mono text-zinc-300 uppercase tracking-wider block">
                     Select Active ICP for Discovery Run
                   </span>
-                  <div className="p-3.5 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] flex items-center justify-between">
+                  <div className="p-3.5 rounded-xl bg-[#111111] border border-[#222222] flex items-center justify-between">
                     <div>
-                      <p className="text-xs font-semibold text-[var(--text-primary)]">
+                      <p className="font-serif text-sm text-white">
                         {icps.length > 0 ? icps[0].title : "Default B2B Tech ICP"}
                       </p>
-                      <p className="text-[11px] text-[var(--text-secondary)]">
+                      <p className="text-[11px] text-zinc-400 font-mono mt-0.5">
                         Targeting {profiles.length > 0 ? profiles[0].targetAudience : "B2B Decision Makers"}
                       </p>
                     </div>
-                    <Badge variant="brown" size="sm">
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white text-black font-semibold">
                       Ready
-                    </Badge>
+                    </span>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <span className="text-xs font-semibold text-[var(--text-primary)] block">
+                  <span className="text-xs font-mono text-zinc-300 uppercase tracking-wider block">
                     Autonomous Discovery Signals Tracked
                   </span>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[var(--text-secondary)]">
-                    <div className="p-2.5 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-subtle)] flex items-center gap-2">
-                      <IconCheck className="w-4 h-4 text-emerald-600" />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-zinc-300 font-mono">
+                    <div className="p-3 rounded-lg bg-[#111111] border border-[#222222] flex items-center gap-2">
+                      <IconCheck className="w-4 h-4 text-white" />
                       <span>Recent Series A / Seed Funding</span>
                     </div>
-                    <div className="p-2.5 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-subtle)] flex items-center gap-2">
-                      <IconCheck className="w-4 h-4 text-emerald-600" />
+                    <div className="p-3 rounded-lg bg-[#111111] border border-[#222222] flex items-center gap-2">
+                      <IconCheck className="w-4 h-4 text-white" />
                       <span>Sales & Growth Leadership Hires</span>
                     </div>
-                    <div className="p-2.5 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-subtle)] flex items-center gap-2">
-                      <IconCheck className="w-4 h-4 text-emerald-600" />
+                    <div className="p-3 rounded-lg bg-[#111111] border border-[#222222] flex items-center gap-2">
+                      <IconCheck className="w-4 h-4 text-white" />
                       <span>Tech Stack & CRM Migrations</span>
                     </div>
-                    <div className="p-2.5 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-subtle)] flex items-center gap-2">
-                      <IconCheck className="w-4 h-4 text-emerald-600" />
+                    <div className="p-3 rounded-lg bg-[#111111] border border-[#222222] flex items-center gap-2">
+                      <IconCheck className="w-4 h-4 text-white" />
                       <span>Public Pain Points & Job Postings</span>
                     </div>
                   </div>
@@ -874,12 +1024,12 @@ export default function DashboardPage() {
                     size="md"
                     onClick={handleRunResearch}
                     isLoading={isResearching}
-                    leftIcon={<IconSparkles className="w-4 h-4" />}
+                    leftIcon={<IconRadar2 className="w-4 h-4" />}
                   >
                     Execute Signal Discovery Run
                   </Button>
                 </div>
-              </GlassCard>
+              </div>
             </div>
           )}
         </main>
@@ -887,30 +1037,124 @@ export default function DashboardPage() {
 
       {/* 3. Sliding Email Generation Drawer */}
       {emailDrawerOpen && selectedLeadForEmail && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-black/40 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="w-full max-w-lg bg-[var(--bg-surface)] h-full border-l border-[var(--border-subtle)] shadow-[var(--shadow-lg)] p-6 flex flex-col justify-between overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="w-full max-w-lg bg-[#0A0A0A] h-full border-l border-[#242424] shadow-2xl p-6 flex flex-col justify-between overflow-y-auto text-white">
             <div className="space-y-5">
-              <div className="flex items-center justify-between pb-3 border-b border-[var(--border-subtle)]">
+              <div className="flex items-center justify-between pb-3 border-b border-[#1C1C1C]">
                 <div>
-                  <h3 className="text-sm font-bold text-[var(--text-primary)]">
-                    Evidence-Backed PAS Email
+                  <h3 className="font-serif text-base text-white">
+                    Evidence-Backed Outreach Synthesis
                   </h3>
-                  <p className="text-xs text-[var(--text-secondary)]">
+                  <p className="text-xs text-zinc-400 font-mono mt-0.5">
                     Prospect: {selectedLeadForEmail.companyName}
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setEmailDrawerOpen(false)}
-                  className="w-8 h-8 rounded-lg border border-[var(--border-subtle)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer"
+                  className="w-8 h-8 rounded-lg border border-[#2B2B2B] bg-[#141414] flex items-center justify-center text-zinc-400 hover:text-white transition-colors cursor-pointer"
                 >
                   <IconX className="w-4 h-4" />
                 </button>
               </div>
 
-              {/* Framework Selector */}
+              {/* Prospect Intelligence & Contact Dossier */}
+              <div className="p-4 rounded-xl bg-[#0E0E0E] border border-[#222222] space-y-3 font-mono">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h4 className="font-serif text-sm text-white">
+                      {selectedLeadForEmail.companyName}
+                    </h4>
+                    <p className="text-[11px] text-zinc-500 mt-0.5">
+                      {selectedLeadForEmail.industry || "B2B Technology"} • {selectedLeadForEmail.companySize || "20-100 employees"}
+                    </p>
+                  </div>
+                  <span className="text-xs font-mono px-2.5 py-0.5 rounded-full bg-white text-black font-semibold shadow-[1px_1px_0px_rgba(255,255,255,0.2)]">
+                    {selectedLeadForEmail.score || 85}% Fit
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-2 border-t border-[#1C1C1C]">
+                  {/* Website */}
+                  <div>
+                    <span className="text-[10px] uppercase text-zinc-500 block mb-0.5">
+                      Company Website
+                    </span>
+                    {selectedLeadForEmail.websiteLink ? (
+                      <a
+                        href={selectedLeadForEmail.websiteLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs text-zinc-300 hover:text-white hover:underline font-medium truncate max-w-full"
+                      >
+                        <IconWorld className="w-3.5 h-3.5 shrink-0" />
+                        <span className="truncate">{selectedLeadForEmail.websiteLink.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}</span>
+                        <IconExternalLink className="w-3 h-3 shrink-0 opacity-70" />
+                      </a>
+                    ) : (
+                      <span className="text-[11px] text-zinc-500">Not listed</span>
+                    )}
+                  </div>
+
+                  {/* Decision Maker & Email */}
+                  <div>
+                    <span className="text-[10px] uppercase text-zinc-500 block mb-0.5">
+                      Decision-Maker Email
+                    </span>
+                    {selectedLeadForEmail.contactEmail ? (
+                      <div className="flex items-center gap-1.5">
+                        <a
+                          href={`mailto:${selectedLeadForEmail.contactEmail}`}
+                          className="inline-flex items-center gap-1 text-xs text-zinc-300 hover:text-white hover:underline truncate"
+                        >
+                          <IconMail className="w-3.5 h-3.5 text-white shrink-0" />
+                          <span className="truncate">{selectedLeadForEmail.contactEmail}</span>
+                        </a>
+                        <button
+                          type="button"
+                          onClick={(e) => handleCopyLeadEmail(selectedLeadForEmail.contactEmail!, e)}
+                          className="p-1 rounded hover:bg-[#1C1C1C] text-zinc-400 hover:text-white transition-colors cursor-pointer"
+                          title="Copy Email"
+                        >
+                          {copiedEmailAddress === selectedLeadForEmail.contactEmail ? (
+                            <IconCheck className="w-3 h-3 text-white" />
+                          ) : (
+                            <IconCopy className="w-3 h-3" />
+                          )}
+                        </button>
+                      </div>
+                    ) : (
+                      <span className="text-[11px] text-zinc-500">Not listed</span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Google Maps Location */}
+                {selectedLeadForEmail.location && (
+                  <div className="pt-2 border-t border-[#1C1C1C]">
+                    <span className="text-[10px] uppercase text-zinc-500 block mb-1">
+                      Mapped Google Address
+                    </span>
+                    <a
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedLeadForEmail.location)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group inline-flex items-center gap-2 p-2 rounded-lg bg-[#141414] border border-[#242424] hover:border-zinc-400 transition-all text-xs text-zinc-300 hover:text-white w-full"
+                    >
+                      <IconMapPin className="w-4 h-4 text-zinc-300 shrink-0 group-hover:scale-110 transition-transform" />
+                      <span className="truncate flex-1 font-medium">{selectedLeadForEmail.location}</span>
+                      <span className="text-[10px] font-mono text-zinc-300 bg-[#202020] px-2 py-0.5 rounded-full shrink-0 flex items-center gap-1 border border-[#303030]">
+                        <span>Open Maps</span>
+                        <IconExternalLink className="w-2.5 h-2.5" />
+                      </span>
+                    </a>
+                  </div>
+                )}
+              </div>
+
+              {/* Framework Selector with rounded-xl and 2px shadow */}
               <div className="space-y-2">
-                <label className="block text-xs font-semibold text-[var(--text-primary)]">
+                <label className="block text-xs font-mono text-zinc-300">
                   Copywriting Framework
                 </label>
                 <div className="grid grid-cols-2 gap-2">
@@ -925,10 +1169,10 @@ export default function DashboardPage() {
                         })
                       );
                     }}
-                    className={`p-2.5 rounded-xl border text-xs font-medium text-left cursor-pointer transition-all ${
+                    className={`p-3 rounded-xl border text-xs font-mono text-left cursor-pointer transition-all ${
                       selectedFramework === "PAS"
-                        ? "bg-[var(--accent-brown-light)] border-[var(--accent-brown)] text-[var(--accent-brown)]"
-                        : "bg-[var(--bg-canvas)] border-[var(--border-subtle)] text-[var(--text-secondary)]"
+                        ? "bg-white text-black font-semibold shadow-[2px_2px_0px_rgba(255,255,255,0.3)]"
+                        : "bg-[#111111] border-[#222222] text-zinc-400 hover:text-white"
                     }`}
                   >
                     PAS (Problem-Agitate-Solve)
@@ -945,10 +1189,10 @@ export default function DashboardPage() {
                         })
                       );
                     }}
-                    className={`p-2.5 rounded-xl border text-xs font-medium text-left cursor-pointer transition-all ${
+                    className={`p-3 rounded-xl border text-xs font-mono text-left cursor-pointer transition-all ${
                       selectedFramework === "Observation-Insight-Value"
-                        ? "bg-[var(--accent-brown-light)] border-[var(--accent-brown)] text-[var(--accent-brown)]"
-                        : "bg-[var(--bg-canvas)] border-[var(--border-subtle)] text-[var(--text-secondary)]"
+                        ? "bg-white text-black font-semibold shadow-[2px_2px_0px_rgba(255,255,255,0.3)]"
+                        : "bg-[#111111] border-[#222222] text-zinc-400 hover:text-white"
                     }`}
                   >
                     Observation-Insight-Value
@@ -958,28 +1202,28 @@ export default function DashboardPage() {
 
               {/* Generated Email Content */}
               {isGeneratingEmail ? (
-                <div className="p-8 text-center space-y-3">
-                  <IconSparkles className="w-8 h-8 text-[var(--accent-brown)] animate-spin mx-auto" />
-                  <p className="text-xs text-[var(--text-secondary)]">
+                <div className="p-8 text-center space-y-3 font-mono">
+                  <IconRefresh className="w-8 h-8 text-white animate-spin mx-auto" />
+                  <p className="text-xs text-zinc-400">
                     Synthesizing real-world evidence and drafting copy...
                   </p>
                 </div>
               ) : activeColdEmail ? (
-                <div className="space-y-3">
-                  <div className="p-3 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)]">
-                    <span className="text-[10px] font-mono text-[var(--text-muted)] uppercase block mb-1">
+                <div className="space-y-3 font-mono text-xs">
+                  <div className="p-3.5 rounded-xl bg-[#0E0E0E] border border-[#222222]">
+                    <span className="text-[10px] uppercase text-zinc-500 block mb-1">
                       Subject Line
                     </span>
-                    <p className="text-xs font-semibold text-[var(--text-primary)]">
+                    <p className="text-xs font-serif text-white font-medium">
                       {activeColdEmail.subject}
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)]">
-                    <span className="text-[10px] font-mono text-[var(--text-muted)] uppercase block mb-1.5">
+                  <div className="p-4 rounded-xl bg-[#0E0E0E] border border-[#222222]">
+                    <span className="text-[10px] uppercase text-zinc-500 block mb-1.5">
                       Body Copy
                     </span>
-                    <p className="text-xs text-[var(--text-primary)] whitespace-pre-line leading-relaxed font-sans">
+                    <p className="text-xs text-zinc-300 whitespace-pre-line leading-relaxed font-sans">
                       {activeColdEmail.body}
                     </p>
                   </div>
@@ -987,13 +1231,13 @@ export default function DashboardPage() {
               ) : null}
             </div>
 
-            {/* Bottom Actions */}
-            <div className="pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between gap-3">
+            {/* Bottom Actions with rounded-xl and 2px tactile buttons */}
+            <div className="pt-4 border-t border-[#1C1C1C] flex items-center justify-between gap-3">
               <Button
                 variant="secondary"
                 size="sm"
                 onClick={handleCopyEmail}
-                leftIcon={copiedEmail ? <IconCheck className="w-3.5 h-3.5 text-emerald-600" /> : <IconCopy className="w-3.5 h-3.5" />}
+                leftIcon={copiedEmail ? <IconCheck className="w-3.5 h-3.5 text-white" /> : <IconCopy className="w-3.5 h-3.5" />}
               >
                 {copiedEmail ? "Copied to Clipboard!" : "Copy Email"}
               </Button>
