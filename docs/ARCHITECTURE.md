@@ -8,3 +8,6 @@
 
 ## 3. Dynamic Dock Navigation
 - Shrinks and transitions to a floating pill dock when scroll exceeds 30px.
+
+## 4. Icon Uniformity
+- All sparkles/sprinkles strictly replaced by Tabler SVG icons.
