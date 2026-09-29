@@ -7,6 +7,7 @@ interface AuthState {
   workspace: Workspace | null;
   token: string | null;
   isLoading: boolean;
+  hasLoaded: boolean;
   error: string | null;
 }
 
@@ -15,6 +16,7 @@ const initialState: AuthState = {
   workspace: null,
   token: typeof window !== 'undefined' ? localStorage.getItem('postrichment_token') : null,
   isLoading: false,
+  hasLoaded: false,
   error: null,
 };
 
@@ -42,6 +44,14 @@ export const fetchCurrentUser = createAsyncThunk(
     } catch (err: any) {
       return rejectWithValue(err.message || 'Failed to fetch user session');
     }
+  },
+  {
+    condition: (_, { getState }) => {
+      const { auth } = getState() as { auth: AuthState };
+      if (auth.isLoading || (auth.hasLoaded && auth.user)) {
+        return false;
+      }
+    },
   }
 );
 
@@ -53,6 +63,7 @@ const authSlice = createSlice({
       state.user = null;
       state.workspace = null;
       state.token = null;
+      state.hasLoaded = false;
       if (typeof window !== 'undefined') {
         localStorage.removeItem('postrichment_token');
       }
@@ -70,6 +81,7 @@ const authSlice = createSlice({
       })
       .addCase(loginWithGoogle.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.hasLoaded = true;
         state.user = action.payload.user;
         state.workspace = action.payload.workspace;
         state.token = action.payload.token;
@@ -81,14 +93,26 @@ const authSlice = createSlice({
       // fetchCurrentUser
       .addCase(fetchCurrentUser.pending, (state) => {
         state.isLoading = true;
+        state.error = null;
       })
       .addCase(fetchCurrentUser.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.hasLoaded = true;
         state.user = action.payload.user;
         state.workspace = action.payload.workspace;
       })
-      .addCase(fetchCurrentUser.rejected, (state) => {
+      .addCase(fetchCurrentUser.rejected, (state, action) => {
         state.isLoading = false;
+        state.hasLoaded = true;
+        state.error = action.payload as string;
+        const msg = (action.payload as string) || '';
+        if (msg.includes('401') || msg.toLowerCase().includes('unauthorized') || msg.toLowerCase().includes('invalid token')) {
+          state.user = null;
+          state.token = null;
+          if (typeof window !== 'undefined') {
+            localStorage.removeItem('postrichment_token');
+          }
+        }
       });
   },
 });
