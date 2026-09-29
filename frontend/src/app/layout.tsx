@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { StoreProvider } from "../store/StoreProvider";
+import { SmoothScrollProvider } from "../components/common/SmoothScrollProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,11 +17,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Postrichment — AI GTM Research & Lead Enrichment SaaS",
-  description: "Find high-value B2B buyers, extract verifiable growth signals, and generate converting cold emails with our RAG research agent.",
-  keywords: ["AI sales research", "lead enrichment", "ICP generator", "B2B outbound", "cold email AI"],
+  title: "Postrichment — Autonomous GTM Intelligence & Lead Enrichment",
+  description: "Discover verified B2B buyers with live signal evidence, vector grounding, and automated CRM enrichment.",
+  keywords: ["AI sales research", "lead enrichment", "ICP generator", "B2B outbound", "cold email AI", "signal discovery"],
   openGraph: {
-    title: "Postrichment — AI GTM Research & Lead Enrichment",
+    title: "Postrichment — Autonomous GTM Intelligence",
     description: "Discover verified decision-makers backed by verifiable evidence.",
     type: "website",
   },
@@ -32,12 +33,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-theme="light" suppressHydrationWarning>
+    <html lang="en" data-theme="dark" className="dark" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Young+Serif&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-[var(--bg-canvas)] text-[var(--text-primary)]`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-[#050505] text-white selection:bg-white selection:text-black`}
       >
         <StoreProvider>
-          {children}
+          <SmoothScrollProvider>
+            {children}
+          </SmoothScrollProvider>
         </StoreProvider>
       </body>
     </html>
