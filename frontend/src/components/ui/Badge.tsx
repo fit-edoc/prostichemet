@@ -15,21 +15,21 @@ export function Badge({
   ...props
 }: BadgeProps) {
   const sizeClasses = {
-    sm: "text-[11px] px-2.5 py-0.5 tracking-wider font-medium",
-    md: "text-xs px-3 py-1 tracking-wide font-medium",
+    sm: "text-[11px] px-2.5 py-0.5 tracking-wider font-mono",
+    md: "text-xs px-3 py-1 tracking-wide font-mono",
   }[size];
 
   const variantClasses = {
     brown:
-      "bg-[var(--accent-brown-light)] text-[var(--accent-brown)] border border-[var(--accent-brown)]/20 font-medium",
+      "bg-[#161616] text-zinc-300 border border-[#2B2B2B] shadow-[1px_1px_0px_rgba(255,255,255,0.15)]",
     vintage:
-      "bg-[var(--accent-brown-light)] text-[var(--accent-brown)] border border-[var(--accent-brown)]/20 font-medium",
+      "bg-[#161616] text-zinc-300 border border-[#2B2B2B] shadow-[1px_1px_0px_rgba(255,255,255,0.15)]",
     neutral:
-      "bg-[var(--bg-elevated)] text-[var(--text-secondary)] border border-[var(--border-subtle)] font-normal",
+      "bg-[#121212] text-zinc-400 border border-[#242424]",
     success:
-      "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 font-medium",
+      "bg-white/10 text-white border border-white/20 font-medium",
     outline:
-      "bg-transparent text-[var(--text-secondary)] border border-[var(--border-subtle)]",
+      "bg-transparent text-zinc-400 border border-[#2B2B2B]",
   }[variant];
 
   return (
@@ -38,7 +38,7 @@ export function Badge({
       {...props}
     >
       {dot && (
-        <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
+        <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
       )}
       {children}
     </span>
