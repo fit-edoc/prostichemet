@@ -26,32 +26,32 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    // Sizes
+    // Strictly rounded-xl on all sizes
     const sizeClasses = {
-      sm: "text-xs px-3 py-1.5 rounded-lg gap-1.5 font-medium",
-      md: "text-sm px-4 py-2.2 rounded-xl gap-2 font-medium",
-      lg: "text-base px-6 py-3 rounded-xl gap-2.5 font-semibold",
+      sm: "text-xs px-3.5 py-1.5 rounded-xl gap-1.5 font-medium",
+      md: "text-sm px-4.5 py-2.5 rounded-xl gap-2 font-medium",
+      lg: "text-base px-6 py-3.5 rounded-xl gap-2.5 font-semibold",
     }[size];
 
-    // Variants (White & Dark Brown clean SaaS theme)
+    // Tactile 2px shadow and pure black & white variants
     const variantClasses = {
       primary:
-        "bg-[#20150F] text-[#FAF9F7] border border-[#20150F] hover:bg-[#34241B] shadow-[var(--shadow-sm)] dark:bg-[#FAF9F7] dark:text-[#120D0A] dark:border-[#FAF9F7] dark:hover:bg-[#E8E0D5]",
+        "bg-white text-black border border-white hover:bg-zinc-200 shadow-[2px_2px_0px_rgba(255,255,255,0.3)] active:translate-x-[1px] active:translate-y-[1px]",
       secondary:
-        "bg-[var(--bg-surface)] text-[var(--text-primary)] border border-[var(--border-subtle)] hover:border-[var(--border-medium)] hover:bg-[var(--bg-elevated)] shadow-[var(--shadow-xs)]",
+        "bg-[#111111] text-white border border-[#2B2B2B] hover:bg-[#1A1A1A] hover:border-[#444444] shadow-[2px_2px_0px_rgba(255,255,255,0.15)] active:translate-x-[1px] active:translate-y-[1px]",
       brown:
-        "bg-[var(--accent-brown)] text-white border border-[var(--accent-brown)] hover:opacity-90 shadow-[var(--shadow-sm)]",
+        "bg-white text-black border border-white hover:bg-zinc-200 shadow-[2px_2px_0px_rgba(255,255,255,0.3)] active:translate-x-[1px] active:translate-y-[1px]",
       outline:
-        "bg-transparent text-[var(--text-primary)] border border-[var(--border-medium)] hover:bg-[var(--bg-elevated)]",
+        "bg-transparent text-white border border-[#2E2E2E] hover:bg-[#141414] hover:border-zinc-400 shadow-[2px_2px_0px_rgba(255,255,255,0.15)] active:translate-x-[1px] active:translate-y-[1px]",
       ghost:
-        "bg-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)]",
+        "bg-transparent text-zinc-400 hover:text-white hover:bg-[#141414] active:translate-x-[1px] active:translate-y-[1px]",
     }[variant];
 
     return (
       <button
         ref={ref}
         disabled={disabled || isLoading}
-        className={`btn-clean inline-flex items-center justify-center cursor-pointer select-none transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${sizeClasses} ${variantClasses} ${className}`}
+        className={`inline-flex items-center justify-center cursor-pointer select-none transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed ${sizeClasses} ${variantClasses} ${className}`}
         {...props}
       >
         {isLoading ? (
