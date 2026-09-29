@@ -7,6 +7,8 @@ interface ICPState {
   activeIcp: ICPProfile | null;
   latestDiscoveredLeads: ProspectLead[];
   isGenerating: boolean;
+  isLoading: boolean;
+  hasLoaded: boolean;
   error: string | null;
 }
 
@@ -15,6 +17,8 @@ const initialState: ICPState = {
   activeIcp: null,
   latestDiscoveredLeads: [],
   isGenerating: false,
+  isLoading: false,
+  hasLoaded: false,
   error: null,
 };
 
@@ -27,6 +31,14 @@ export const fetchIcps = createAsyncThunk(
     } catch (err: any) {
       return rejectWithValue(err.message);
     }
+  },
+  {
+    condition: (_, { getState }) => {
+      const { icp } = getState() as { icp: ICPState };
+      if (icp.isLoading || icp.hasLoaded) {
+        return false;
+      }
+    },
   }
 );
 
@@ -52,11 +64,22 @@ const icpSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchIcps.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(fetchIcps.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.hasLoaded = true;
         state.icps = action.payload;
         if (action.payload.length > 0 && !state.activeIcp) {
           state.activeIcp = action.payload[0];
         }
+      })
+      .addCase(fetchIcps.rejected, (state, action) => {
+        state.isLoading = false;
+        state.hasLoaded = true;
+        state.error = action.payload as string;
       })
       .addCase(generateIcpWithRAG.pending, (state) => {
         state.isGenerating = true;
