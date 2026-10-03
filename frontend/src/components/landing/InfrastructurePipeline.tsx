@@ -133,17 +133,17 @@ export function InfrastructurePipeline() {
     <section id="pipeline-preview" className="w-full py-28 max-w-7xl mx-auto px-6">
       {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto mb-16">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#121212] border border-[#262626] text-xs font-mono uppercase tracking-wider text-zinc-400 mb-4">
-          <IconCpu className="w-3.5 h-3.5 text-white" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-xs font-mono uppercase tracking-wider text-zinc-700 mb-4 shadow-sm">
+          <IconCpu className="w-3.5 h-3.5 text-zinc-900" />
           <span>Realtime Infrastructure Preview</span>
         </div>
 
-        <h2 className="font-serif text-3xl sm:text-5xl text-white tracking-tight leading-tight">
+        <h2 className="font-inter font-bold text-3xl sm:text-5xl text-zinc-950 tracking-tight leading-tight">
           Step-by-step autonomous execution,{" "}
-          <span className="font-editorial italic text-zinc-400">zero manual prompts.</span>
+          <span className="italic font-normal text-zinc-500">zero manual prompts.</span>
         </h2>
 
-        <p className="text-sm sm:text-base text-zinc-400 mt-4 leading-relaxed max-w-2xl mx-auto">
+        <p className="font-inter text-sm sm:text-base text-zinc-600 mt-4 leading-relaxed max-w-2xl mx-auto">
           Observe how raw web signals evolve through our 4-stage pipeline with strict verification, identity resolution, and instant CRM persistence.
         </p>
 
@@ -156,12 +156,12 @@ export function InfrastructurePipeline() {
           >
             {isPlaying ? (
               <>
-                <IconPlayerPause className="w-3.5 h-3.5 text-white" />
+                <IconPlayerPause className="w-3.5 h-3.5 text-zinc-900" />
                 <span>PAUSE STREAM</span>
               </>
             ) : (
               <>
-                <IconPlayerPlay className="w-3.5 h-3.5 text-white" />
+                <IconPlayerPlay className="w-3.5 h-3.5 text-zinc-900" />
                 <span>RESUME STREAM</span>
               </>
             )}
@@ -188,13 +188,13 @@ export function InfrastructurePipeline() {
               }}
               className={`p-5 rounded-xl text-left border transition-all cursor-pointer relative overflow-hidden ${
                 isActive
-                  ? "bg-[#141414] border-white shadow-[2px_2px_0px_rgba(255,255,255,0.3)] transform -translate-y-1"
-                  : "bg-[#0A0A0A] border-[#1F1F1F] hover:border-[#333333] opacity-60 hover:opacity-90"
+                  ? "bg-white border-zinc-950 shadow-[2px_2px_0px_#09090B] transform -translate-y-1"
+                  : "bg-zinc-50/80 border-zinc-200 hover:border-zinc-300 hover:bg-white text-zinc-600"
               }`}
             >
               {/* Active Step Top Indicator Bar */}
               {isActive && (
-                <div className="absolute top-0 left-0 right-0 h-[2px] bg-white animate-pulse" />
+                <div className="absolute top-0 left-0 right-0 h-[2px] bg-zinc-950 animate-pulse" />
               )}
 
               <div className="flex items-center justify-between mb-4">
@@ -203,7 +203,7 @@ export function InfrastructurePipeline() {
                 </span>
                 <div
                   className={`w-7 h-7 rounded-lg flex items-center justify-center ${
-                    isActive ? "bg-white text-black" : "bg-[#161616] text-zinc-400"
+                    isActive ? "bg-zinc-950 text-white" : "bg-zinc-200/70 text-zinc-700"
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -213,7 +213,7 @@ export function InfrastructurePipeline() {
               <div className="text-xs font-mono uppercase tracking-wider text-zinc-500 mb-1">
                 {step.category}
               </div>
-              <h4 className="font-serif text-sm font-medium text-white truncate">
+              <h4 className="font-inter text-sm font-medium text-zinc-900 truncate">
                 {step.title}
               </h4>
             </button>
@@ -222,37 +222,37 @@ export function InfrastructurePipeline() {
       </div>
 
       {/* Main Animated Pipeline Display with Step-by-Step Blur-to-No-Blur Cards */}
-      <div className="relative rounded-2xl bg-[#080808] border border-[#222222] p-6 sm:p-10 shadow-[2px_2px_0px_rgba(255,255,255,0.15)] overflow-hidden">
+      <div className="relative rounded-2xl bg-zinc-50/50 border border-zinc-200 p-6 sm:p-10 shadow-[0_12px_36px_rgba(0,0,0,0.06)] overflow-hidden">
         {/* Subtle Background Pattern */}
         <div className="absolute inset-0 halftone-footer opacity-20 pointer-events-none" />
 
         {/* Top Header of the Active Stage */}
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-8 border-b border-[#1A1A1A]">
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-8 border-b border-zinc-200">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-white animate-pulse" />
-              <span className="text-xs font-mono tracking-widest text-zinc-400 uppercase">
+              <span className="w-2.5 h-2.5 rounded-full bg-zinc-950 animate-pulse" />
+              <span className="text-xs font-mono tracking-widest text-zinc-500 uppercase">
                 {activeStep.category} // PIPELINE_EXEC
               </span>
             </div>
-            <h3 className="font-serif text-2xl sm:text-3xl text-white">
+            <h3 className="font-inter font-bold text-2xl sm:text-3xl text-zinc-950">
               {activeStep.title}
             </h3>
-            <p className="text-xs sm:text-sm text-zinc-400 max-w-xl mt-2 leading-relaxed">
+            <p className="font-inter text-xs sm:text-sm text-zinc-600 max-w-xl mt-2 leading-relaxed">
               {activeStep.description}
             </p>
           </div>
 
           {/* Real-time Telemetry Pill */}
-          <div className="p-4 rounded-xl bg-[#111111] border border-[#262626] shrink-0 font-mono text-xs space-y-1">
+          <div className="p-4 rounded-xl bg-white border border-zinc-200 shadow-sm shrink-0 font-mono text-xs space-y-1">
             <div className="text-zinc-500 uppercase tracking-wider text-[10px]">
               {activeStep.telemetry.label}
             </div>
-            <div className="text-xl font-serif text-white">
+            <div className="text-xl font-inter font-bold text-zinc-950">
               {activeStep.telemetry.value}
             </div>
-            <div className="text-[11px] text-zinc-400 flex items-center gap-1.5 pt-0.5">
-              <IconCheck className="w-3.5 h-3.5 text-white" />
+            <div className="text-[11px] text-zinc-600 flex items-center gap-1.5 pt-0.5">
+              <IconCheck className="w-3.5 h-3.5 text-zinc-900" />
               <span>{activeStep.telemetry.subtext}</span>
             </div>
           </div>
@@ -270,35 +270,35 @@ export function InfrastructurePipeline() {
                 key={`card-${step.id}`}
                 className={`p-5 rounded-xl border transition-all duration-500 flex flex-col justify-between ${
                   isCurrent
-                    ? "pipeline-step-active bg-[#121212] border-white shadow-[2px_2px_0px_rgba(255,255,255,0.25)]"
+                    ? "pipeline-step-active bg-white border-zinc-950 shadow-[2px_2px_0px_rgba(0,0,0,0.15)]"
                     : isCompleted
-                    ? "pipeline-step-active bg-[#0A0A0A] border-[#2B2B2B] opacity-80"
-                    : "pipeline-step-blur bg-[#060606] border-[#1C1C1C]"
+                      ? "pipeline-step-active bg-white border-zinc-200 shadow-sm"
+                      : "pipeline-step-blur bg-zinc-100/50 border-zinc-200 opacity-60"
                 }`}
               >
                 <div>
-                  <div className="flex items-center justify-between pb-3 border-b border-[#202020] mb-3">
+                  <div className="flex items-center justify-between pb-3 border-b border-zinc-100 mb-3">
                     <div className="flex items-center gap-2">
-                      <Icon className="w-4 h-4 text-white" />
-                      <span className="font-mono text-xs text-white font-medium">
+                      <Icon className="w-4 h-4 text-zinc-900" />
+                      <span className="font-mono text-xs text-zinc-900 font-semibold">
                         STAGE {step.stepNum}
                       </span>
                     </div>
 
                     {isCurrent ? (
-                      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white text-black font-mono text-[10px] font-semibold">
+                      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-zinc-950 text-white font-mono text-[10px] font-semibold">
                         <svg className="w-2.5 h-2.5" viewBox="0 0 16 16">
-                          <circle cx="8" cy="8" r="6" fill="#000000" className="svg-animated-pulse" />
+                          <circle cx="8" cy="8" r="6" fill="#ffffff" className="svg-animated-pulse" />
                         </svg>
                         PROCESSING
                       </span>
                     ) : isCompleted ? (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-mono text-zinc-400">
-                        <IconCheck className="w-3.5 h-3.5 text-white" />
+                      <span className="inline-flex items-center gap-1 text-[10px] font-mono text-zinc-600">
+                        <IconCheck className="w-3.5 h-3.5 text-zinc-900" />
                         VERIFIED
                       </span>
                     ) : (
-                      <span className="text-[10px] font-mono text-zinc-600">
+                      <span className="text-[10px] font-mono text-zinc-400">
                         QUEUED
                       </span>
                     )}
@@ -309,12 +309,12 @@ export function InfrastructurePipeline() {
                     {step.samplePayload.map((row, rIdx) => (
                       <div
                         key={rIdx}
-                        className="p-2 rounded-lg bg-[#080808] border border-[#1A1A1A] flex flex-col gap-0.5"
+                        className="p-2 rounded-lg bg-zinc-50 border border-zinc-200/80 flex flex-col gap-0.5"
                       >
                         <span className="text-[10px] text-zinc-500 uppercase">
                           {row.key}
                         </span>
-                        <span className="text-zinc-200 text-xs truncate">
+                        <span className="text-zinc-800 text-xs truncate">
                           {row.val}
                         </span>
                       </div>
@@ -322,9 +322,9 @@ export function InfrastructurePipeline() {
                   </div>
                 </div>
 
-                <div className="pt-4 mt-4 border-t border-[#1C1C1C] flex items-center justify-between text-[11px] font-mono text-zinc-400">
+                <div className="pt-4 mt-4 border-t border-zinc-100 flex items-center justify-between text-[11px] font-mono text-zinc-500">
                   <span>Confidence Gate:</span>
-                  <span className="text-white font-bold">100% Deterministic</span>
+                  <span className="text-zinc-950 font-bold">100% Deterministic</span>
                 </div>
               </div>
             );
@@ -332,10 +332,10 @@ export function InfrastructurePipeline() {
         </div>
 
         {/* Progress Step Indicator Bar */}
-        <div className="relative z-10 mt-8 pt-6 border-t border-[#1A1A1A] flex items-center justify-between text-xs font-mono text-zinc-500">
+        <div className="relative z-10 mt-8 pt-6 border-t border-zinc-200 flex items-center justify-between text-xs font-mono text-zinc-500">
           <div className="flex items-center gap-2">
-            <span className="text-zinc-400">Pipeline State:</span>
-            <span className="text-white">Continuous Ingestion Loop</span>
+            <span className="text-zinc-500">Pipeline State:</span>
+            <span className="text-zinc-950 font-semibold">Continuous Ingestion Loop</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -344,10 +344,10 @@ export function InfrastructurePipeline() {
                 key={dotIdx}
                 className={`h-1.5 rounded-full transition-all duration-300 ${
                   dotIdx === activeStepIndex
-                    ? "w-8 bg-white"
+                    ? "w-8 bg-zinc-950"
                     : dotIdx < activeStepIndex
-                    ? "w-3 bg-zinc-600"
-                    : "w-2 bg-zinc-800"
+                      ? "w-3 bg-zinc-400"
+                      : "w-2 bg-zinc-300"
                 }`}
               />
             ))}
