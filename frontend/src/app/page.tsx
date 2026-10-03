@@ -50,30 +50,30 @@ export default function LandingPage() {
   useScrollReveal();
 
   return (
-    <div className="relative min-h-screen bg-[#050505] text-white overflow-x-hidden selection:bg-white selection:text-black">
+    <div className="landing-page font-inter relative min-h-screen bg-[#FAFAFA] text-zinc-900 overflow-x-hidden selection:bg-zinc-900 selection:text-white">
       {/* ========================================================================= */}
-      {/* 5% Carbon Pattern Gutters with Vertical Architectural Lines               */}
+      {/* 5% Architectural Gutters with Clean Grid Lines                            */}
       {/* ========================================================================= */}
-      
+
       {/* Left 5% Gutter */}
-      <aside 
-        aria-hidden="true" 
-        className="fixed top-0 bottom-0 left-0 w-[5%] carbon-gutter border-r border-[#262626] z-30 pointer-events-none hidden md:flex flex-col justify-between items-center py-6 opacity-90"
+      <aside
+        aria-hidden="true"
+        className="fixed top-0 bottom-0 left-0 w-[5%] carbon-gutter border-r border-[#E4E4E7] z-30 pointer-events-none hidden md:flex flex-col justify-between items-center py-6 opacity-80"
       >
         <div className="w-[1px] h-32 carbon-strip-line" />
-        <div className="rotate-90 text-[9px] font-mono tracking-[0.3em] text-zinc-600 whitespace-nowrap select-none">
+        <div className="rotate-90 text-[9px] font-mono tracking-[0.3em] text-zinc-400 whitespace-nowrap select-none">
           SYS.L05 // ARCH_V3
         </div>
         <div className="w-[1px] h-32 carbon-strip-line" />
       </aside>
 
       {/* Right 5% Gutter */}
-      <aside 
-        aria-hidden="true" 
-        className="fixed top-0 bottom-0 right-0 w-[5%] carbon-gutter border-l border-[#262626] z-30 pointer-events-none hidden md:flex flex-col justify-between items-center py-6 opacity-90"
+      <aside
+        aria-hidden="true"
+        className="fixed top-0 bottom-0 right-0 w-[5%] carbon-gutter border-l border-[#E4E4E7] z-30 pointer-events-none hidden md:flex flex-col justify-between items-center py-6 opacity-80"
       >
         <div className="w-[1px] h-32 carbon-strip-line" />
-        <div className="-rotate-90 text-[9px] font-mono tracking-[0.3em] text-zinc-600 whitespace-nowrap select-none">
+        <div className="-rotate-90 text-[9px] font-mono tracking-[0.3em] text-zinc-400 whitespace-nowrap select-none">
           PIPELINE // 99.98%
         </div>
         <div className="w-[1px] h-32 carbon-strip-line" />
@@ -82,7 +82,7 @@ export default function LandingPage() {
       {/* ========================================================================= */}
       {/* Main 90% Content Container Framed by the 5% Gutters                       */}
       {/* ========================================================================= */}
-      <div className="w-full md:w-[90%] md:mx-auto relative z-10 flex flex-col min-h-screen border-x border-[#1a1a1a]/70 bg-[#050505]">
+      <div className="w-full md:w-[90%] md:mx-auto relative z-10 flex flex-col min-h-screen border-x border-[#E4E4E7] bg-white shadow-sm">
         {/* Dynamic Nav that shifts and shrinks on scroll into floating pill dock */}
         <Navbar />
 
