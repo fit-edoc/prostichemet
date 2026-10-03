@@ -8,7 +8,7 @@ interface UIState {
 }
 
 const initialState: UIState = {
-  theme: 'dark',
+  theme: 'light',
   isEmailDrawerOpen: false,
   isResearchModalOpen: false,
   toastMessage: null,
