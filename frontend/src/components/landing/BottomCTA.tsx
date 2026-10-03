@@ -14,34 +14,34 @@ export function BottomCTA() {
   const router = useRouter();
 
   return (
-    <section className="w-full py-28 border-t border-[#1F1F1F] bg-[#070707] relative overflow-hidden text-center">
-      {/* Halftone and carbon ambient texture */}
-      <div className="absolute inset-0 halftone-footer opacity-25 pointer-events-none" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-white/[0.03] blur-[120px] pointer-events-none rounded-full" />
+    <section className="w-full py-28 border-t border-zinc-200 bg-gradient-to-b from-zinc-50 via-white to-white relative overflow-hidden text-center">
+      {/* Halftone and ambient texture */}
+      <div className="absolute inset-0 halftone-footer opacity-30 pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-b from-zinc-200/40 to-transparent blur-[120px] pointer-events-none rounded-full" />
 
       <div className="max-w-4xl mx-auto px-6 space-y-7 relative z-10">
         {/* Telemetry pill */}
-        <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#121212] border border-[#262626] text-xs font-mono text-zinc-300 shadow-[2px_2px_0px_rgba(255,255,255,0.15)]">
+        <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-zinc-100 border border-zinc-200 text-xs font-mono text-zinc-700 shadow-sm">
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-900 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-900"></span>
           </span>
           <span className="uppercase tracking-wider">DEPLOY AUTONOMOUS ICP CLUSTER</span>
         </div>
 
-        {/* Headline in Young Serif */}
-        <h2 className="text-3xl sm:text-5xl md:text-6xl font-serif text-white tracking-tight leading-[1.1] max-w-3xl mx-auto">
+        {/* Headline in Inter */}
+        <h2 className="text-3xl sm:text-5xl md:text-6xl font-inter font-bold text-zinc-950 tracking-tight leading-[1.15] max-w-3xl mx-auto">
           Ready to discover your next{" "}
-          <span className="font-editorial italic text-zinc-400 font-normal">
+          <span className="italic text-zinc-500 font-normal">
             high-conviction customer?
           </span>
         </h2>
 
-        <p className="text-sm sm:text-base text-zinc-400 max-w-xl mx-auto leading-relaxed">
+        <p className="font-inter text-sm sm:text-base text-zinc-600 max-w-xl mx-auto leading-relaxed">
           Stop burning SDR hours on stale scraped databases. Deploy our multi-agent research nodes to discover verified buying signals and push grounded outreach directly to your CRM.
         </p>
 
-        {/* Action Buttons: rounded-xl, 2px box shadow */}
+        {/* Action Buttons: rounded-xl, tactile box shadow */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-3">
           <button
             onClick={() => router.push("/login")}
@@ -55,25 +55,25 @@ export function BottomCTA() {
             onClick={() => router.push("/login")}
             className="btn-dark-xl px-8 py-4 flex items-center justify-center gap-2 text-sm font-medium cursor-pointer w-full sm:w-auto"
           >
-            <IconRadar2 className="w-4 h-4 text-zinc-400" />
+            <IconRadar2 className="w-4 h-4 text-zinc-700" />
             <span>Sign In with Email</span>
           </button>
         </div>
 
         {/* Feature Guarantees */}
-        <div className="flex flex-wrap items-center justify-center gap-6 pt-6 text-xs text-zinc-500 font-mono">
+        <div className="flex flex-wrap items-center justify-center gap-6 pt-6 text-xs text-zinc-600 font-mono">
           <div className="flex items-center gap-1.5">
-            <IconShieldCheck className="w-4 h-4 text-white" />
+            <IconShieldCheck className="w-4 h-4 text-zinc-900" />
             <span>10 Free AI Lead Runs Included</span>
           </div>
           <span>•</span>
           <div className="flex items-center gap-1.5">
-            <IconCpu className="w-4 h-4 text-white" />
+            <IconCpu className="w-4 h-4 text-zinc-900" />
             <span>Vector Grounded (Zero Fake Data)</span>
           </div>
           <span>•</span>
           <div className="flex items-center gap-1.5">
-            <IconCheck className="w-4 h-4 text-white" />
+            <IconCheck className="w-4 h-4 text-zinc-900" />
             <span>No Credit Card Required</span>
           </div>
         </div>
