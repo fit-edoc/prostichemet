@@ -1,20 +1,88 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-inter: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: var(--font-geist-mono), monospace;
+  --font-intel: "Intel One Mono", monospace;
 }
 
-:root, [data-theme='dark'], [data-theme='light'] {
-  /* Strict Monochrome / Editorial Black & White Theme */
-  --bg-canvas: #050505;           /* Deepest Obsidian */
-  --bg-surface: #0C0C0C;          /* Card surface */
-  --bg-elevated: #141414;         /* Floating tile */
-  --bg-muted: #1A1A1A;            /* Pill / badge */
+.font-inter {
+  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+.font-mono {
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+}
+
+/* Landing Page Typography: Use downloaded Inter font */
+.landing-page,
+.landing-page h1,
+.landing-page h2,
+.landing-page h3,
+.landing-page h4,
+.landing-page h5,
+.landing-page h6,
+.landing-page .heading-intel,
+.landing-page .subheading,
+.landing-page p,
+.landing-page .font-serif,
+.landing-page .font-editorial,
+.landing-page span,
+.landing-page a,
+.landing-page button,
+.landing-page div {
+  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.landing-page [class*="font-mono"],
+.landing-page code,
+.landing-page kbd {
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace !important;
+}
+
+:root, [data-theme='light'] {
+  /* Crisp, Editorial High-End Light Theme */
+  --bg-canvas: #FAFAFA;           /* Pure light canvas */
+  --bg-surface: #FFFFFF;          /* Pure white card surface */
+  --bg-elevated: #F4F4F5;         /* Elevated badge / secondary surface */
+  --bg-muted: #F4F4F5;            /* Subtle muted pill */
   
-  --text-primary: #FFFFFF;        /* Pure white */
-  --text-secondary: #A3A3A3;      /* Mid-tone gray */
-  --text-muted: #666666;          /* Deep gray */
+  --text-primary: #09090B;        /* Deep zinc-950 headline & body */
+  --text-secondary: #52525B;      /* Refined zinc-600 subtext */
+  --text-muted: #71717A;          /* Zinc-500 muted text */
+
+  --border-subtle: #E4E4E7;       /* Delicate zinc-200 border */
+  --border-medium: #D4D4D8;       /* Defined zinc-300 border */
+  --border-strong: #A1A1AA;       /* Focused zinc-400 border */
+  --border-focus: #09090B;
+
+  --accent-white: #09090B;
+  --accent-brown: #18181B;
+  --accent-brown-light: rgba(9, 9, 11, 0.04);
+  --accent-glow: rgba(9, 9, 11, 0.05);
+
+  /* Tactile 2px Box Shadows & Elevation for Light Mode */
+  --shadow-2px: 2px 2px 0px #09090B;
+  --shadow-2px-dark: 2px 2px 0px rgba(0, 0, 0, 0.12);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 12px 32px -4px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+  --shadow-glow: 0 0 40px rgba(0, 0, 0, 0.05);
+  --shadow-inset-top: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 8px 24px -4px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme='dark'] {
+  --bg-canvas: #050505;
+  --bg-surface: #0C0C0C;
+  --bg-elevated: #141414;
+  --bg-muted: #1A1A1A;
+  
+  --text-primary: #FFFFFF;
+  --text-secondary: #A3A3A3;
+  --text-muted: #666666;
 
   --border-subtle: #1F1F1F;
   --border-medium: #2E2E2E;
@@ -22,11 +90,10 @@
   --border-focus: #FFFFFF;
 
   --accent-white: #FFFFFF;
-  --accent-brown: #FFFFFF;        /* Strict monochrome mapping */
+  --accent-brown: #FFFFFF;
   --accent-brown-light: rgba(255, 255, 255, 0.08);
   --accent-glow: rgba(255, 255, 255, 0.12);
 
-  /* Tactile 2px Box Shadows */
   --shadow-2px: 2px 2px 0px rgba(255, 255, 255, 0.25);
   --shadow-2px-dark: 2px 2px 0px #000000;
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.8);
@@ -260,3 +327,146 @@ body {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
+
+/* Premium Light / SaaS Buttons */
+.btn-invert-xl {
+  background: radial-gradient(circle 140px at 50% 50%, #000000 0%, #009669 50% );
+  color: #FFFFFF !important;
+  border-radius: 0.75rem;
+  border: 1px solid #09090B;
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.btn-invert-xl:hover {
+  background-color: #27272A;
+  border-color: #27272A;
+  transform: translateY(-1px);
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.35);
+}
+
+.btn-invert-xl:active {
+  transform: translateY(0.5px);
+  box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
+}
+
+.btn-dark-xl {
+  background-color: #FFFFFF;
+  color: #18181B !important;
+  border-radius: 0.75rem;
+  border: 1px solid #E4E4E7;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.btn-dark-xl:hover {
+  background-color: #F4F4F5;
+  border-color: #D4D4D8;
+  color: #09090B !important;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+}
+
+.btn-dark-xl:active {
+  transform: translateY(0.5px);
+}
+
+/* Gutter Architectural Patterns */
+.carbon-gutter {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+.carbon-strip-line {
+  background-color: #E4E4E7;
+}
+
+.halftone-footer {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+.footer-watermark {
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  color: #E4E4E7;
+  line-height: 0.85;
+}
+
+/* SVG Pulse Animation */
+@keyframes svgPulse {
+  0% { transform: scale(0.9); opacity: 0.85; }
+  50% { transform: scale(1.15); opacity: 0.3; }
+  100% { transform: scale(0.9); opacity: 0.85; }
+}
+
+.svg-animated-pulse {
+  animation: svgPulse 2s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* Dark Gradient Animation for Auth / Split-Screen */
+@keyframes darkGradientFloat1 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(40px, -50px) scale(1.18);
+    opacity: 0.95;
+  }
+}
+
+@keyframes darkGradientFloat2 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate(-45px, 35px) scale(1.22);
+    opacity: 0.85;
+  }
+}
+
+@keyframes darkGradientFloat3 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(0.9);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(30px, 45px) scale(1.12);
+    opacity: 0.78;
+  }
+}
+
+@keyframes darkGradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-dark-gradient-shift {
+  background-size: 200% 200%;
+  animation: darkGradientShift 14s ease infinite;
+}
+
+.animate-dark-orb-1 {
+  animation: darkGradientFloat1 12s ease-in-out infinite;
+}
+
+.animate-dark-orb-2 {
+  animation: darkGradientFloat2 16s ease-in-out infinite;
+}
+
+.animate-dark-orb-3 {
+  animation: darkGradientFloat3 20s ease-in-out infinite;
+}
+
