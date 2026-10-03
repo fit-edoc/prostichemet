@@ -33,18 +33,18 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       lg: "text-base px-6 py-3.5 rounded-xl gap-2.5 font-semibold",
     }[size];
 
-    // Tactile 2px shadow and pure black & white variants
+    // Tactile shadow and high-contrast light & dark variants
     const variantClasses = {
       primary:
-        "bg-white text-black border border-white hover:bg-zinc-200 shadow-[2px_2px_0px_rgba(255,255,255,0.3)] active:translate-x-[1px] active:translate-y-[1px]",
+        "bg-zinc-950 text-white border border-zinc-950 hover:bg-zinc-800 shadow-sm active:translate-x-[1px] active:translate-y-[1px] dark:bg-white dark:text-black dark:border-white dark:hover:bg-zinc-200",
       secondary:
-        "bg-[#111111] text-white border border-[#2B2B2B] hover:bg-[#1A1A1A] hover:border-[#444444] shadow-[2px_2px_0px_rgba(255,255,255,0.15)] active:translate-x-[1px] active:translate-y-[1px]",
+        "bg-white text-zinc-900 border border-zinc-200 hover:bg-zinc-50 hover:border-zinc-300 shadow-sm active:translate-x-[1px] active:translate-y-[1px] dark:bg-[#111111] dark:text-white dark:border-[#2B2B2B] dark:hover:bg-[#1A1A1A]",
       brown:
-        "bg-white text-black border border-white hover:bg-zinc-200 shadow-[2px_2px_0px_rgba(255,255,255,0.3)] active:translate-x-[1px] active:translate-y-[1px]",
+        "bg-zinc-950 text-white border border-zinc-950 hover:bg-zinc-800 shadow-sm active:translate-x-[1px] active:translate-y-[1px] dark:bg-white dark:text-black dark:border-white",
       outline:
-        "bg-transparent text-white border border-[#2E2E2E] hover:bg-[#141414] hover:border-zinc-400 shadow-[2px_2px_0px_rgba(255,255,255,0.15)] active:translate-x-[1px] active:translate-y-[1px]",
+        "bg-white text-zinc-800 border border-zinc-200 hover:bg-zinc-50 hover:border-zinc-300 shadow-sm active:translate-x-[1px] active:translate-y-[1px] dark:bg-transparent dark:text-white dark:border-[#2E2E2E] dark:hover:bg-[#141414]",
       ghost:
-        "bg-transparent text-zinc-400 hover:text-white hover:bg-[#141414] active:translate-x-[1px] active:translate-y-[1px]",
+        "bg-transparent text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100 active:translate-x-[1px] active:translate-y-[1px] dark:text-zinc-400 dark:hover:text-white dark:hover:bg-[#141414]",
     }[variant];
 
     return (
