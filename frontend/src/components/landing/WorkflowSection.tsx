@@ -39,16 +39,16 @@ export function WorkflowSection() {
   ];
 
   return (
-    <section id="workflow" className="w-full py-24 bg-[#050505] border-y border-[#1F1F1F]">
+    <section id="workflow" className="w-full py-24 bg-white border-y border-zinc-200">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#121212] border border-[#262626] text-xs font-mono uppercase tracking-wider text-zinc-400 mb-4">
-            <IconRoute className="w-3.5 h-3.5 text-white" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-xs font-mono uppercase tracking-wider text-zinc-700 mb-4 shadow-sm">
+            <IconRoute className="w-3.5 h-3.5 text-zinc-900" />
             <span>End-to-End Orchestration</span>
           </div>
-          <h2 className="font-serif text-3xl sm:text-5xl text-white tracking-tight leading-tight">
+          <h2 className="font-inter font-bold text-3xl sm:text-5xl text-zinc-950 tracking-tight leading-tight">
             From company description to{" "}
-            <span className="font-editorial italic text-zinc-400">verified revenue pipeline.</span>
+            <span className="italic font-normal text-zinc-500">verified revenue pipeline.</span>
           </h2>
         </div>
 
@@ -56,27 +56,27 @@ export function WorkflowSection() {
           {steps.map((step, idx) => (
             <div
               key={idx}
-              className="p-6 rounded-xl bg-[#0C0C0C] border border-[#222222] hover:border-zinc-500 transition-all flex flex-col justify-between group shadow-[2px_2px_0px_rgba(255,255,255,0.15)] hover:-translate-y-1"
+              className="p-6 rounded-2xl bg-zinc-50/70 border border-zinc-200 hover:border-zinc-400 hover:bg-white transition-all flex flex-col justify-between group shadow-sm hover:shadow-md hover:-translate-y-1"
             >
               <div>
                 <div className="flex items-center justify-between mb-6">
-                  <span className="text-2xl font-serif text-white">
+                  <span className="text-2xl font-inter font-bold text-zinc-950">
                     {step.num}
                   </span>
-                  <div className="w-9 h-9 rounded-xl bg-[#141414] border border-[#2A2A2A] text-white flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <div className="w-9 h-9 rounded-xl bg-white border border-zinc-200 text-zinc-900 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
                     <step.icon className="w-4 h-4" />
                   </div>
                 </div>
-                <h3 className="font-serif text-base text-white mb-2">
+                <h3 className="font-inter font-bold text-base text-zinc-950 mb-2">
                   {step.title}
                 </h3>
-                <p className="text-xs text-zinc-400 leading-relaxed">
+                <p className="font-inter text-xs text-zinc-600 leading-relaxed">
                   {step.desc}
                 </p>
               </div>
 
-              <div className="pt-4 mt-6 border-t border-[#1C1C1C] flex items-center gap-2 text-[11px] font-mono text-zinc-400">
-                <IconCheck className="w-3.5 h-3.5 text-white" />
+              <div className="pt-4 mt-6 border-t border-zinc-200 flex items-center gap-2 text-[11px] font-mono text-zinc-500">
+                <IconCheck className="w-3.5 h-3.5 text-zinc-900" />
                 <span>Deterministic step</span>
               </div>
             </div>
