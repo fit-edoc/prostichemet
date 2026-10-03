@@ -34,8 +34,10 @@ export function GlassCard({
     <div
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      className={`rounded-xl p-6 md:p-8 relative border border-[#262626] transition-all duration-200 ${
-        elevated ? "bg-[#111111] shadow-[2px_2px_0px_rgba(255,255,255,0.2)]" : "bg-[#0c0c0c] shadow-[2px_2px_0px_rgba(0,0,0,0.8)]"
+      className={`rounded-2xl p-6 md:p-8 relative border border-zinc-200 dark:border-[#262626] transition-all duration-200 ${
+        elevated
+          ? "bg-white dark:bg-[#111111] shadow-md dark:shadow-[2px_2px_0px_rgba(255,255,255,0.2)]"
+          : "bg-white dark:bg-[#0c0c0c] shadow-sm dark:shadow-[2px_2px_0px_rgba(0,0,0,0.8)]"
       } ${className}`}
       {...props}
     >
