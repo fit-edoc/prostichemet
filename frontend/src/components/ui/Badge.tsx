@@ -21,15 +21,15 @@ export function Badge({
 
   const variantClasses = {
     brown:
-      "bg-[#161616] text-zinc-300 border border-[#2B2B2B] shadow-[1px_1px_0px_rgba(255,255,255,0.15)]",
+      "bg-zinc-100 text-zinc-900 border border-zinc-300 shadow-sm dark:bg-[#161616] dark:text-zinc-300 dark:border-[#2B2B2B]",
     vintage:
-      "bg-[#161616] text-zinc-300 border border-[#2B2B2B] shadow-[1px_1px_0px_rgba(255,255,255,0.15)]",
+      "bg-zinc-100 text-zinc-800 border border-zinc-250 shadow-sm dark:bg-[#161616] dark:text-zinc-300 dark:border-[#2B2B2B]",
     neutral:
-      "bg-[#121212] text-zinc-400 border border-[#242424]",
+      "bg-zinc-100 text-zinc-700 border border-zinc-200 dark:bg-[#121212] dark:text-zinc-400 dark:border-[#242424]",
     success:
-      "bg-white/10 text-white border border-white/20 font-medium",
+      "bg-emerald-50 text-emerald-800 border border-emerald-200 font-medium dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800",
     outline:
-      "bg-transparent text-zinc-400 border border-[#2B2B2B]",
+      "bg-transparent text-zinc-600 border border-zinc-300 dark:text-zinc-400 dark:border-[#2B2B2B]",
   }[variant];
 
   return (
@@ -38,7 +38,7 @@ export function Badge({
       {...props}
     >
       {dot && (
-        <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+        <span className="w-1.5 h-1.5 rounded-full bg-zinc-900 dark:bg-white animate-pulse" />
       )}
       {children}
     </span>
