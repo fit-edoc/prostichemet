@@ -1,12 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
+import { Geist_Mono } from "next/font/google";
+import "@fontsource/intel-one-mono/400.css";
+import "@fontsource/intel-one-mono/500.css";
+import "@fontsource/intel-one-mono/600.css";
+import "@fontsource/intel-one-mono/700.css";
+import "@fontsource/intel-one-mono/400-italic.css";
+import "@fontsource/intel-one-mono/600-italic.css";
 import "./globals.css";
 import { StoreProvider } from "../store/StoreProvider";
 import { SmoothScrollProvider } from "../components/common/SmoothScrollProvider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const inter = localFont({
+  src: "../../public/font/INTERV.ttf",
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -33,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-theme="dark" className="dark" suppressHydrationWarning>
+    <html lang="en" data-theme="light" className="light" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -43,7 +50,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-[#050505] text-white selection:bg-white selection:text-black`}
+        className={`${inter.variable} ${geistMono.variable} antialiased min-h-screen bg-white text-zinc-900 selection:bg-zinc-900 selection:text-white`}
       >
         <StoreProvider>
           <SmoothScrollProvider>
