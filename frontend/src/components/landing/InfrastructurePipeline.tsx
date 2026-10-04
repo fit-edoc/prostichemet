@@ -188,7 +188,7 @@ export function InfrastructurePipeline() {
               }}
               className={`p-5 rounded-md text-left border transition-all cursor-pointer relative overflow-hidden ${
                 isActive
-                  ? "bg-white border-zinc-950 shadow-[2px_2px_0px_#09090B] transform -translate-y-1"
+                  ? "bg-white border-zinc-950 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] transform -translate-y-0.5"
                   : "bg-zinc-50/80 border-zinc-200 hover:border-zinc-300 hover:bg-white text-zinc-600"
               }`}
             >
