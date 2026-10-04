@@ -79,10 +79,10 @@ export function FAQAccordion() {
           return (
             <div
               key={faq.id}
-              className={`rounded-2xl border transition-all duration-300 overflow-hidden relative ${
+              className={`rounded-md border transition-all duration-300 overflow-hidden relative shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] ${
                 isOpen
-                  ? "bg-zinc-50/90 border-zinc-900 shadow-sm"
-                  : "bg-white border-zinc-200 hover:border-zinc-300 shadow-sm"
+                  ? "bg-zinc-50/90 border-zinc-900"
+                  : "bg-white border-zinc-200 hover:border-zinc-300"
               }`}
             >
               {/* Accordion Trigger Button */}
@@ -102,9 +102,9 @@ export function FAQAccordion() {
                 </div>
 
                 <div
-                  className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 shrink-0 ${
+                  className={`w-8 h-8 rounded-md flex items-center justify-center transition-all duration-300 shrink-0 ${
                     isOpen
-                      ? "bg-zinc-950 text-white rotate-180 shadow-sm"
+                      ? "bg-zinc-950 text-white rotate-180 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]"
                       : "bg-zinc-100 text-zinc-600 group-hover:text-black group-hover:bg-zinc-200/70"
                   }`}
                 >
