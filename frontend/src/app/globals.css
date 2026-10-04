@@ -330,11 +330,11 @@ body {
 
 /* Premium Light / SaaS Buttons */
 .btn-invert-xl {
-  background: radial-gradient(circle 140px at 50% 50%, #000000 0%, #009669 50% );
+  background-color: #09090B;
   color: #FFFFFF !important;
-  border-radius: 0.75rem;
+  border-radius: 0.375rem; /* rounded-md */
   border: 1px solid #09090B;
-  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   text-decoration: none;
 }
