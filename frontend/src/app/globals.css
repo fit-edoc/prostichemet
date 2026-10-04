@@ -94,15 +94,15 @@
   --accent-brown-light: rgba(255, 255, 255, 0.08);
   --accent-glow: rgba(255, 255, 255, 0.12);
 
-  --shadow-2px: 2px 2px 0px rgba(255, 255, 255, 0.25);
-  --shadow-2px-dark: 2px 2px 0px #000000;
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.8);
-  --shadow-sm: 0 2px 0px rgba(0, 0, 0, 0.8);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.6);
-  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.8);
-  --shadow-glow: 0 0 40px rgba(255, 255, 255, 0.08);
+  --shadow-2px: 0px 1px 2px 0px rgba(0, 0, 0, 0.35);
+  --shadow-2px-dark: 0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+  --shadow-xs: 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0px 1px 2px 0px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0px 1px 2px 0px rgba(0, 0, 0, 0.35), 0 2px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0px 1px 2px 0px rgba(0, 0, 0, 0.35), 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 30px rgba(255, 255, 255, 0.06);
   --shadow-inset-top: inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.6), 0 12px 28px -4px rgba(0, 0, 0, 0.7);
+  --shadow-card: 0px 1px 2px 0px rgba(0, 0, 0, 0.35);
 }
 
 /* Base Styles */
