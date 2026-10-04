@@ -67,7 +67,7 @@ export function HeroSection() {
 
       {/* Telemetry Preview Card with SVG Fill Animation */}
       <div className="w-full max-w-3xl mx-auto px-4">
-        <div className="rounded-md border border-zinc-200 bg-white p-5 shadow-[0_12px_36px_rgba(0,0,0,0.06),_0_1px_3px_rgba(0,0,0,0.04)] text-left">
+        <div className="rounded-md border border-zinc-200 bg-white p-5 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] text-left">
           {/* Card Topbar */}
           <div className="flex items-center justify-between pb-4 border-b border-zinc-100">
             <div className="flex items-center gap-2.5">
