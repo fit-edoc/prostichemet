@@ -145,7 +145,7 @@ export function FeatureGrid() {
           </div>
 
           {/* Interactive Snippet Box with Copy Microinteraction */}
-          <div className="p-4 rounded-xl bg-zinc-50 border border-zinc-200/80 relative">
+          <div className="p-4 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)] relative">
             <button
               onClick={handleCopy}
               className="absolute top-3 right-3 p-1.5 rounded-md bg-white hover:bg-zinc-100 text-zinc-600 hover:text-black transition-colors cursor-pointer border border-zinc-200 shadow-sm"
