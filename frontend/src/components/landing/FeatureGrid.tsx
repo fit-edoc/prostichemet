@@ -120,7 +120,7 @@ export function FeatureGrid() {
             </p>
 
             {/* Framework Switcher Tabs */}
-            <div className="flex items-center gap-2 mb-4 p-1 rounded-lg bg-zinc-100 border border-zinc-200">
+            <div className="flex items-center gap-2 mb-4 p-1 rounded-md bg-zinc-100 border border-zinc-200">
               <button
                 onClick={() => setActiveTab("pas")}
                 className={`flex-1 py-1.5 text-xs font-mono rounded-md transition-all cursor-pointer ${
