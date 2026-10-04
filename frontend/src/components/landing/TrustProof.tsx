@@ -58,9 +58,9 @@ export function TrustProof() {
           {/* Metric 1 */}
           <div
             ref={accuracyCounter.ref}
-            className="p-6 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 transition-all shadow-sm hover:shadow-md group"
+            className="p-6 rounded-md bg-white border border-zinc-200 hover:border-zinc-400 transition-all shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] group"
           >
-            <div className="w-8 h-8 rounded-lg bg-zinc-100 border border-zinc-200 flex items-center justify-center mx-auto mb-3 text-zinc-900 group-hover:scale-105 transition-transform">
+            <div className="w-8 h-8 rounded-md bg-zinc-100 border border-zinc-200 flex items-center justify-center mx-auto mb-3 text-zinc-900 group-hover:scale-105 transition-transform shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
               <IconTarget className="w-4 h-4" />
             </div>
             <div className="text-3xl sm:text-4xl font-inter font-bold text-zinc-950 mb-1">
@@ -77,9 +77,9 @@ export function TrustProof() {
           {/* Metric 2 */}
           <div
             ref={liftCounter.ref}
-            className="p-6 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 transition-all shadow-sm hover:shadow-md group"
+            className="p-6 rounded-md bg-white border border-zinc-200 hover:border-zinc-400 transition-all shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] group"
           >
-            <div className="w-8 h-8 rounded-lg bg-zinc-100 border border-zinc-200 flex items-center justify-center mx-auto mb-3 text-zinc-900 group-hover:scale-105 transition-transform">
+            <div className="w-8 h-8 rounded-md bg-zinc-100 border border-zinc-200 flex items-center justify-center mx-auto mb-3 text-zinc-900 group-hover:scale-105 transition-transform shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
               <IconChartBar className="w-4 h-4" />
             </div>
             <div className="text-3xl sm:text-4xl font-inter font-bold text-zinc-950 mb-1">
@@ -96,9 +96,9 @@ export function TrustProof() {
           {/* Metric 3 */}
           <div
             ref={wordCounter.ref}
-            className="p-6 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 transition-all shadow-sm hover:shadow-md group"
+            className="p-6 rounded-md bg-white border border-zinc-200 hover:border-zinc-400 transition-all shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] group"
           >
-            <div className="w-8 h-8 rounded-lg bg-zinc-100 border border-zinc-200 flex items-center justify-center mx-auto mb-3 text-zinc-900 group-hover:scale-105 transition-transform">
+            <div className="w-8 h-8 rounded-md bg-zinc-100 border border-zinc-200 flex items-center justify-center mx-auto mb-3 text-zinc-900 group-hover:scale-105 transition-transform shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
               <IconClockHour4 className="w-4 h-4" />
             </div>
             <div className="text-3xl sm:text-4xl font-inter font-bold text-zinc-950 mb-1">
@@ -115,9 +115,9 @@ export function TrustProof() {
           {/* Metric 4 */}
           <div
             ref={zeroCounter.ref}
-            className="p-6 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 transition-all shadow-sm hover:shadow-md group"
+            className="p-6 rounded-md bg-white border border-zinc-200 hover:border-zinc-400 transition-all shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] group"
           >
-            <div className="w-8 h-8 rounded-lg bg-zinc-100 border border-zinc-200 flex items-center justify-center mx-auto mb-3 text-zinc-900 group-hover:scale-105 transition-transform">
+            <div className="w-8 h-8 rounded-md bg-zinc-100 border border-zinc-200 flex items-center justify-center mx-auto mb-3 text-zinc-900 group-hover:scale-105 transition-transform shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
               <IconShieldLock className="w-4 h-4" />
             </div>
             <div className="text-3xl sm:text-4xl font-inter font-bold text-zinc-950 mb-1">
