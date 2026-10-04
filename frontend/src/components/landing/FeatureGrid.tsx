@@ -66,7 +66,7 @@ export function FeatureGrid() {
           </div>
 
           {/* Interactive Radar Telemetry Widget with SVG Fill Animation */}
-          <div className="p-4 rounded-xl bg-zinc-50 border border-zinc-200/80 relative overflow-hidden">
+          <div className="p-4 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)] relative overflow-hidden">
             <div className="flex items-center justify-between pb-3 border-b border-zinc-200 text-xs font-mono text-zinc-600">
               <span className="flex items-center gap-2">
                 <svg className="w-3.5 h-3.5" viewBox="0 0 24 24">
