@@ -46,13 +46,13 @@ export function FeatureGrid() {
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
 
         {/* Module 1: Autonomous Signal Radar (7 cols) */}
-        <div className="md:col-span-7 rounded-md bg-white border border-zinc-200 p-6 md:p-8 shadow-sm hover:shadow-md hover:border-zinc-300 transition-all flex flex-col justify-between group">
+        <div className="md:col-span-7 rounded-md bg-white border border-zinc-200 p-6 md:p-8 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] hover:border-zinc-300 transition-all flex flex-col justify-between group">
           <div>
             <div className="flex items-center justify-between mb-6">
-              <div className="w-10 h-10 rounded-md bg-zinc-950 text-white flex items-center justify-center font-bold shadow-sm">
+              <div className="w-10 h-10 rounded-md bg-zinc-950 text-white flex items-center justify-center font-bold shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]">
                 <IconRadar2 className="w-5 h-5" />
               </div>
-              <span className="text-[11px] font-mono uppercase tracking-widest text-zinc-600 bg-zinc-100 px-3 py-1 rounded-full border border-zinc-200">
+              <span className="text-[11px] font-mono uppercase tracking-widest text-zinc-600 bg-zinc-100 px-3 py-1 rounded-md border border-zinc-200">
                 MODULE // 01
               </span>
             </div>
@@ -79,7 +79,7 @@ export function FeatureGrid() {
             </div>
 
             <div className="space-y-2 pt-3 font-mono text-xs">
-              <div className="flex items-center justify-between p-2.5 rounded-lg bg-white border border-zinc-200/80 shadow-sm">
+              <div className="flex items-center justify-between p-2.5 rounded-md bg-white border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
                 <div className="flex items-center gap-2 truncate">
                   <span className="w-1.5 h-1.5 rounded-full bg-zinc-950" />
                   <span className="text-zinc-950 font-semibold">Supabase</span>
@@ -88,7 +88,7 @@ export function FeatureGrid() {
                 <span className="text-[10px] text-zinc-500 shrink-0">12m ago</span>
               </div>
 
-              <div className="flex items-center justify-between p-2.5 rounded-lg bg-white border border-zinc-200/80 shadow-sm">
+              <div className="flex items-center justify-between p-2.5 rounded-md bg-white border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
                 <div className="flex items-center gap-2 truncate">
                   <span className="w-1.5 h-1.5 rounded-full bg-zinc-950" />
                   <span className="text-zinc-950 font-semibold">Retool</span>
@@ -101,13 +101,13 @@ export function FeatureGrid() {
         </div>
 
         {/* Module 2: PAS Copywriting Studio (5 cols) */}
-        <div className="md:col-span-5 rounded-md bg-white border border-zinc-200 p-6 md:p-8 shadow-sm hover:shadow-md hover:border-zinc-300 transition-all flex flex-col justify-between group">
+        <div className="md:col-span-5 rounded-md bg-white border border-zinc-200 p-6 md:p-8 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] hover:border-zinc-300 transition-all flex flex-col justify-between group">
           <div>
             <div className="flex items-center justify-between mb-6">
-              <div className="w-10 h-10 rounded-xl bg-zinc-950 text-white flex items-center justify-center font-bold shadow-sm">
+              <div className="w-10 h-10 rounded-md bg-zinc-950 text-white flex items-center justify-center font-bold shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]">
                 <IconMailCheck className="w-5 h-5" />
               </div>
-              <span className="text-[11px] font-mono uppercase tracking-widest text-zinc-600 bg-zinc-100 px-3 py-1 rounded-full border border-zinc-200">
+              <span className="text-[11px] font-mono uppercase tracking-widest text-zinc-600 bg-zinc-100 px-3 py-1 rounded-md border border-zinc-200">
                 MODULE // 02
               </span>
             </div>
@@ -125,7 +125,7 @@ export function FeatureGrid() {
                 onClick={() => setActiveTab("pas")}
                 className={`flex-1 py-1.5 text-xs font-mono rounded-md transition-all cursor-pointer ${
                   activeTab === "pas"
-                    ? "bg-white text-zinc-950 font-semibold shadow-sm border border-zinc-200/80"
+                    ? "bg-white text-zinc-950 font-semibold shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] border border-zinc-200/80"
                     : "text-zinc-600 hover:text-zinc-950"
                 }`}
               >
@@ -135,7 +135,7 @@ export function FeatureGrid() {
                 onClick={() => setActiveTab("observation")}
                 className={`flex-1 py-1.5 text-xs font-mono rounded-md transition-all cursor-pointer ${
                   activeTab === "observation"
-                    ? "bg-white text-zinc-950 font-semibold shadow-sm border border-zinc-200/80"
+                    ? "bg-white text-zinc-950 font-semibold shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] border border-zinc-200/80"
                     : "text-zinc-600 hover:text-zinc-950"
                 }`}
               >
@@ -148,7 +148,7 @@ export function FeatureGrid() {
           <div className="p-4 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)] relative">
             <button
               onClick={handleCopy}
-              className="absolute top-3 right-3 p-1.5 rounded-md bg-white hover:bg-zinc-100 text-zinc-600 hover:text-black transition-colors cursor-pointer border border-zinc-200 shadow-sm"
+              className="absolute top-3 right-3 p-1.5 rounded-md bg-white hover:bg-zinc-100 text-zinc-600 hover:text-black transition-colors cursor-pointer border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]"
               title="Copy snippet"
             >
               {copied ? <IconCheck className="w-3.5 h-3.5 text-zinc-900" /> : <IconCopy className="w-3.5 h-3.5 text-zinc-700" />}
@@ -166,13 +166,13 @@ export function FeatureGrid() {
         </div>
 
         {/* Module 3: Vector Grounding & Anti-Hallucination (5 cols) */}
-        <div className="md:col-span-5 rounded-md bg-white border border-zinc-200 p-6 md:p-8 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] hover:shadow-md hover:border-zinc-300 transition-all flex flex-col justify-between group">
+        <div className="md:col-span-5 rounded-md bg-white border border-zinc-200 p-6 md:p-8 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] hover:border-zinc-300 transition-all flex flex-col justify-between group">
           <div>
             <div className="flex items-center justify-between mb-6">
-              <div className="w-10 h-10 rounded-xl bg-zinc-950 text-white flex items-center justify-center font-bold shadow-sm">
+              <div className="w-10 h-10 rounded-md bg-zinc-950 text-white flex items-center justify-center font-bold shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]">
                 <IconShieldCheck className="w-5 h-5" />
               </div>
-              <span className="text-[11px] font-mono uppercase tracking-widest text-zinc-600 bg-zinc-100 px-3 py-1 rounded-full border border-zinc-200">
+              <span className="text-[11px] font-mono uppercase tracking-widest text-zinc-600 bg-zinc-100 px-3 py-1 rounded-md border border-zinc-200">
                 MODULE // 03
               </span>
             </div>
@@ -185,7 +185,7 @@ export function FeatureGrid() {
             </p>
           </div>
 
-          <div className="p-4 rounded-xl bg-zinc-50 border border-zinc-200/80 space-y-2.5 font-mono text-xs">
+          <div className="p-4 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)] space-y-2.5 font-mono text-xs">
             <div className="flex justify-between items-center text-zinc-600">
               <span>Grounding Confidence:</span>
               <span className="text-zinc-950 font-bold">99.98%</span>
@@ -201,13 +201,13 @@ export function FeatureGrid() {
         </div>
 
         {/* Module 4: Multi-Channel ICP Extraction (7 cols) */}
-        <div className="md:col-span-7 rounded-md bg-white border border-zinc-200 p-6 md:p-8 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] hover:shadow-md hover:border-zinc-300 transition-all flex flex-col justify-between group">
+        <div className="md:col-span-7 rounded-md bg-white border border-zinc-200 p-6 md:p-8 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] hover:border-zinc-300 transition-all flex flex-col justify-between group">
           <div>
             <div className="flex items-center justify-between mb-6">
-              <div className="w-10 h-10 rounded-xl bg-zinc-950 text-white flex items-center justify-center font-bold shadow-sm">
+              <div className="w-10 h-10 rounded-md bg-zinc-950 text-white flex items-center justify-center font-bold shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]">
                 <IconLayersLinked className="w-5 h-5" />
               </div>
-              <span className="text-[11px] font-mono uppercase tracking-widest text-zinc-600 bg-zinc-100 px-3 py-1 rounded-full border border-zinc-200">
+              <span className="text-[11px] font-mono uppercase tracking-widest text-zinc-600 bg-zinc-100 px-3 py-1 rounded-md border border-zinc-200">
                 MODULE // 04
               </span>
             </div>
@@ -222,22 +222,22 @@ export function FeatureGrid() {
 
           {/* Interactive Tag Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
-            <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200/80 text-center">
+            <div className="p-3 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)] text-center">
               <div className="text-[10px] font-mono text-zinc-500 uppercase">TIER 1 FIT</div>
               <div className="text-xs font-semibold text-zinc-950 mt-1">Series B SaaS</div>
             </div>
 
-            <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200/80 text-center">
+            <div className="p-3 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)] text-center">
               <div className="text-[10px] font-mono text-zinc-500 uppercase">HEADCOUNT</div>
               <div className="text-xs font-semibold text-zinc-950 mt-1">50 - 250 Staff</div>
             </div>
 
-            <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200/80 text-center">
+            <div className="p-3 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)] text-center">
               <div className="text-[10px] font-mono text-zinc-500 uppercase">LOCATION</div>
               <div className="text-xs font-semibold text-zinc-950 mt-1">US & EU Remote</div>
             </div>
 
-            <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200/80 text-center">
+            <div className="p-3 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)] text-center">
               <div className="text-[10px] font-mono text-zinc-500 uppercase">SYNC SPEED</div>
               <div className="text-xs font-semibold text-zinc-950 mt-1">&lt; 1.2s Realtime</div>
             </div>
