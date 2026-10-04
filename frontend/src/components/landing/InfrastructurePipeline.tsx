@@ -186,7 +186,7 @@ export function InfrastructurePipeline() {
                 setActiveStepIndex(idx);
                 setIsPlaying(false);
               }}
-              className={`p-5 rounded-xl text-left border transition-all cursor-pointer relative overflow-hidden ${
+              className={`p-5 rounded-md text-left border transition-all cursor-pointer relative overflow-hidden ${
                 isActive
                   ? "bg-white border-zinc-950 shadow-[2px_2px_0px_#09090B] transform -translate-y-1"
                   : "bg-zinc-50/80 border-zinc-200 hover:border-zinc-300 hover:bg-white text-zinc-600"
