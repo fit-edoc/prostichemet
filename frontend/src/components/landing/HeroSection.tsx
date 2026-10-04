@@ -93,7 +93,7 @@ export function HeroSection() {
 
           {/* Card Inner Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
-            <div className="p-3.5 rounded-xl bg-zinc-50 border border-zinc-200/80">
+            <div className="p-3.5 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
               <div className="flex items-center justify-between text-xs text-zinc-500 mb-1">
                 <span className="font-mono">ICP FIT SCORE</span>
                 <IconCheck className="w-3.5 h-3.5 text-zinc-900" />
@@ -102,7 +102,7 @@ export function HeroSection() {
               <div className="text-[11px] text-zinc-500 mt-1">Series B SaaS · Headcount +45%</div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-zinc-50 border border-zinc-200/80">
+            <div className="p-3.5 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
               <div className="flex items-center justify-between text-xs text-zinc-500 mb-1">
                 <span className="font-mono">DETECTED SIGNAL</span>
                 <IconRadar2 className="w-3.5 h-3.5 text-zinc-900" />
@@ -111,7 +111,7 @@ export function HeroSection() {
               <div className="text-[11px] text-zinc-500 mt-1">Found 4 hours ago via LinkedIn</div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-zinc-50 border border-zinc-200/80">
+            <div className="p-3.5 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
               <div className="flex items-center justify-between text-xs text-zinc-500 mb-1">
                 <span className="font-mono">DECISION MAKER</span>
                 <IconLayersLinked className="w-3.5 h-3.5 text-zinc-900" />
