@@ -61,13 +61,13 @@ export function Navbar() {
       <div
         className={`w-full transition-all duration-300 flex items-center justify-between ${
           isScrolled
-            ? "max-w-4xl py-2.5 px-5 rounded-xl bg-white/30 backdrop-blur-md border border-zinc-200 shadow-[0_8px_24px_rgba(0,0,0,0.06)]"
+            ? "max-w-4xl py-2.5 px-5 rounded-md bg-white/90 backdrop-blur-md border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]"
             : "max-w-6xl py-5 px-10 bg-white/70 backdrop-blur-sm border-b border-zinc-200/80"
         }`}
       >
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-8 h-8 rounded-lg bg-black text-white flex items-center justify-center font-bold text-sm shadow-[1px_1px_0px_rgba(0,0,0,0.2)] group-hover:scale-105 transition-transform">
+          <div className="w-8 h-8 rounded-md bg-black text-white flex items-center justify-center font-bold text-sm shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] group-hover:scale-105 transition-transform">
             <IconRadar2 className="w-4 h-4" />
           </div>
           
@@ -108,7 +108,7 @@ export function Navbar() {
             <div className="flex items-center gap-2.5">
               <button
                 onClick={() => router.push("/dashboard")}
-                className="btn-dark-xl px-4 py-2 flex items-center gap-1.5 text-xs font-medium cursor-pointer"
+                className="btn-dark-xl px-4 py-2 flex items-center gap-1.5 text-xs font-medium cursor-pointer shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]"
               >
                 <IconLayoutDashboard className="w-3.5 h-3.5 text-zinc-900" />
                 <span>Dashboard</span>
@@ -125,10 +125,10 @@ export function Navbar() {
               </button>
               <button
                 onClick={() => router.push("/login")}
-                className="btn-invert-xl px-4 py-2 flex items-center gap-1 text-xs font-semibold cursor-pointer group"
+                className="btn-invert-xl px-4 py-2 flex items-center gap-1 text-xs font-semibold cursor-pointer group shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]"
               >
                 <span>Get Started</span>
-                <IconArrowRight className="w-3.5 h-3.5  transition-transform group-hover:translate-x-0.5" />
+                <IconArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
               </button>
             </div>
           )}
@@ -137,7 +137,7 @@ export function Navbar() {
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle Menu"
-            className="md:hidden w-8 h-8 rounded-lg border border-zinc-200 bg-white flex items-center justify-center text-zinc-700 hover:text-black hover:bg-zinc-50 transition-all cursor-pointer shadow-sm"
+            className="md:hidden w-8 h-8 rounded-md border border-zinc-200 bg-white flex items-center justify-center text-zinc-700 hover:text-black hover:bg-zinc-50 transition-all cursor-pointer shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]"
           >
             {mobileMenuOpen ? <IconX className="w-4 h-4" /> : <IconMenu2 className="w-4 h-4" />}
           </button>
@@ -146,7 +146,7 @@ export function Navbar() {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-4 right-4 mt-2 p-5 rounded-xl bg-white border border-zinc-200 shadow-xl flex flex-col gap-4 text-xs font-mono">
+        <div className="md:hidden absolute top-full left-4 right-4 mt-2 p-5 rounded-md bg-white border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] flex flex-col gap-4 text-xs font-mono">
           <a
             href="#pipeline-preview"
             onClick={() => setMobileMenuOpen(false)}

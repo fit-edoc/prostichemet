@@ -74,15 +74,15 @@ export function UserProfileDropdown() {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2.5 p-1.5 pr-3 rounded-xl bg-white dark:bg-[#0E0E0E] border border-zinc-200 dark:border-[#262626] hover:border-zinc-400 shadow-sm active:translate-x-[1px] active:translate-y-[1px] transition-all cursor-pointer select-none"
+        className="flex items-center gap-2.5 p-1.5 pr-3 rounded-md bg-white dark:bg-[#0E0E0E] border border-zinc-200 dark:border-[#262626] hover:border-zinc-400 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] active:translate-x-[1px] active:translate-y-[1px] transition-all cursor-pointer select-none"
         aria-expanded={isOpen}
       >
-        <div className="w-7 h-7 rounded-lg bg-zinc-950 text-white dark:bg-white dark:text-black flex items-center justify-center font-bold text-xs shadow-inner">
+        <div className="w-7 h-7 rounded-md bg-zinc-950 text-white dark:bg-white dark:text-black flex items-center justify-center font-bold text-xs shadow-inner">
           {user?.avatarUrl ? (
             <img
               src={user.avatarUrl}
               alt={user.name || user.email || "User"}
-              className="w-full h-full rounded-lg object-cover"
+              className="w-full h-full rounded-md object-cover"
             />
           ) : (
             <span>{initials}</span>
@@ -105,7 +105,7 @@ export function UserProfileDropdown() {
 
       {/* Floating Menu Modal / Popover */}
       {isOpen && (
-        <div className="absolute right-0 mt-2.5 w-64 rounded-xl bg-white dark:bg-[#0A0A0A] border border-zinc-200 dark:border-[#282828] shadow-xl py-2 z-50 animate-in fade-in zoom-in-95 duration-150">
+        <div className="absolute right-0 mt-2.5 w-64 rounded-md bg-white dark:bg-[#0A0A0A] border border-zinc-200 dark:border-[#282828] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] py-2 z-50 animate-in fade-in zoom-in-95 duration-150">
           {/* User Info Header */}
           <div className="px-4 py-3 border-b border-zinc-100 dark:border-[#1C1C1C]">
             <p className="text-xs font-inter font-bold text-zinc-950 dark:text-white truncate">
@@ -114,7 +114,7 @@ export function UserProfileDropdown() {
             <p className="text-[11px] font-mono text-zinc-500 dark:text-zinc-400 truncate mt-0.5">
               {user?.email || "Session Active"}
             </p>
-            <div className="mt-2.5 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-zinc-100 dark:bg-[#141414] border border-zinc-200 dark:border-[#2B2B2B] text-[10px] font-mono text-zinc-700 dark:text-zinc-300">
+            <div className="mt-2.5 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-zinc-100 dark:bg-[#141414] border border-zinc-200 dark:border-[#2B2B2B] text-[10px] font-mono text-zinc-700 dark:text-zinc-300">
               <span className="w-1.5 h-1.5 rounded-full bg-zinc-950 dark:bg-white animate-pulse" />
               <span>{workspace?.name || "Postrichment Core"}</span>
             </div>

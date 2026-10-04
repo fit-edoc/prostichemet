@@ -21,7 +21,7 @@ export function BottomCTA() {
 
       <div className="max-w-4xl mx-auto px-6 space-y-7 relative z-10">
         {/* Telemetry pill */}
-        <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-zinc-100 border border-zinc-200 text-xs font-mono text-zinc-700 shadow-sm">
+        <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-md bg-zinc-100 border border-zinc-200 text-xs font-mono text-zinc-700 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-900 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-900"></span>
@@ -41,11 +41,11 @@ export function BottomCTA() {
           Stop burning SDR hours on stale scraped databases. Deploy our multi-agent research nodes to discover verified buying signals and push grounded outreach directly to your CRM.
         </p>
 
-        {/* Action Buttons: rounded-xl, tactile box shadow */}
+        {/* Action Buttons: rounded-md, tactile box shadow */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-3">
           <button
             onClick={() => router.push("/login")}
-            className="btn-invert-xl px-8 py-4 flex items-center justify-center gap-2 text-sm font-semibold cursor-pointer group w-full sm:w-auto"
+            className="btn-invert-xl px-8 py-4 flex items-center justify-center gap-2 text-sm font-semibold cursor-pointer group w-full sm:w-auto shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]"
           >
             <span>Start Free Research</span>
             <IconArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -53,7 +53,7 @@ export function BottomCTA() {
 
           <button
             onClick={() => router.push("/login")}
-            className="btn-dark-xl px-8 py-4 flex items-center justify-center gap-2 text-sm font-medium cursor-pointer w-full sm:w-auto"
+            className="btn-dark-xl px-8 py-4 flex items-center justify-center gap-2 text-sm font-medium cursor-pointer w-full sm:w-auto shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]"
           >
             <IconRadar2 className="w-4 h-4 text-zinc-700" />
             <span>Sign In with Email</span>
