@@ -222,7 +222,7 @@ export function InfrastructurePipeline() {
       </div>
 
       {/* Main Animated Pipeline Display with Step-by-Step Blur-to-No-Blur Cards */}
-      <div className="relative rounded-2xl bg-zinc-50/50 border border-zinc-200 p-6 sm:p-10 shadow-[0_12px_36px_rgba(0,0,0,0.06)] overflow-hidden">
+      <div className="relative rounded-md bg-zinc-50/50 border border-zinc-200 p-6 sm:p-10 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]_rgba(0,0,0,0.06)] overflow-hidden">
         {/* Subtle Background Pattern */}
         <div className="absolute inset-0 halftone-footer opacity-20 pointer-events-none" />
 
