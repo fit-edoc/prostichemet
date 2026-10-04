@@ -45,7 +45,7 @@ export function TestimonialWall() {
         {testimonials.map((t, idx) => (
           <div
             key={idx}
-            className="p-7 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 transition-all flex flex-col justify-between shadow-sm hover:shadow-md group"
+            className="p-7 rounded-md bg-white border border-zinc-200 hover:border-zinc-300 transition-all flex flex-col justify-between shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] group"
           >
             <div>
               <div className="flex items-center gap-1 text-amber-500 mb-5">
@@ -63,7 +63,7 @@ export function TestimonialWall() {
                 <p className="text-xs font-inter font-bold text-zinc-950">{t.author}</p>
                 <p className="text-[11px] font-mono text-zinc-500">{t.role}</p>
               </div>
-              <span className="text-[10px] font-mono px-2.5 py-1 rounded-full bg-zinc-950 text-white font-semibold shadow-sm">
+              <span className="text-[10px] font-mono px-2.5 py-1 rounded-md bg-zinc-950 text-white font-semibold shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]">
                 {t.metric}
               </span>
             </div>
