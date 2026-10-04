@@ -186,9 +186,9 @@ export function InfrastructurePipeline() {
                 setActiveStepIndex(idx);
                 setIsPlaying(false);
               }}
-              className={`p-5 rounded-md text-left border transition-all cursor-pointer relative overflow-hidden ${
+              className={`p-5 rounded-md text-left border transition-all cursor-pointer relative overflow-hidden shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] ${
                 isActive
-                  ? "bg-white border-zinc-950 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] transform -translate-y-0.5"
+                  ? "bg-white border-zinc-950 transform -translate-y-0.5"
                   : "bg-zinc-50/80 border-zinc-200 hover:border-zinc-300 hover:bg-white text-zinc-600"
               }`}
             >
@@ -202,7 +202,7 @@ export function InfrastructurePipeline() {
                   STEP {step.stepNum}
                 </span>
                 <div
-                  className={`w-7 h-7 rounded-lg flex items-center justify-center ${
+                  className={`w-7 h-7 rounded-md flex items-center justify-center ${
                     isActive ? "bg-zinc-950 text-white" : "bg-zinc-200/70 text-zinc-700"
                   }`}
                 >
@@ -222,7 +222,7 @@ export function InfrastructurePipeline() {
       </div>
 
       {/* Main Animated Pipeline Display with Step-by-Step Blur-to-No-Blur Cards */}
-      <div className="relative rounded-md bg-zinc-50/50 border border-zinc-200 p-6 sm:p-10 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]_rgba(0,0,0,0.06)] overflow-hidden">
+      <div className="relative rounded-md bg-zinc-50/50 border border-zinc-200 p-6 sm:p-10 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] overflow-hidden">
         {/* Subtle Background Pattern */}
         <div className="absolute inset-0 halftone-footer opacity-20 pointer-events-none" />
 
@@ -244,7 +244,7 @@ export function InfrastructurePipeline() {
           </div>
 
           {/* Real-time Telemetry Pill */}
-          <div className="p-4 rounded-xl bg-white border border-zinc-200 shadow-sm shrink-0 font-mono text-xs space-y-1">
+          <div className="p-4 rounded-md bg-white border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] shrink-0 font-mono text-xs space-y-1">
             <div className="text-zinc-500 uppercase tracking-wider text-[10px]">
               {activeStep.telemetry.label}
             </div>
@@ -268,11 +268,11 @@ export function InfrastructurePipeline() {
             return (
               <div
                 key={`card-${step.id}`}
-                className={`p-5 rounded-xl border transition-all duration-500 flex flex-col justify-between ${
+                className={`p-5 rounded-md border transition-all duration-500 flex flex-col justify-between ${
                   isCurrent
-                    ? "pipeline-step-active bg-white border-zinc-950 shadow-[2px_2px_0px_rgba(0,0,0,0.15)]"
+                    ? "pipeline-step-active bg-white border-zinc-950 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]"
                     : isCompleted
-                      ? "pipeline-step-active bg-white border-zinc-200 shadow-sm"
+                      ? "pipeline-step-active bg-white border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]"
                       : "pipeline-step-blur bg-zinc-100/50 border-zinc-200 opacity-60"
                 }`}
               >
@@ -286,7 +286,7 @@ export function InfrastructurePipeline() {
                     </div>
 
                     {isCurrent ? (
-                      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-zinc-950 text-white font-mono text-[10px] font-semibold">
+                      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-zinc-950 text-white font-mono text-[10px] font-semibold">
                         <svg className="w-2.5 h-2.5" viewBox="0 0 16 16">
                           <circle cx="8" cy="8" r="6" fill="#ffffff" className="svg-animated-pulse" />
                         </svg>
@@ -309,7 +309,7 @@ export function InfrastructurePipeline() {
                     {step.samplePayload.map((row, rIdx) => (
                       <div
                         key={rIdx}
-                        className="p-2 rounded-lg bg-zinc-50 border border-zinc-200/80 flex flex-col gap-0.5"
+                        className="p-2 rounded-md bg-zinc-50 border border-zinc-200/80 flex flex-col gap-0.5"
                       >
                         <span className="text-[10px] text-zinc-500 uppercase">
                           {row.key}
