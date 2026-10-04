@@ -56,14 +56,14 @@ export function WorkflowSection() {
           {steps.map((step, idx) => (
             <div
               key={idx}
-              className="p-6 rounded-2xl bg-zinc-50/70 border border-zinc-200 hover:border-zinc-400 hover:bg-white transition-all flex flex-col justify-between group shadow-sm hover:shadow-md hover:-translate-y-1"
+              className="p-6 rounded-md bg-zinc-50/70 border border-zinc-200 hover:border-zinc-300 hover:bg-white transition-all flex flex-col justify-between group shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] hover:-translate-y-0.5"
             >
               <div>
                 <div className="flex items-center justify-between mb-6">
                   <span className="text-2xl font-inter font-bold text-zinc-950">
                     {step.num}
                   </span>
-                  <div className="w-9 h-9 rounded-xl bg-white border border-zinc-200 text-zinc-900 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
+                  <div className="w-9 h-9 rounded-md bg-white border border-zinc-200 text-zinc-900 flex items-center justify-center group-hover:scale-105 transition-transform shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
                     <step.icon className="w-4 h-4" />
                   </div>
                 </div>
