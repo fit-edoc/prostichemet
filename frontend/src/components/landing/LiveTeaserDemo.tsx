@@ -9,7 +9,6 @@ import {
   IconCopy,
   IconCheck,
   IconLayersLinked,
-  IconExternalLink,
 } from "@tabler/icons-react";
 
 export function LiveTeaserDemo() {
@@ -25,7 +24,7 @@ export function LiveTeaserDemo() {
     <section id="interactive-demo" className="w-full py-24 max-w-5xl mx-auto px-6">
       {/* Section Header */}
       <div className="text-center mb-10">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-xs font-mono uppercase tracking-wider text-zinc-700 mb-4 shadow-sm">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-md bg-zinc-100 border border-zinc-200 text-xs font-mono uppercase tracking-wider text-zinc-700 mb-4 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
           <IconLayersLinked className="w-3.5 h-3.5 text-zinc-900" />
           <span>Interactive Execution Telemetry</span>
         </div>
@@ -37,8 +36,8 @@ export function LiveTeaserDemo() {
         </p>
       </div>
 
-      {/* Tab Selectors with rounded-xl and tactile shadow */}
-      <div className="flex items-center justify-center gap-2 p-1.5 rounded-xl bg-zinc-100/90 border border-zinc-200 max-w-2xl mx-auto mb-8 shadow-sm">
+      {/* Tab Selectors with rounded-md and tactile shadow */}
+      <div className="flex items-center justify-center gap-2 p-1.5 rounded-md bg-zinc-100/90 border border-zinc-200 max-w-2xl mx-auto mb-8 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]">
         {[
           { id: "profile", label: "1. Business Input", icon: IconCpu },
           { id: "icp", label: "2. RAG ICP", icon: IconTarget },
@@ -48,9 +47,9 @@ export function LiveTeaserDemo() {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id as any)}
-            className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs font-mono transition-all duration-150 cursor-pointer ${
+            className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-md text-xs font-mono transition-all duration-150 cursor-pointer ${
               activeTab === tab.id
-                ? "bg-white text-zinc-950 font-semibold shadow-sm border border-zinc-200/80 transform -translate-y-0.5"
+                ? "bg-white text-zinc-950 font-semibold shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] border border-zinc-200/80 transform -translate-y-0.5"
                 : "text-zinc-600 hover:text-zinc-950"
             }`}
           >
@@ -61,7 +60,7 @@ export function LiveTeaserDemo() {
       </div>
 
       {/* Interactive Mockup Panel with clean light styling */}
-      <div className="rounded-2xl border border-zinc-200 bg-white p-6 sm:p-8 shadow-[0_12px_36px_rgba(0,0,0,0.06)]">
+      <div className="rounded-md border border-zinc-200 bg-white p-6 sm:p-8 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]">
         {/* Terminal Header */}
         <div className="flex items-center justify-between border-b border-zinc-100 pb-4 mb-6">
           <div className="flex items-center gap-2.5">
@@ -73,7 +72,7 @@ export function LiveTeaserDemo() {
             </span>
           </div>
 
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-[11px] font-mono text-zinc-700 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-zinc-100 border border-zinc-200 text-[11px] font-mono text-zinc-700 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
             <svg className="w-3 h-3" viewBox="0 0 16 16">
               <circle cx="8" cy="8" r="6" fill="#09090B" className="svg-animated-pulse" />
               <circle cx="8" cy="8" r="2" fill="#09090B" />
@@ -86,20 +85,20 @@ export function LiveTeaserDemo() {
         {activeTab === "profile" && (
           <div className="space-y-4 font-mono text-xs">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 rounded-xl bg-zinc-50 border border-zinc-200/80">
+              <div className="p-4 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
                 <span className="text-zinc-500 block mb-1">Company:</span>
                 <span className="text-zinc-950 font-inter font-semibold text-base">
                   ScaleAgent AI
                 </span>
               </div>
-              <div className="p-4 rounded-xl bg-zinc-50 border border-zinc-200/80">
+              <div className="p-4 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
                 <span className="text-zinc-500 block mb-1">Target Niche:</span>
                 <span className="text-zinc-950 font-inter font-semibold text-base">
                   B2B AI SDR Automation & Outbound
                 </span>
               </div>
             </div>
-            <div className="p-4 rounded-xl bg-zinc-50 border border-zinc-200/80">
+            <div className="p-4 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
               <span className="text-zinc-500 block mb-1">Value Proposition:</span>
               <p className="text-zinc-700 leading-relaxed font-sans text-xs sm:text-sm">
                 "We replace manual prospecting lists with autonomous AI research agents that discover buying signals and draft hyper-personalized cold emails."
@@ -107,7 +106,7 @@ export function LiveTeaserDemo() {
             </div>
             <div className="flex flex-wrap gap-2 pt-2">
               {["Target ACV: $24k - $60k", "ICP Persona: VP Revenue / Head of Sales", "Target Geo: US & Europe"].map((pill, i) => (
-                <span key={i} className="px-3 py-1 rounded-full bg-white border border-zinc-200 text-zinc-700 text-[11px] shadow-sm">
+                <span key={i} className="px-3 py-1 rounded-md bg-white border border-zinc-200 text-zinc-700 text-[11px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
                   {pill}
                 </span>
               ))}
@@ -118,27 +117,27 @@ export function LiveTeaserDemo() {
         {/* Tab 2: ICP */}
         {activeTab === "icp" && (
           <div className="space-y-4 font-mono text-xs">
-            <div className="p-4 rounded-xl bg-zinc-50 border border-zinc-200/80 flex items-center justify-between">
+            <div className="p-4 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)] flex items-center justify-between">
               <div>
                 <span className="text-zinc-500 block mb-1">Ideal Customer Profile:</span>
                 <span className="text-zinc-950 font-inter font-bold text-lg">
                   Mid-Market B2B SaaS (50–500 Employees)
                 </span>
               </div>
-              <span className="px-3 py-1 rounded-full bg-zinc-950 text-white font-semibold text-xs shadow-sm">
+              <span className="px-3 py-1 rounded-md bg-zinc-950 text-white font-semibold text-xs shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]">
                 FIT SCORE: 98%
               </span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div className="p-3.5 rounded-xl bg-white border border-zinc-200/80 shadow-sm">
+              <div className="p-3.5 rounded-md bg-white border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
                 <span className="text-zinc-500 block mb-1">Target Titles</span>
                 <span className="text-zinc-800 font-medium">VP Sales, CRO, Head of Outbound</span>
               </div>
-              <div className="p-3.5 rounded-xl bg-white border border-zinc-200/80 shadow-sm">
+              <div className="p-3.5 rounded-md bg-white border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
                 <span className="text-zinc-500 block mb-1">Funding Signal</span>
                 <span className="text-zinc-800 font-medium">Series A or B closed &lt; 90 days</span>
               </div>
-              <div className="p-3.5 rounded-xl bg-white border border-zinc-200/80 shadow-sm">
+              <div className="p-3.5 rounded-md bg-white border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
                 <span className="text-zinc-500 block mb-1">Hiring Trigger</span>
                 <span className="text-zinc-800 font-medium">Active job posts for SDR/BDRs</span>
               </div>
@@ -149,11 +148,11 @@ export function LiveTeaserDemo() {
         {/* Tab 3: Lead */}
         {activeTab === "lead" && (
           <div className="space-y-4 font-mono text-xs">
-            <div className="p-4 rounded-xl bg-zinc-50 border border-zinc-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="p-4 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-zinc-950 font-inter font-bold text-lg">Acme Cloud Solutions</span>
-                  <span className="px-2 py-0.5 rounded-full bg-zinc-950 text-white text-[10px] font-bold">
+                  <span className="px-2 py-0.5 rounded-md bg-zinc-950 text-white text-[10px] font-bold">
                     VERIFIED MATCH
                   </span>
                 </div>
@@ -165,7 +164,7 @@ export function LiveTeaserDemo() {
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-white border border-zinc-200/80 space-y-2 shadow-sm">
+            <div className="p-4 rounded-md bg-white border border-zinc-200 space-y-2 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
               <span className="text-zinc-500 block font-semibold text-[11px]">EVIDENCE & BUYING SIGNALS EXTRACTED:</span>
               <div className="space-y-1.5 text-zinc-800">
                 <div className="flex items-start gap-2">
@@ -179,7 +178,7 @@ export function LiveTeaserDemo() {
               </div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-zinc-50 border border-zinc-200/80 flex items-center justify-between">
+            <div className="p-3.5 rounded-md bg-zinc-50 border border-zinc-200/80 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)] flex items-center justify-between">
               <div>
                 <span className="text-zinc-500 text-[11px] block">DECISION MAKER IDENTIFIED</span>
                 <span className="text-zinc-950 font-semibold">Elena Rostova — VP of Revenue Operations</span>
@@ -192,10 +191,10 @@ export function LiveTeaserDemo() {
         {/* Tab 4: Email */}
         {activeTab === "email" && (
           <div className="space-y-4 font-mono text-xs">
-            <div className="p-4 rounded-xl bg-zinc-50 border border-zinc-200/80 space-y-3 relative">
+            <div className="p-4 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)] space-y-3 relative">
               <button
                 onClick={handleCopy}
-                className="absolute top-4 right-4 p-2 rounded-lg bg-white hover:bg-zinc-100 text-zinc-700 hover:text-black transition-colors cursor-pointer border border-zinc-200 shadow-sm"
+                className="absolute top-4 right-4 p-2 rounded-md bg-white hover:bg-zinc-100 text-zinc-700 hover:text-black transition-colors cursor-pointer border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]"
                 title="Copy cold email"
               >
                 {copied ? <IconCheck className="w-4 h-4 text-zinc-900" /> : <IconCopy className="w-4 h-4" />}
