@@ -48,7 +48,7 @@ export function HeroSection() {
       <div className="flex flex-col sm:flex-row items-center gap-4 mb-16">
         <button
           onClick={() => router.push("/login")}
-          className="btn-invert-xl px-7 py-3.5 flex items-center justify-center gap-2 text-sm font-semibold cursor-pointer group"
+          className="btn-invert-xl px-7 py-3.5 flex items-center justify-center gap-2 text-sm font-semibold cursor-pointer group shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]"
         >
           <span>Start Free Research</span>
           <IconArrowRight  className="w-4 h-4  bg-white text-black rounded-full transition-transform group-hover:translate-x-1" size={30} />
@@ -58,7 +58,7 @@ export function HeroSection() {
           onClick={() => {
             document.getElementById("pipeline-preview")?.scrollIntoView({ behavior: "smooth" });
           }}
-          className="btn-dark-xl px-7 py-3.5 flex items-center justify-center gap-2 text-sm font-medium cursor-pointer"
+          className="btn-dark-xl px-7 py-3.5 flex items-center justify-center gap-2 text-sm font-medium cursor-pointer shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]"
         >
           <IconSearch className="w-4 h-4 text-zinc-600" />
           <span>Inspect Infrastructure</span>
