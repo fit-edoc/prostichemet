@@ -101,7 +101,7 @@ export function FeatureGrid() {
         </div>
 
         {/* Module 2: PAS Copywriting Studio (5 cols) */}
-        <div className="md:col-span-5 rounded-2xl bg-white border border-zinc-200 p-6 md:p-8 shadow-sm hover:shadow-md hover:border-zinc-300 transition-all flex flex-col justify-between group">
+        <div className="md:col-span-5 rounded-md bg-white border border-zinc-200 p-6 md:p-8 shadow-sm hover:shadow-md hover:border-zinc-300 transition-all flex flex-col justify-between group">
           <div>
             <div className="flex items-center justify-between mb-6">
               <div className="w-10 h-10 rounded-xl bg-zinc-950 text-white flex items-center justify-center font-bold shadow-sm">
