@@ -201,7 +201,7 @@ export function FeatureGrid() {
         </div>
 
         {/* Module 4: Multi-Channel ICP Extraction (7 cols) */}
-        <div className="md:col-span-7 rounded-2xl bg-white border border-zinc-200 p-6 md:p-8 shadow-sm hover:shadow-md hover:border-zinc-300 transition-all flex flex-col justify-between group">
+        <div className="md:col-span-7 rounded-md bg-white border border-zinc-200 p-6 md:p-8 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] hover:shadow-md hover:border-zinc-300 transition-all flex flex-col justify-between group">
           <div>
             <div className="flex items-center justify-between mb-6">
               <div className="w-10 h-10 rounded-xl bg-zinc-950 text-white flex items-center justify-center font-bold shadow-sm">
