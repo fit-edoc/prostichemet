@@ -2,17 +2,17 @@
 
 import * as React from "react";
 import {
-  IconCpu,
-  IconTarget,
-  IconUsers,
-  IconMailFast,
-  IconCopy,
-  IconCheck,
-  IconLayersLinked,
-} from "@tabler/icons-react";
+  Buildings,
+  Target,
+  UserCheck,
+  EnvelopeSimple,
+  Copy,
+  Check,
+  Sparkle,
+} from "@phosphor-icons/react";
 
 export function LiveTeaserDemo() {
-  const [activeTab, setActiveTab] = React.useState<"profile" | "icp" | "lead" | "email">("lead");
+  const [activeTab, setActiveTab] = React.useState<"profile" | "signal" | "contact" | "email">("signal");
   const [copied, setCopied] = React.useState(false);
 
   const handleCopy = () => {
@@ -21,206 +21,188 @@ export function LiveTeaserDemo() {
   };
 
   return (
-    <section id="interactive-demo" className="w-full py-24 max-w-5xl mx-auto px-6">
+    <section id="demo" className="w-full py-16 max-w-4xl mx-auto px-4">
       {/* Section Header */}
-      <div className="text-center mb-10">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-md bg-zinc-100 border border-zinc-200 text-xs font-mono uppercase tracking-wider text-zinc-700 mb-4 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
-          <IconLayersLinked className="w-3.5 h-3.5 text-zinc-900" />
-          <span>Interactive Execution Telemetry</span>
+      <div className="text-center mb-8">
+        <div className="mb-3">
+          <span className="bg-purple-700/10 text-purple-600 rounded-[2px] border-0 py-[2px] px-2 text-[11px] font-normal tracking-tight inline-flex items-center gap-1.5">
+            <Sparkle className="w-3.5 h-3.5" />
+            Interactive Engine Preview
+          </span>
         </div>
-        <h2 className="font-inter font-bold text-3xl sm:text-5xl text-zinc-950 tracking-tight leading-tight">
-          See the AI GTM Engine in action.
+        <h2 className="text-2xl sm:text-4xl text-zinc-950 font-normal tracking-tight leading-tight">
+          How Postrichment works in practice.
         </h2>
-        <p className="font-inter text-xs sm:text-sm text-zinc-600 mt-3">
-          Click through the 4 stages of autonomous B2B research.
+        <p className="text-xs sm:text-sm text-zinc-500 mt-2 font-normal tracking-tight max-w-lg mx-auto">
+          Explore the four stages of autonomous account discovery and trigger-based synthesis.
         </p>
       </div>
 
-      {/* Tab Selectors with rounded-md and tactile shadow */}
-      <div className="flex items-center justify-center gap-2 p-1.5 rounded-md bg-zinc-100/90 border border-zinc-200 max-w-2xl mx-auto mb-8 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]">
+      {/* Tabs with RAW Phosphor Icons */}
+      <div className="flex items-center justify-center gap-1 p-1 rounded-md bg-zinc-100/80 border border-zinc-200/80 max-w-xl mx-auto mb-6">
         {[
-          { id: "profile", label: "1. Business Input", icon: IconCpu },
-          { id: "icp", label: "2. RAG ICP", icon: IconTarget },
-          { id: "lead", label: "3. Discovered Lead", icon: IconUsers },
-          { id: "email", label: "4. Cold Email", icon: IconMailFast },
-        ].map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
-            className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-md text-xs font-mono transition-all duration-150 cursor-pointer ${
-              activeTab === tab.id
-                ? "bg-white text-zinc-950 font-semibold shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] border border-zinc-200/80 transform -translate-y-0.5"
-                : "text-zinc-600 hover:text-zinc-950"
-            }`}
-          >
-            <tab.icon className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">{tab.label}</span>
-          </button>
-        ))}
+          { id: "profile", label: "1. Business Context", icon: Buildings },
+          { id: "signal", label: "2. Live Signal", icon: Target },
+          { id: "contact", label: "3. Decision Maker", icon: UserCheck },
+          { id: "email", label: "4. Grounded Email", icon: EnvelopeSimple },
+        ].map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as any)}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-[3px] text-xs font-normal tracking-tight transition-all cursor-pointer ${
+                isActive
+                  ? "bg-white text-zinc-950 shadow-xs border border-zinc-200/60 font-medium"
+                  : "text-zinc-600 hover:text-zinc-950"
+              }`}
+            >
+              <Icon className="w-3.5 h-3.5 shrink-0" />
+              <span className="truncate">{tab.label}</span>
+            </button>
+          );
+        })}
       </div>
 
-      {/* Interactive Mockup Panel with clean light styling */}
-      <div className="rounded-md border border-zinc-200 bg-white p-6 sm:p-8 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]">
-        {/* Terminal Header */}
-        <div className="flex items-center justify-between border-b border-zinc-100 pb-4 mb-6">
-          <div className="flex items-center gap-2.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-zinc-300" />
-            <span className="w-2.5 h-2.5 rounded-full bg-zinc-200" />
-            <span className="w-2.5 h-2.5 rounded-full bg-zinc-200" />
-            <span className="text-xs font-mono text-zinc-500 ml-2">
-              postrichment-agent // {activeTab}.json
-            </span>
-          </div>
-
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-zinc-100 border border-zinc-200 text-[11px] font-mono text-zinc-700 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
-            <svg className="w-3 h-3" viewBox="0 0 16 16">
-              <circle cx="8" cy="8" r="6" fill="#09090B" className="svg-animated-pulse" />
-              <circle cx="8" cy="8" r="2" fill="#09090B" />
-            </svg>
-            <span>VERIFIED RAG ENGINE</span>
-          </div>
-        </div>
-
-        {/* Tab 1: Profile */}
+      {/* Interactive Display Panel */}
+      <div className="rounded-lg border border-zinc-200/90 bg-white p-5 sm:p-6 shadow-sm">
         {activeTab === "profile" && (
-          <div className="space-y-4 font-mono text-xs">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
-                <span className="text-zinc-500 block mb-1">Company:</span>
-                <span className="text-zinc-950 font-inter font-semibold text-base">
-                  ScaleAgent AI
-                </span>
-              </div>
-              <div className="p-4 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
-                <span className="text-zinc-500 block mb-1">Target Niche:</span>
-                <span className="text-zinc-950 font-inter font-semibold text-base">
-                  B2B AI SDR Automation & Outbound
-                </span>
-              </div>
-            </div>
-            <div className="p-4 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
-              <span className="text-zinc-500 block mb-1">Value Proposition:</span>
-              <p className="text-zinc-700 leading-relaxed font-sans text-xs sm:text-sm">
-                "We replace manual prospecting lists with autonomous AI research agents that discover buying signals and draft hyper-personalized cold emails."
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-2 pt-2">
-              {["Target ACV: $24k - $60k", "ICP Persona: VP Revenue / Head of Sales", "Target Geo: US & Europe"].map((pill, i) => (
-                <span key={i} className="px-3 py-1 rounded-md bg-white border border-zinc-200 text-zinc-700 text-[11px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
-                  {pill}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Tab 2: ICP */}
-        {activeTab === "icp" && (
-          <div className="space-y-4 font-mono text-xs">
-            <div className="p-4 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)] flex items-center justify-between">
-              <div>
-                <span className="text-zinc-500 block mb-1">Ideal Customer Profile:</span>
-                <span className="text-zinc-950 font-inter font-bold text-lg">
-                  Mid-Market B2B SaaS (50–500 Employees)
-                </span>
-              </div>
-              <span className="px-3 py-1 rounded-md bg-zinc-950 text-white font-semibold text-xs shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]">
-                FIT SCORE: 98%
+          <div className="space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-zinc-100 text-xs">
+              <span className="text-zinc-500 font-normal tracking-tight">Input Parameters</span>
+              <span className="bg-blue-700/10 text-blue-600 rounded-[2px] border-0 py-[2px] px-2 text-[11px] font-normal tracking-tight">
+                Context Loaded
               </span>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div className="p-3.5 rounded-md bg-white border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
-                <span className="text-zinc-500 block mb-1">Target Titles</span>
-                <span className="text-zinc-800 font-medium">VP Sales, CRO, Head of Outbound</span>
+            <div className="grid sm:grid-cols-2 gap-3 text-xs">
+              <div className="p-3.5 rounded-md bg-zinc-50 border border-zinc-100 space-y-1">
+                <span className="text-zinc-400 block text-[11px]">Product & Service</span>
+                <span className="text-zinc-900 font-normal tracking-tight block">
+                  AI Sales Engineering & Automated CRM Enrichment
+                </span>
               </div>
-              <div className="p-3.5 rounded-md bg-white border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
-                <span className="text-zinc-500 block mb-1">Funding Signal</span>
-                <span className="text-zinc-800 font-medium">Series A or B closed &lt; 90 days</span>
+              <div className="p-3.5 rounded-md bg-zinc-50 border border-zinc-100 space-y-1">
+                <span className="text-zinc-400 block text-[11px]">Target Audience</span>
+                <span className="text-zinc-900 font-normal tracking-tight block">
+                  B2B SaaS companies (50–500 employees), Series A–C
+                </span>
               </div>
-              <div className="p-3.5 rounded-md bg-white border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
-                <span className="text-zinc-500 block mb-1">Hiring Trigger</span>
-                <span className="text-zinc-800 font-medium">Active job posts for SDR/BDRs</span>
+            </div>
+            <div className="p-3.5 rounded-md bg-zinc-50 border border-zinc-100 space-y-1 text-xs">
+              <span className="text-zinc-400 block text-[11px]">Core Value Proposition</span>
+              <p className="text-zinc-700 font-normal tracking-tight leading-relaxed">
+                Replaces cold generic spam with evidence-grounded messages referencing recent funding, tech stack updates, and hiring triggers to boost reply rates by 3.2x.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "signal" && (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-zinc-100 text-xs">
+              <span className="text-zinc-500 font-normal tracking-tight">Autonomous Signal Detection</span>
+              <span className="bg-green-700/10 text-green-600 rounded-[2px] border-0 py-[2px] px-2 text-[11px] font-normal tracking-tight">
+                98.4% Match Intent
+              </span>
+            </div>
+            <div className="p-4 rounded-md bg-zinc-50 border border-zinc-100 space-y-2 text-xs">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-normal tracking-tight text-zinc-950">
+                  Target: CloudFlow Technologies (Series B)
+                </span>
+                <span className="text-zinc-400 text-[11px]">Verified 2h ago</span>
+              </div>
+              <p className="text-zinc-700 font-normal tracking-tight leading-relaxed">
+                "Detected 4 recent SDR role listings on career site following an $18M Series B round led by Bessemer. Public stated objective: build out scalable outbound pipeline."
+              </p>
+              <div className="pt-2 flex items-center gap-2 text-[11px]">
+                <span className="bg-amber-700/10 text-amber-600 rounded-[2px] border-0 py-[2px] px-2 font-normal">
+                  Hiring Spike
+                </span>
+                <span className="bg-purple-700/10 text-purple-600 rounded-[2px] border-0 py-[2px] px-2 font-normal">
+                  Series B Funding
+                </span>
+                <span className="bg-blue-700/10 text-blue-600 rounded-[2px] border-0 py-[2px] px-2 font-normal">
+                  Outbound Expansion
+                </span>
               </div>
             </div>
           </div>
         )}
 
-        {/* Tab 3: Lead */}
-        {activeTab === "lead" && (
-          <div className="space-y-4 font-mono text-xs">
-            <div className="p-4 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-zinc-950 font-inter font-bold text-lg">Acme Cloud Solutions</span>
-                  <span className="px-2 py-0.5 rounded-md bg-zinc-950 text-white text-[10px] font-bold">
-                    VERIFIED MATCH
+        {activeTab === "contact" && (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-zinc-100 text-xs">
+              <span className="text-zinc-500 font-normal tracking-tight">Resolved Budget Holder</span>
+              <span className="bg-green-700/10 text-green-600 rounded-[2px] border-0 py-[2px] px-2 text-[11px] font-normal tracking-tight">
+                Deliverable
+              </span>
+            </div>
+            <div className="p-4 rounded-md bg-zinc-50 border border-zinc-100 space-y-3 text-xs">
+              <div className="flex items-center gap-3">
+                {/* Real Avatar */}
+                <img
+                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&auto=format&fit=crop&q=80"
+                  alt="Sarah Jenkins"
+                  className="w-10 h-10 rounded-full object-cover border border-zinc-200/80 shadow-xs"
+                />
+                <div>
+                  <h4 className="text-xs font-normal tracking-tight text-zinc-950">
+                    Sarah Jenkins
+                  </h4>
+                  <p className="text-[11px] text-zinc-500 font-normal tracking-tight">
+                    Head of Revenue Operations · CloudFlow Technologies
+                  </p>
+                </div>
+              </div>
+              <div className="grid sm:grid-cols-2 gap-2 pt-2 border-t border-zinc-200/60 text-xs font-normal tracking-tight">
+                <div className="flex items-center justify-between p-2 rounded bg-white border border-zinc-200/60">
+                  <span className="text-zinc-500">Email:</span>
+                  <span className="text-zinc-900">s.jenkins@cloudflow.io</span>
+                </div>
+                <div className="flex items-center justify-between p-2 rounded bg-white border border-zinc-200/60">
+                  <span className="text-zinc-500">Verification:</span>
+                  <span className="bg-purple-700/10 text-purple-600 rounded-[2px] border-0 py-[2px] px-1.5 text-[10px]">
+                    SMTP Ping & MX Valid
                   </span>
                 </div>
-                <span className="text-zinc-600">cloudsolutions.io · San Francisco, CA · 120 employees</span>
               </div>
-              <div className="text-right">
-                <span className="text-2xl font-inter font-bold text-zinc-950 block">94/100</span>
-                <span className="text-[10px] text-zinc-500 uppercase">Intent Score</span>
-              </div>
-            </div>
-
-            <div className="p-4 rounded-md bg-white border border-zinc-200 space-y-2 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)]">
-              <span className="text-zinc-500 block font-semibold text-[11px]">EVIDENCE & BUYING SIGNALS EXTRACTED:</span>
-              <div className="space-y-1.5 text-zinc-800">
-                <div className="flex items-start gap-2">
-                  <IconCheck className="w-3.5 h-3.5 text-zinc-900 shrink-0 mt-0.5" />
-                  <span>"Posted 4 new Enterprise SDR roles on Greenhouse (June 2026)"</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <IconCheck className="w-3.5 h-3.5 text-zinc-900 shrink-0 mt-0.5" />
-                  <span>"Raised $18M Series B led by Benchmark Capital"</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="p-3.5 rounded-md bg-zinc-50 border border-zinc-200/80 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)] flex items-center justify-between">
-              <div>
-                <span className="text-zinc-500 text-[11px] block">DECISION MAKER IDENTIFIED</span>
-                <span className="text-zinc-950 font-semibold">Elena Rostova — VP of Revenue Operations</span>
-              </div>
-              <span className="text-zinc-600 text-[11px]">elena@cloudsolutions.io</span>
             </div>
           </div>
         )}
 
-        {/* Tab 4: Email */}
         {activeTab === "email" && (
-          <div className="space-y-4 font-mono text-xs">
-            <div className="p-4 rounded-md bg-zinc-50/70 border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.06)] space-y-3 relative">
+          <div className="space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-zinc-100 text-xs">
+              <div className="flex items-center gap-2">
+                <span className="text-zinc-500 font-normal tracking-tight">Outreach Draft</span>
+                <span className="bg-blue-700/10 text-blue-600 rounded-[2px] border-0 py-[2px] px-2 text-[10px] font-normal tracking-tight">
+                  68 Words PAS
+                </span>
+              </div>
               <button
                 onClick={handleCopy}
-                className="absolute top-4 right-4 p-2 rounded-md bg-white hover:bg-zinc-100 text-zinc-700 hover:text-black transition-colors cursor-pointer border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]"
-                title="Copy cold email"
+                className="inline-flex items-center gap-1 text-[11px] text-zinc-600 hover:text-zinc-950 cursor-pointer font-normal tracking-tight"
               >
-                {copied ? <IconCheck className="w-4 h-4 text-zinc-900" /> : <IconCopy className="w-4 h-4" />}
+                {copied ? <Check className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5 text-zinc-600" />}
+                <span>{copied ? "Copied" : "Copy Draft"}</span>
               </button>
-
-              <div>
-                <span className="text-zinc-500 block text-[10px]">SUBJECT:</span>
-                <span className="text-zinc-950 font-semibold font-sans">Quick question re: your 4 SDR postings</span>
-              </div>
-
-              <div className="pt-2 border-t border-zinc-200 text-zinc-800 leading-relaxed space-y-2.5 font-sans text-sm">
-                <p>Hi Elena,</p>
-                <p>
-                  Noticed Acme Cloud just posted 4 new Enterprise SDR roles following your Series B. Typically, ramping a larger outbound team dilutes pipeline quality if account research is still handled manually.
-                </p>
-                <p>
-                  We built Postrichment to uncover real-time buying signals and deliver verified evidence to SDRs automatically—without scraping stale directories.
-                </p>
-                <p>Worth a 7-minute intro this Thursday at 2pm PT?</p>
-                <p className="text-zinc-500 text-xs">— Alex, Founder @ ScaleAgent AI</p>
-              </div>
             </div>
-
-            <div className="flex items-center justify-between text-[11px] text-zinc-500 px-1 font-mono">
-              <span>Framework: Problem-Agitate-Solve (PAS)</span>
-              <span>Length: 74 words (Optimal conversion)</span>
+            <div className="p-4 rounded-md bg-zinc-50 border border-zinc-100 text-xs leading-relaxed space-y-3 font-normal tracking-tight text-zinc-800">
+              <div className="text-zinc-500 text-[11px]">
+                Subject: Scaling the SDR team at CloudFlow
+              </div>
+              <p>Hi Sarah,</p>
+              <p>
+                Noticed CloudFlow is hiring 4 Senior SDRs following your Series B. Ramping new reps on manual prospect research often slows down time-to-first-meeting by weeks.
+              </p>
+              <p>
+                We built Postrichment to feed your reps live-verified buyer signals with pre-grounded context directly into your CRM so they only reach out with real timing evidence.
+              </p>
+              <p>
+                Worth a quick look before the new cohort begins?
+              </p>
             </div>
           </div>
         )}
