@@ -8,12 +8,11 @@ import { fetchCurrentUser, logout } from "../../store/slices/authSlice";
 import { signOut } from "next-auth/react";
 import { UserProfileDropdown } from "./UserProfileDropdown";
 import {
-  IconArrowRight,
-  IconRadar2,
-  IconMenu2,
-  IconX,
-  IconLayoutDashboard,
-} from "@tabler/icons-react";
+  ArrowRight,
+  List,
+  X,
+  SquaresFour,
+} from "@phosphor-icons/react";
 
 export function Navbar() {
   const router = useRouter();
@@ -35,7 +34,7 @@ export function Navbar() {
 
   React.useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 30);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -52,46 +51,56 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed left-0 right-0 z-50 transition-all duration-300 ease-out flex justify-center  px-4 ${
-        isScrolled
-          ? "top-3"
-          : "top-0"
+      className={`fixed left-0 right-0 z-50 transition-all duration-200 flex justify-center px-4 ${
+        isScrolled ? "top-2.5" : "top-0"
       }`}
     >
       <div
-        className={`w-full transition-all duration-300 flex items-center justify-between ${
+        className={`w-full transition-all duration-200 flex items-center justify-between ${
           isScrolled
-            ? "max-w-4xl py-2.5 px-5 rounded-md bg-white/90 backdrop-blur-md border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]"
-            : "max-w-6xl py-5 px-10 bg-white/70 backdrop-blur-sm border-b border-zinc-200/80"
+            ? "max-w-4xl py-2 px-4 rounded-md bg-white/95 backdrop-blur-md border border-zinc-200/80 shadow-xs"
+            : "max-w-6xl py-3.5 px-4 bg-white/80 backdrop-blur-sm border-b border-zinc-200/60"
         }`}
       >
-        {/* Brand Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-8 h-8 rounded-md bg-black text-white flex items-center justify-center font-bold text-sm shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] group-hover:scale-105 transition-transform">
-            <IconRadar2 className="w-4 h-4" />
-          </div>
-          
+        {/* Brand Logo & Name in Instrument Sans - RAW ICON WITHOUT BG BLACK */}
+        <Link href="/" className="flex items-center gap-2 group">
+          <svg
+            className="w-5 h-5 text-zinc-950 transition-transform group-hover:scale-105"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 3v6" />
+            <path d="m15 15-3-3-3 3" />
+          </svg>
+          <span className="text-sm font-normal tracking-tight text-zinc-950">
+            Postrichment
+          </span>
         </Link>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-6 text-xs font-mono uppercase tracking-wider text-zinc-600">
+        <nav className="hidden md:flex items-center gap-6 text-xs font-normal tracking-tight text-zinc-600">
           <a
-            href="#pipeline-preview"
+            href="#demo"
             className="hover:text-zinc-950 transition-colors"
           >
-            Infrastructure
+            Product
           </a>
           <a
             href="#features"
             className="hover:text-zinc-950 transition-colors"
           >
-            Bento Grid
+            Capabilities
           </a>
           <a
             href="#testimonials"
             className="hover:text-zinc-950 transition-colors"
           >
-            Telemetry
+            Proof
           </a>
           <a
             href="#faq"
@@ -102,121 +111,92 @@ export function Navbar() {
         </nav>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-3">
-          {/* Authenticated State: UserProfileDropdown & Dashboard Link */}
+        <div className="flex items-center gap-2.5">
           {token || user ? (
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-2">
               <button
                 onClick={() => router.push("/dashboard")}
-                className="btn-dark-xl px-4 py-2 flex items-center gap-1.5 text-xs font-medium cursor-pointer shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]"
+                className="btn-dark-xl px-3 py-1.5 flex items-center gap-1.5 text-xs font-normal cursor-pointer"
               >
-                <IconLayoutDashboard className="w-3.5 h-3.5 text-zinc-900" />
+                <SquaresFour className="w-3.5 h-3.5 text-zinc-900" />
                 <span>Dashboard</span>
               </button>
               <UserProfileDropdown />
             </div>
           ) : (
-            <div className="hidden sm:flex items-center gap-2.5">
+            <div className="hidden sm:flex items-center gap-2">
               <button
                 onClick={() => router.push("/login")}
-                className="text-xs font-mono uppercase text-zinc-600 hover:text-zinc-950 px-3 py-2 transition-colors cursor-pointer"
+                className="text-xs font-normal tracking-tight text-zinc-600 hover:text-zinc-950 px-2.5 py-1.5 transition-colors cursor-pointer"
               >
                 Sign In
               </button>
               <button
                 onClick={() => router.push("/login")}
-                className="btn-invert-xl px-4 py-2 flex items-center gap-1 text-xs font-semibold cursor-pointer group shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]"
+                className="btn-invert-xl px-3 py-1.5 flex items-center gap-1 text-xs font-normal tracking-tight cursor-pointer group"
               >
                 <span>Get Started</span>
-                <IconArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
               </button>
             </div>
           )}
 
-          {/* Mobile Hamburger Toggle */}
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle Menu"
-            className="md:hidden w-8 h-8 rounded-md border border-zinc-200 bg-white flex items-center justify-center text-zinc-700 hover:text-black hover:bg-zinc-50 transition-all cursor-pointer shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]"
+            className="md:hidden w-7 h-7 rounded-[3px] border border-zinc-200 bg-white flex items-center justify-center text-zinc-700 hover:text-zinc-950 transition-all cursor-pointer"
           >
-            {mobileMenuOpen ? <IconX className="w-4 h-4" /> : <IconMenu2 className="w-4 h-4" />}
+            {mobileMenuOpen ? (
+              <X className="w-3.5 h-3.5" />
+            ) : (
+              <List className="w-3.5 h-3.5" />
+            )}
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-4 right-4 mt-2 p-5 rounded-md bg-white border border-zinc-200 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] flex flex-col gap-4 text-xs font-mono">
+        <div className="md:hidden fixed top-14 left-4 right-4 bg-white border border-zinc-200 rounded-md p-4 shadow-md flex flex-col gap-3 text-xs font-normal tracking-tight">
           <a
-            href="#pipeline-preview"
+            href="#demo"
             onClick={() => setMobileMenuOpen(false)}
-            className="text-zinc-700 hover:text-black py-1.5"
+            className="py-1 text-zinc-700 hover:text-zinc-950"
           >
-            INFRASTRUCTURE
+            Product
           </a>
           <a
             href="#features"
             onClick={() => setMobileMenuOpen(false)}
-            className="text-zinc-700 hover:text-black py-1.5"
+            className="py-1 text-zinc-700 hover:text-zinc-950"
           >
-            BENTO GRID
+            Capabilities
           </a>
           <a
             href="#testimonials"
             onClick={() => setMobileMenuOpen(false)}
-            className="text-zinc-700 hover:text-black py-1.5"
+            className="py-1 text-zinc-700 hover:text-zinc-950"
           >
-            TELEMETRY
+            Proof
           </a>
           <a
             href="#faq"
             onClick={() => setMobileMenuOpen(false)}
-            className="text-zinc-700 hover:text-black py-1.5"
+            className="py-1 text-zinc-700 hover:text-zinc-950"
           >
             FAQ
           </a>
-
-          <div className="pt-3 border-t border-zinc-200 flex flex-col gap-2">
-            {token || user ? (
-              <>
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    router.push("/dashboard");
-                  }}
-                  className="btn-dark-xl w-full py-2.5 text-center font-medium"
-                >
-                  Go to Dashboard
-                </button>
-                <button
-                  onClick={handleLogout}
-                  className="w-full py-2.5 text-center text-red-600 hover:text-red-700"
-                >
-                  Log Out
-                </button>
-              </>
-            ) : (
-              <>
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    router.push("/login");
-                  }}
-                  className="w-full py-2 text-zinc-600 hover:text-black"
-                >
-                  Sign In
-                </button>
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    router.push("/login");
-                  }}
-                  className="btn-invert-xl w-full py-2.5 text-center font-semibold"
-                >
-                  Get Started Free
-                </button>
-              </>
-            )}
+          <div className="pt-2 border-t border-zinc-100 flex flex-col gap-2">
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                router.push("/login");
+              }}
+              className="btn-invert-xl py-2 text-center text-xs"
+            >
+              Start Free Research
+            </button>
           </div>
         </div>
       )}
