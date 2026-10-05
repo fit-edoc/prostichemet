@@ -1,7 +1,7 @@
 import * as React from "react";
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  variant?: "brown" | "vintage" | "neutral" | "success" | "outline";
+  variant?: "green" | "blue" | "amber" | "purple" | "rose" | "neutral";
   size?: "sm" | "md";
   dot?: boolean;
 }
@@ -9,36 +9,41 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 export function Badge({
   children,
   className = "",
-  variant = "neutral",
+  variant = "green",
   size = "sm",
   dot = false,
   ...props
 }: BadgeProps) {
   const sizeClasses = {
-    sm: "text-[11px] px-2.5 py-0.5 tracking-wider font-mono",
-    md: "text-xs px-3 py-1 tracking-wide font-mono",
+    sm: "text-[11px] px-2 py-[2px] tracking-tight leading-none",
+    md: "text-xs px-2.5 py-[2px] tracking-tight leading-none",
   }[size];
 
   const variantClasses = {
-    brown:
-      "bg-zinc-100 text-zinc-900 border border-zinc-300 shadow-sm dark:bg-[#161616] dark:text-zinc-300 dark:border-[#2B2B2B]",
-    vintage:
-      "bg-zinc-100 text-zinc-800 border border-zinc-250 shadow-sm dark:bg-[#161616] dark:text-zinc-300 dark:border-[#2B2B2B]",
-    neutral:
-      "bg-zinc-100 text-zinc-700 border border-zinc-200 dark:bg-[#121212] dark:text-zinc-400 dark:border-[#242424]",
-    success:
-      "bg-emerald-50 text-emerald-800 border border-emerald-200 font-medium dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800",
-    outline:
-      "bg-transparent text-zinc-600 border border-zinc-300 dark:text-zinc-400 dark:border-[#2B2B2B]",
+    green: "bg-green-700/10 text-green-600 border-0 font-normal",
+    blue: "bg-blue-700/10 text-blue-600 border-0 font-normal",
+    amber: "bg-amber-700/10 text-amber-600 border-0 font-normal",
+    purple: "bg-purple-700/10 text-purple-600 border-0 font-normal",
+    rose: "bg-rose-700/10 text-rose-600 border-0 font-normal",
+    neutral: "bg-zinc-700/10 text-zinc-600 border-0 font-normal",
+  }[variant];
+
+  const dotClasses = {
+    green: "bg-green-600",
+    blue: "bg-blue-600",
+    amber: "bg-amber-600",
+    purple: "bg-purple-600",
+    rose: "bg-rose-600",
+    neutral: "bg-zinc-600",
   }[variant];
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full ${sizeClasses} ${variantClasses} ${className}`}
+      className={`inline-flex items-center gap-1.5 rounded-[2px] ${sizeClasses} ${variantClasses} ${className}`}
       {...props}
     >
       {dot && (
-        <span className="w-1.5 h-1.5 rounded-full bg-zinc-900 dark:bg-white animate-pulse" />
+        <span className={`w-1.5 h-1.5 rounded-full ${dotClasses} animate-pulse`} />
       )}
       {children}
     </span>
