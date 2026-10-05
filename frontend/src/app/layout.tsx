@@ -1,27 +1,11 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-import { Geist_Mono } from "next/font/google";
-import "@fontsource/intel-one-mono/400.css";
-import "@fontsource/intel-one-mono/500.css";
-import "@fontsource/intel-one-mono/600.css";
-import "@fontsource/intel-one-mono/700.css";
-import "@fontsource/intel-one-mono/400-italic.css";
-import "@fontsource/intel-one-mono/600-italic.css";
+import "@fontsource/instrument-sans/400.css";
+import "@fontsource/instrument-sans/500.css";
+import "@fontsource/instrument-sans/600.css";
+import "@fontsource/instrument-sans/700.css";
 import "./globals.css";
 import { StoreProvider } from "../store/StoreProvider";
 import { SmoothScrollProvider } from "../components/common/SmoothScrollProvider";
-
-const inter = localFont({
-  src: "../../public/font/INTERV.ttf",
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Postrichment — Autonomous GTM Intelligence & Lead Enrichment",
@@ -45,12 +29,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Young+Serif&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
           rel="stylesheet"
         />
       </head>
       <body
-        className={`${inter.variable} ${geistMono.variable} antialiased min-h-screen bg-white text-zinc-900 selection:bg-zinc-900 selection:text-white`}
+        className="antialiased min-h-screen bg-white text-zinc-900 selection:bg-zinc-900 selection:text-white"
       >
         <StoreProvider>
           <SmoothScrollProvider>
