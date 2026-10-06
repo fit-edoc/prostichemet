@@ -1,11 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { IconChevronDown, IconHelp, IconArrowRight } from "@tabler/icons-react";
+import { CaretDown, Question } from "@phosphor-icons/react";
 
 interface FAQItem {
   id: string;
-  num: string;
   question: string;
   answer: string;
 }
@@ -13,38 +12,33 @@ interface FAQItem {
 const faqs: FAQItem[] = [
   {
     id: "rag",
-    num: "01",
     question: "How does the RAG Research Agent prevent hallucinations?",
     answer:
-      "Unlike generic chatbots, Postrichment grounds every research task in our vector knowledge base and verified market data. If a signal cannot be substantiated with verifiable evidence or public source information, the system explicitly marks it as unverified or omits it.",
+      "Unlike generic LLM wrappers, Postrichment grounds every prospect research task against live web crawl sources and vector knowledge bases. If a signal cannot be substantiated with verifiable public source evidence, it is strictly omitted.",
   },
   {
     id: "scoring",
-    num: "02",
     question: "How does the Fit & Intent Score (0–100) work?",
     answer:
-      "Our scoring engine computes multi-dimensional criteria based on company size match, budget tier, industry vertical, and urgent buying signals (e.g. recent funding, SDR hiring, tech stack transitions). Leads scoring 85+ have both high ICP alignment and strong timing triggers.",
+      "Our scoring engine computes multi-dimensional criteria based on your ICP rules, industry vertical, company size, and urgent buying triggers (e.g. recent funding, SDR hiring, tech stack transitions). Leads scoring 85+ have verified timing intent.",
   },
   {
     id: "copywriting",
-    num: "03",
-    question: "What copywriting frameworks are used for cold emails?",
+    question: "What copywriting frameworks are used for cold outreach?",
     answer:
-      "We strictly adhere to proven high-converting B2B frameworks like Problem-Agitate-Solve (PAS) and Observation-Insight-Value. Emails are kept under 85 words, opening directly with the prospect's real signals and ending with a low-friction CTA.",
+      "We strictly adhere to proven high-converting B2B frameworks like Problem-Agitate-Solve (PAS). Emails are kept under 85 words, opening directly with the prospect's real company trigger and ending with a low-friction call to conversation.",
   },
   {
     id: "human",
-    num: "04",
     question: "Is human approval required before sending outbound?",
     answer:
-      "Yes. Postrichment is designed as a Human-in-the-Loop AI sales assistant. You can review all scored prospects, inspect the evidence quotes, edit generated cold emails, and approve campaigns before any messages are sent.",
+      "Yes. Postrichment is designed as a Human-in-the-Loop AI sales assistant. You can review all scored prospects, inspect the underlying evidence quotes, edit generated emails, and approve campaigns before any message is sent.",
   },
   {
     id: "crm",
-    num: "05",
     question: "Can I export discovered leads and evidence to CSV or CRM?",
     answer:
-      "Yes. All enriched leads, contact titles, verified emails, LinkedIn links, scores, and evidence reasons can be exported to CSV or synced directly with your CRM pipeline.",
+      "Yes. All enriched leads, verified corporate emails, LinkedIn URLs, scores, and evidence reasons can be exported to CSV or synced directly with your CRM pipeline.",
   },
 ];
 
@@ -56,81 +50,61 @@ export function FAQAccordion() {
   };
 
   return (
-    <section id="faq" className="w-full py-24 max-w-4xl mx-auto px-6">
+    <section id="faq" className="w-full py-20 max-w-3xl mx-auto px-4">
       {/* Header */}
-      <div className="text-center mb-16">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-xs font-mono uppercase tracking-wider text-zinc-700 mb-4 shadow-sm">
-          <IconHelp className="w-3.5 h-3.5 text-zinc-900" />
-          <span>Technical FAQ</span>
+      <div className="text-center mb-12">
+        <div className="mb-3">
+          <span className="bg-green-700/10 text-green-600 rounded-[2px] border-0 py-[2px] px-2 text-[11px] font-normal tracking-tight inline-flex items-center gap-1.5">
+            <Question className="w-3.5 h-3.5" />
+            Questions & Answers
+          </span>
         </div>
-        <h2 className="font-inter font-bold text-3xl sm:text-5xl text-zinc-950 tracking-tight leading-tight">
-          Frequently Answered Inquiries.
+        <h2 className="text-2xl sm:text-4xl text-zinc-950 font-normal tracking-tight leading-tight">
+          Frequently asked inquiries.
         </h2>
-        <p className="font-inter text-xs sm:text-sm text-zinc-600 mt-3">
-          Deterministic answers on our methodology, RAG research, and outbound safety.
+        <p className="text-xs sm:text-sm text-zinc-500 mt-2 font-normal tracking-tight">
+          Clear answers on our methodology, verification standards, and outbound safety.
         </p>
       </div>
 
-      {/* Accordion with Smooth CSS Grid Height Reveal & Rotation Transition */}
-      <div className="space-y-3.5">
+      {/* Accordion */}
+      <div className="space-y-2.5">
         {faqs.map((faq, idx) => {
           const isOpen = openIndex === idx;
 
           return (
             <div
               key={faq.id}
-              className={`rounded-md border transition-all duration-300 overflow-hidden relative shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)] ${
+              className={`rounded-lg border transition-all duration-200 overflow-hidden ${
                 isOpen
-                  ? "bg-zinc-50/90 border-zinc-900"
-                  : "bg-white border-zinc-200 hover:border-zinc-300"
+                  ? "bg-zinc-50/70 border-zinc-300 shadow-xs"
+                  : "bg-white border-zinc-200/80 hover:border-zinc-300"
               }`}
             >
-              {/* Accordion Trigger Button */}
               <button
                 type="button"
                 onClick={() => toggle(idx)}
                 aria-expanded={isOpen}
-                className="w-full px-6 py-5 flex items-center justify-between text-left cursor-pointer select-none group"
+                className="w-full px-5 py-4 flex items-center justify-between text-left cursor-pointer select-none group"
               >
-                <div className="flex items-center gap-3.5 pr-4">
-                  <span className="text-xs font-mono text-zinc-500 font-semibold shrink-0">
-                    {faq.num}
-                  </span>
-                  <span className="text-sm sm:text-base font-inter font-semibold text-zinc-950 tracking-tight group-hover:text-black transition-colors">
-                    {faq.question}
-                  </span>
-                </div>
+                <span className="text-xs sm:text-sm font-normal tracking-tight text-zinc-950 pr-4">
+                  {faq.question}
+                </span>
 
                 <div
-                  className={`w-8 h-8 rounded-md flex items-center justify-center transition-all duration-300 shrink-0 ${
-                    isOpen
-                      ? "bg-zinc-950 text-white rotate-180 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1)]"
-                      : "bg-zinc-100 text-zinc-600 group-hover:text-black group-hover:bg-zinc-200/70"
+                  className={`w-6 h-6 rounded flex items-center justify-center text-zinc-500 transition-transform duration-200 shrink-0 ${
+                    isOpen ? "rotate-180 text-zinc-950" : "group-hover:text-zinc-950"
                   }`}
                 >
-                  <IconChevronDown className="w-4 h-4" />
+                  <CaretDown className="w-3.5 h-3.5" />
                 </div>
               </button>
 
-              {/* Smooth Dynamic Reveal Container (CSS Grid Fr Expansion) */}
-              <div
-                className={`grid transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                  isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0 pointer-events-none"
-                }`}
-              >
-                <div className="overflow-hidden">
-                  <div
-                    className={`px-6 pb-6 pt-2 text-xs sm:text-sm text-zinc-600 leading-relaxed font-sans border-t border-zinc-200 transition-transform duration-300 ease-out ${
-                      isOpen ? "translate-y-0" : "-translate-y-2"
-                    }`}
-                  >
-                    <div className="flex items-start gap-2.5">
-                      <IconArrowRight className="w-4 h-4 text-zinc-900 shrink-0 mt-0.5" />
-                      <p className="font-inter">{faq.answer}</p>
-                    </div>
-                  </div>
+              {isOpen && (
+                <div className="px-5 pb-4 pt-1 text-xs text-zinc-600 leading-relaxed font-normal tracking-tight border-t border-zinc-100">
+                  {faq.answer}
                 </div>
-              </div>
+              )}
             </div>
           );
         })}
