@@ -12,26 +12,40 @@ import { fetchAllLeads, updateLeadStatus, generateLeadColdEmail, runCustomResear
 import { Button } from "../../components/ui/Button";
 import { UserProfileDropdown } from "../../components/common/UserProfileDropdown";
 import {
-  IconMapPin,
-  IconWorld,
-  IconMail,
-  IconRadar2,
-  IconCpu,
-  IconTarget,
-  IconUsers,
-  IconMailFast,
-  IconCheck,
-  IconCopy,
-  IconLogout,
-  IconExternalLink,
-  IconBuildingSkyscraper,
-  IconX,
-  IconRefresh,
-  IconChevronRight,
-  IconSearch,
-  IconLayoutDashboard,
-} from "@tabler/icons-react";
+  MapPin,
+  Globe,
+  EnvelopeSimple,
+  Cpu,
+  Target,
+  Users,
+  PaperPlaneTilt,
+  Check,
+  Copy,
+  SignOut,
+  ArrowSquareOut,
+  Buildings,
+  X,
+  CircleNotch,
+  CaretRight,
+  MagnifyingGlass,
+  SquaresFour,
+  Sparkle,
+} from "@phosphor-icons/react";
 import { ProspectLead } from "../../types";
+
+const AVATAR_LIST = [
+  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&auto=format&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=120&auto=format&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&auto=format&fit=crop&q=80",
+];
+
+const getLeadAvatar = (id: number | string) => {
+  const num = typeof id === "number" ? id : (id ? id.toString().charCodeAt(0) : 0);
+  return AVATAR_LIST[Math.abs(num) % AVATAR_LIST.length];
+};
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -69,7 +83,6 @@ export default function DashboardPage() {
   // Guard data initialization on mount
   const initializedRef = React.useRef(false);
 
-  // Initialize data on mount
   React.useEffect(() => {
     const savedToken = typeof window !== "undefined" ? localStorage.getItem("postrichment_token") : token;
     if (!savedToken && !token) {
@@ -99,7 +112,6 @@ export default function DashboardPage() {
     }
   }, [profiles, activeProfile]);
 
-  // Handle Profile Submission
   const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     const action = await dispatch(
@@ -118,7 +130,6 @@ export default function DashboardPage() {
     }
   };
 
-  // Handle RAG ICP Generation
   const handleGenerateIcp = async () => {
     const profileId = activeProfile?.id || (profiles.length > 0 ? profiles[0].id : 1);
     const action = await dispatch(
@@ -135,14 +146,12 @@ export default function DashboardPage() {
     }
   };
 
-  // Handle AI Research Agent Run
   const handleRunResearch = async () => {
     const icpId = activeIcp?.id || (icps.length > 0 ? icps[0].id : 1);
     await dispatch(runCustomResearch({ icpId, leadCount: 5 }));
     dispatch(fetchAllLeads());
   };
 
-  // Handle Cold Email Generation
   const handleOpenEmailDrawer = async (lead: ProspectLead) => {
     setSelectedLeadForEmail(lead);
     setEmailDrawerOpen(true);
@@ -180,7 +189,6 @@ export default function DashboardPage() {
     router.push("/login");
   };
 
-  // Filtered leads
   const filteredLeads = leads.filter(
     (lead) =>
       lead.companyName.toLowerCase().includes(leadSearch.toLowerCase()) ||
@@ -189,61 +197,65 @@ export default function DashboardPage() {
   );
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] text-zinc-900 flex flex-col md:flex-row selection:bg-zinc-900 selection:text-white font-inter">
-      {/* 1. Modern Sidebar Navigation */}
-      <aside className="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-zinc-200 flex flex-col justify-between shrink-0 z-30 shadow-xs">
+    <div className="min-h-screen bg-[#FAFAFA] text-zinc-900 flex flex-col md:flex-row selection:bg-zinc-900 selection:text-white font-normal tracking-tight">
+      {/* 1. Sidebar Navigation */}
+      <aside className="w-full md:w-60 bg-white border-b md:border-b-0 md:border-r border-zinc-200/80 flex flex-col justify-between shrink-0 z-30">
         <div>
-          {/* Brand Header */}
-          <div className="p-5 border-b border-zinc-200 flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-zinc-950 text-white flex items-center justify-center font-bold text-sm shadow-xs">
-                <IconRadar2 className="w-4 h-4" />
-              </div>
+          {/* Brand Header with RAW Icon without BG Black */}
+          <div className="p-4 border-b border-zinc-200/70 flex items-center justify-between">
+            <Link href="/" className="flex items-center gap-2 group">
+              <svg
+                className="w-5 h-5 text-zinc-950 transition-transform group-hover:scale-105"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 3v6" />
+                <path d="m15 15-3-3-3 3" />
+              </svg>
               <div>
-                <span className="font-inter font-semibold text-base tracking-tight text-zinc-950 block leading-none">
+                <span className="text-sm font-normal tracking-tight text-zinc-950 block leading-tight">
                   Postrichment
                 </span>
-                <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
-                  GTM Engine
+                <span className="text-[10px] text-zinc-400 font-normal tracking-tight">
+                  Autonomous GTM
                 </span>
               </div>
             </Link>
           </div>
 
-          {/* Navigation Menu */}
-          <nav className="p-3 space-y-1 font-mono text-xs">
+          {/* Navigation Menu with RAW Icons & Multi-color Badges */}
+          <nav className="p-2 space-y-0.5 text-xs">
             <button
               type="button"
               onClick={() => setActiveTab("overview")}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs transition-all text-left cursor-pointer ${
+              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-[3px] transition-all text-left cursor-pointer ${
                 activeTab === "overview"
-                  ? "bg-zinc-950 text-white font-medium shadow-xs"
-                  : "text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100"
+                  ? "bg-zinc-100 text-zinc-950 font-medium"
+                  : "text-zinc-600 hover:text-zinc-950 hover:bg-zinc-50"
               }`}
             >
-              <IconLayoutDashboard className="w-4 h-4 shrink-0" />
+              <SquaresFour className="w-4 h-4 shrink-0 text-zinc-900" />
               <span>GTM Overview</span>
             </button>
 
             <button
               type="button"
               onClick={() => setActiveTab("profile")}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs transition-all text-left cursor-pointer ${
+              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-[3px] transition-all text-left cursor-pointer ${
                 activeTab === "profile"
-                  ? "bg-zinc-950 text-white font-medium shadow-xs"
-                  : "text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100"
+                  ? "bg-zinc-100 text-zinc-950 font-medium"
+                  : "text-zinc-600 hover:text-zinc-950 hover:bg-zinc-50"
               }`}
             >
-              <IconBuildingSkyscraper className="w-4 h-4 shrink-0" />
+              <Buildings className="w-4 h-4 shrink-0 text-zinc-900" />
               <span>Company Profile</span>
               {profiles.length > 0 && (
-                <span
-                  className={`ml-auto text-[10px] px-2 py-0.5 rounded-full ${
-                    activeTab === "profile"
-                      ? "bg-white/20 text-white"
-                      : "bg-zinc-100 border border-zinc-200 text-zinc-700"
-                  }`}
-                >
+                <span className="ml-auto bg-blue-700/10 text-blue-600 rounded-[2px] border-0 py-[2px] px-1.5 text-[10px] leading-none">
                   {profiles.length}
                 </span>
               )}
@@ -252,22 +264,16 @@ export default function DashboardPage() {
             <button
               type="button"
               onClick={() => setActiveTab("icp")}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs transition-all text-left cursor-pointer ${
+              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-[3px] transition-all text-left cursor-pointer ${
                 activeTab === "icp"
-                  ? "bg-zinc-950 text-white font-medium shadow-xs"
-                  : "text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100"
+                  ? "bg-zinc-100 text-zinc-950 font-medium"
+                  : "text-zinc-600 hover:text-zinc-950 hover:bg-zinc-50"
               }`}
             >
-              <IconTarget className="w-4 h-4 shrink-0" />
+              <Target className="w-4 h-4 shrink-0 text-zinc-900" />
               <span>AI ICP Discovery</span>
               {icps.length > 0 && (
-                <span
-                  className={`ml-auto text-[10px] px-2 py-0.5 rounded-full ${
-                    activeTab === "icp"
-                      ? "bg-white/20 text-white"
-                      : "bg-zinc-100 border border-zinc-200 text-zinc-700"
-                  }`}
-                >
+                <span className="ml-auto bg-purple-700/10 text-purple-600 rounded-[2px] border-0 py-[2px] px-1.5 text-[10px] leading-none">
                   {icps.length}
                 </span>
               )}
@@ -276,22 +282,16 @@ export default function DashboardPage() {
             <button
               type="button"
               onClick={() => setActiveTab("pipeline")}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs transition-all text-left cursor-pointer ${
+              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-[3px] transition-all text-left cursor-pointer ${
                 activeTab === "pipeline"
-                  ? "bg-zinc-950 text-white font-medium shadow-xs"
-                  : "text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100"
+                  ? "bg-zinc-100 text-zinc-950 font-medium"
+                  : "text-zinc-600 hover:text-zinc-950 hover:bg-zinc-50"
               }`}
             >
-              <IconUsers className="w-4 h-4 shrink-0" />
+              <Users className="w-4 h-4 shrink-0 text-zinc-900" />
               <span>CRM Intelligence</span>
               {leads.length > 0 && (
-                <span
-                  className={`ml-auto text-[10px] px-2 py-0.5 rounded-full font-semibold ${
-                    activeTab === "pipeline"
-                      ? "bg-white text-zinc-950"
-                      : "bg-zinc-900 text-white"
-                  }`}
-                >
+                <span className="ml-auto bg-green-700/10 text-green-600 rounded-[2px] border-0 py-[2px] px-1.5 text-[10px] leading-none">
                   {leads.length}
                 </span>
               )}
@@ -300,36 +300,33 @@ export default function DashboardPage() {
             <button
               type="button"
               onClick={() => setActiveTab("research")}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs transition-all text-left cursor-pointer ${
+              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-[3px] transition-all text-left cursor-pointer ${
                 activeTab === "research"
-                  ? "bg-zinc-950 text-white font-medium shadow-xs"
-                  : "text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100"
+                  ? "bg-zinc-100 text-zinc-950 font-medium"
+                  : "text-zinc-600 hover:text-zinc-950 hover:bg-zinc-50"
               }`}
             >
-              <IconCpu className="w-4 h-4 shrink-0" />
+              <Cpu className="w-4 h-4 shrink-0 text-zinc-900" />
               <span>Signal Research Agent</span>
             </button>
           </nav>
         </div>
 
-        {/* Sidebar Footer Info */}
-        <div className="p-4 border-t border-zinc-200 space-y-3 font-mono">
-          <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200 space-y-1.5">
+        {/* Sidebar Footer */}
+        <div className="p-3 border-t border-zinc-200/70 space-y-2 text-xs">
+          <div className="p-2.5 rounded-[4px] bg-zinc-50/70 border border-zinc-200/60 space-y-1">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] uppercase text-zinc-500 font-semibold">RAG Vector Hub</span>
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[10px] text-zinc-400 uppercase tracking-tight">RAG Vector Hub</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
             </div>
-            <p className="text-xs font-inter font-semibold text-zinc-950 truncate">
+            <p className="text-xs text-zinc-950 font-normal tracking-tight truncate">
               {profiles.length > 0 ? profiles[0].companyName : "Awaiting Setup"}
-            </p>
-            <p className="text-[10px] text-zinc-500">
-              Curated B2B Outbound Frameworks Active
             </p>
           </div>
 
-          <div className="flex items-center justify-between text-xs text-zinc-500 pt-1">
-            <span>Postrichment v1.0</span>
-            <Link href="/onboarding" className="text-zinc-700 hover:text-zinc-950 hover:underline">
+          <div className="flex items-center justify-between text-[11px] text-zinc-400 px-1">
+            <span>Postrichment Core</span>
+            <Link href="/onboarding" className="text-zinc-600 hover:text-zinc-950 transition-colors">
               New Intake
             </Link>
           </div>
@@ -337,9 +334,9 @@ export default function DashboardPage() {
           <button
             type="button"
             onClick={handleLogout}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-xs text-zinc-600 hover:text-red-600 bg-zinc-50 hover:bg-red-50 border border-zinc-200 hover:border-red-200 transition-all cursor-pointer font-medium"
+            className="w-full flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-[3px] text-xs text-zinc-600 hover:text-rose-600 bg-white hover:bg-rose-50 border border-zinc-200/70 transition-all cursor-pointer font-normal"
           >
-            <IconLogout className="w-3.5 h-3.5" />
+            <SignOut className="w-3.5 h-3.5" />
             <span>Sign Out</span>
           </button>
         </div>
@@ -348,31 +345,30 @@ export default function DashboardPage() {
       {/* 2. Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 bg-[#FAFAFA]">
         {/* Top Header Bar */}
-        <header className="h-16 px-6 border-b border-zinc-200 bg-white/80 backdrop-blur-md flex items-center justify-between shrink-0 sticky top-0 z-20">
-          <div className="flex items-center gap-2 text-xs font-mono text-zinc-500">
-            <span className="capitalize text-zinc-950 font-inter font-semibold text-sm">
+        <header className="h-14 px-6 border-b border-zinc-200/70 bg-white/80 backdrop-blur-md flex items-center justify-between shrink-0 sticky top-0 z-20">
+          <div className="flex items-center gap-2 text-xs text-zinc-500 font-normal tracking-tight">
+            <span className="text-zinc-950 font-normal text-xs sm:text-sm">
               {activeTab === "overview" && "GTM Overview"}
               {activeTab === "profile" && "Business Profile"}
               {activeTab === "icp" && "AI ICP Generator"}
               {activeTab === "pipeline" && "Evidence Pipeline & CRM"}
               {activeTab === "research" && "Signal Detector Agent"}
             </span>
-            <span>/</span>
-            <span className="text-[11px] text-zinc-500 truncate max-w-[150px]">
-              {workspace?.name || "Default Workspace"}
+            <span className="text-zinc-300">/</span>
+            <span className="text-zinc-400 text-xs truncate max-w-[150px]">
+              {workspace?.name || "Production"}
             </span>
           </div>
 
           {/* Header Action Tools */}
-          <div className="flex items-center gap-3">
-            {/* Quick Action */}
+          <div className="flex items-center gap-2.5">
             {activeTab === "pipeline" && (
               <Button
                 variant="primary"
                 size="sm"
                 onClick={handleRunResearch}
                 isLoading={isResearching}
-                leftIcon={<IconRadar2 className="w-3.5 h-3.5" />}
+                leftIcon={<Sparkle className="w-3.5 h-3.5" />}
               >
                 Discover Signals
               </Button>
@@ -384,99 +380,110 @@ export default function DashboardPage() {
                 size="sm"
                 onClick={handleGenerateIcp}
                 isLoading={isIcpGenerating}
-                leftIcon={<IconCpu className="w-3.5 h-3.5" />}
+                leftIcon={<Cpu className="w-3.5 h-3.5" />}
               >
                 Synthesize ICP
               </Button>
             )}
 
-            {/* User Profile Dropdown in Top Right */}
             <UserProfileDropdown />
           </div>
         </header>
 
         {/* Dashboard Main View Container */}
-        <main className="flex-1 p-6 md:p-8 overflow-y-auto space-y-6">
+        <main className="flex-1 p-5 md:p-8 space-y-6 overflow-y-auto">
           {/* TAB 1: OVERVIEW */}
           {activeTab === "overview" && (
             <div className="space-y-6">
-              {/* Quick Metrics Bar */}
+              {/* Quick Metrics Bar with Multi-color Badges */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="p-5 rounded-xl bg-white border border-zinc-200 shadow-sm space-y-1">
-                  <span className="text-[11px] font-mono text-zinc-500 uppercase tracking-wider">
+                <div className="p-4 rounded-md bg-white border border-zinc-200/80 shadow-xs space-y-1">
+                  <span className="text-xs text-zinc-500 font-normal tracking-tight block">
                     Discovered Leads
                   </span>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-3xl font-inter font-bold text-zinc-950 tracking-tight">{leads.length}</span>
-                    <span className="text-xs text-zinc-500 font-mono">Live Evidence</span>
+                  <div className="flex items-baseline justify-between pt-1">
+                    <span className="text-2xl sm:text-3xl font-normal text-zinc-950 tracking-tight">
+                      {leads.length}
+                    </span>
+                    <span className="bg-green-700/10 text-green-600 rounded-[2px] border-0 py-[2px] px-2 text-[10px] font-normal tracking-tight">
+                      Live Evidence
+                    </span>
                   </div>
                 </div>
 
-                <div className="p-5 rounded-xl bg-white border border-zinc-200 shadow-sm space-y-1">
-                  <span className="text-[11px] font-mono text-zinc-500 uppercase tracking-wider">
+                <div className="p-4 rounded-md bg-white border border-zinc-200/80 shadow-xs space-y-1">
+                  <span className="text-xs text-zinc-500 font-normal tracking-tight block">
                     High Fit ICP Matches
                   </span>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-3xl font-inter font-bold text-zinc-950 tracking-tight">
+                  <div className="flex items-baseline justify-between pt-1">
+                    <span className="text-2xl sm:text-3xl font-normal text-zinc-950 tracking-tight">
                       {leads.filter((l) => (l.score || 0) >= 80).length}
                     </span>
-                    <span className="text-xs text-zinc-500 font-mono">Score ≥ 80%</span>
+                    <span className="bg-blue-700/10 text-blue-600 rounded-[2px] border-0 py-[2px] px-2 text-[10px] font-normal tracking-tight">
+                      Score ≥ 80%
+                    </span>
                   </div>
                 </div>
 
-                <div className="p-5 rounded-xl bg-white border border-zinc-200 shadow-sm space-y-1">
-                  <span className="text-[11px] font-mono text-zinc-500 uppercase tracking-wider">
+                <div className="p-4 rounded-md bg-white border border-zinc-200/80 shadow-xs space-y-1">
+                  <span className="text-xs text-zinc-500 font-normal tracking-tight block">
                     Synthesized ICPs
                   </span>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-3xl font-inter font-bold text-zinc-950 tracking-tight">{icps.length}</span>
-                    <span className="text-xs text-zinc-500 font-mono">RAG Enriched</span>
+                  <div className="flex items-baseline justify-between pt-1">
+                    <span className="text-2xl sm:text-3xl font-normal text-zinc-950 tracking-tight">
+                      {icps.length}
+                    </span>
+                    <span className="bg-purple-700/10 text-purple-600 rounded-[2px] border-0 py-[2px] px-2 text-[10px] font-normal tracking-tight">
+                      RAG Grounded
+                    </span>
                   </div>
                 </div>
 
-                <div className="p-5 rounded-xl bg-white border border-zinc-200 shadow-sm space-y-1">
-                  <span className="text-[11px] font-mono text-zinc-500 uppercase tracking-wider">
-                    Avg Response Uplift
+                <div className="p-4 rounded-md bg-white border border-zinc-200/80 shadow-xs space-y-1">
+                  <span className="text-xs text-zinc-500 font-normal tracking-tight block">
+                    Avg Response Lift
                   </span>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-3xl font-inter font-bold text-zinc-950 tracking-tight">+340%</span>
-                    <span className="text-xs text-zinc-500 font-mono">PAS Framework</span>
+                  <div className="flex items-baseline justify-between pt-1">
+                    <span className="text-2xl sm:text-3xl font-normal text-zinc-950 tracking-tight">
+                      +3.2x
+                    </span>
+                    <span className="bg-amber-700/10 text-amber-600 rounded-[2px] border-0 py-[2px] px-2 text-[10px] font-normal tracking-tight">
+                      PAS Framework
+                    </span>
                   </div>
                 </div>
               </div>
 
               {/* Quick Action Prompt if no profiles */}
               {profiles.length === 0 ? (
-                <div className="p-8 rounded-xl bg-white border border-zinc-200 text-center space-y-4 shadow-sm">
-                  <div className="w-12 h-12 rounded-xl bg-zinc-100 border border-zinc-200 text-zinc-900 flex items-center justify-center mx-auto">
-                    <IconBuildingSkyscraper className="w-6 h-6" />
-                  </div>
+                <div className="p-8 rounded-md bg-white border border-zinc-200/80 text-center space-y-4 shadow-xs">
+                  <Buildings className="w-8 h-8 text-zinc-700 mx-auto" />
                   <div>
-                    <h3 className="font-inter font-semibold text-lg text-zinc-950">
+                    <h3 className="text-base text-zinc-950 font-normal tracking-tight">
                       No Company Profile Configured Yet
                     </h3>
-                    <p className="text-xs text-zinc-500 max-w-md mx-auto mt-1 leading-relaxed">
+                    <p className="text-xs text-zinc-500 max-w-md mx-auto mt-1 leading-relaxed font-normal tracking-tight">
                       Set up your company value proposition and target customer details to activate the autonomous lead discovery engine.
                     </p>
                   </div>
                   <Button
                     variant="primary"
-                    size="md"
+                    size="sm"
                     onClick={() => router.push("/onboarding")}
-                    rightIcon={<IconChevronRight className="w-4 h-4" />}
+                    rightIcon={<CaretRight className="w-3.5 h-3.5" />}
                   >
                     Open Company Intake Form
                   </Button>
                 </div>
               ) : (
-                /* Recent Discovered Leads Preview */
-                <div className="p-6 rounded-xl bg-white border border-zinc-200 shadow-sm space-y-4">
-                  <div className="flex items-center justify-between pb-3 border-b border-zinc-200">
+                /* Recent Discovered Leads Preview with Real Avatars */
+                <div className="p-5 rounded-md bg-white border border-zinc-200/80 shadow-xs space-y-4">
+                  <div className="flex items-center justify-between pb-3 border-b border-zinc-100">
                     <div>
-                      <h3 className="font-inter font-semibold text-base text-zinc-950">
+                      <h3 className="text-sm font-normal tracking-tight text-zinc-950">
                         Latest High-Intent Prospects
                       </h3>
-                      <p className="text-xs text-zinc-500 font-mono mt-0.5">
+                      <p className="text-xs text-zinc-500 mt-0.5 font-normal tracking-tight">
                         Real-time signals matched against your {profiles[0].companyName} ICP
                       </p>
                     </div>
@@ -489,60 +496,64 @@ export default function DashboardPage() {
                     </Button>
                   </div>
 
-                  <div className="divide-y divide-zinc-200">
-                    {leads.slice(0, 4).map((lead) => (
-                      <div key={lead.id} className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                        <div className="space-y-1.5">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <span className="font-inter font-semibold text-sm text-zinc-950">
-                              {lead.companyName}
-                            </span>
-                            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-zinc-950 text-white font-medium">
-                              {lead.score || 85}% Fit
-                            </span>
-                            {lead.websiteLink && (
-                              <a
-                                href={lead.websiteLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1 text-[11px] font-mono text-zinc-500 hover:text-zinc-950 hover:underline"
-                              >
-                                <IconWorld className="w-3 h-3" />
-                                <span>{lead.websiteLink.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}</span>
-                                <IconExternalLink className="w-2.5 h-2.5 opacity-70" />
-                              </a>
-                            )}
-                          </div>
-                          <div className="flex items-center gap-3 text-xs text-zinc-500 flex-wrap font-mono">
-                            <span className="text-zinc-800">
-                              {lead.contactName ? `${lead.contactName} (${lead.contactTitle || "Decision-Maker"})` : lead.industry || "Target Company"}
-                            </span>
-                            {lead.contactEmail && (
-                              <span className="inline-flex items-center gap-1 text-zinc-600">
-                                <IconMail className="w-3 h-3 text-zinc-900" />
-                                <a href={`mailto:${lead.contactEmail}`} className="hover:underline hover:text-zinc-950">
-                                  {lead.contactEmail}
-                                </a>
+                  <div className="divide-y divide-zinc-100">
+                    {leads.slice(0, 4).map((lead, idx) => (
+                      <div key={lead.id} className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div className="flex items-start gap-3">
+                          {/* Real Avatar */}
+                          <img
+                            src={getLeadAvatar(lead.id || idx)}
+                            alt={lead.contactName || lead.companyName}
+                            className="w-9 h-9 rounded-full object-cover border border-zinc-200/80 shadow-xs shrink-0 mt-0.5"
+                          />
+                          <div className="space-y-1">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="text-xs font-medium text-zinc-950 tracking-tight">
+                                {lead.companyName}
                               </span>
-                            )}
-                            {lead.location && (
-                              <a
-                                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(lead.location)}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1 text-[11px] text-zinc-500 hover:text-zinc-950 transition-colors"
-                              >
-                                <IconMapPin className="w-3 h-3 text-zinc-700 shrink-0" />
-                                <span>{lead.location}</span>
-                              </a>
-                            )}
+                              <span className="bg-green-700/10 text-green-600 rounded-[2px] border-0 py-[2px] px-2 text-[10px] font-normal tracking-tight">
+                                {lead.score || 85}% Fit
+                              </span>
+                              {lead.websiteLink && (
+                                <a
+                                  href={lead.websiteLink}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1 text-[11px] text-zinc-400 hover:text-zinc-950 transition-colors"
+                                >
+                                  <Globe className="w-3 h-3 text-zinc-400" />
+                                  <span>{lead.websiteLink.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}</span>
+                                  <ArrowSquareOut className="w-2.5 h-2.5 opacity-70" />
+                                </a>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-3 text-xs text-zinc-500 flex-wrap font-normal tracking-tight">
+                              <span className="text-zinc-800">
+                                {lead.contactName ? `${lead.contactName} (${lead.contactTitle || "Decision-Maker"})` : lead.industry || "Target Company"}
+                              </span>
+                              {lead.contactEmail && (
+                                <span className="inline-flex items-center gap-1 text-zinc-600">
+                                  <EnvelopeSimple className="w-3 h-3 text-zinc-700" />
+                                  <a href={`mailto:${lead.contactEmail}`} className="hover:underline hover:text-zinc-950">
+                                    {lead.contactEmail}
+                                  </a>
+                                </span>
+                              )}
+                              {lead.location && (
+                                <span className="inline-flex items-center gap-1 text-zinc-400">
+                                  <MapPin className="w-3 h-3 text-zinc-500" />
+                                  <span>{lead.location}</span>
+                                </span>
+                              )}
+                            </div>
                           </div>
                         </div>
+
                         <Button
                           variant="secondary"
                           size="sm"
                           onClick={() => handleOpenEmailDrawer(lead)}
-                          leftIcon={<IconMailFast className="w-3.5 h-3.5" />}
+                          leftIcon={<PaperPlaneTilt className="w-3.5 h-3.5" />}
                           className="shrink-0"
                         >
                           Draft PAS Email
@@ -557,21 +568,21 @@ export default function DashboardPage() {
 
           {/* TAB 2: BUSINESS PROFILE */}
           {activeTab === "profile" && (
-            <div className="max-w-3xl space-y-6">
+            <div className="max-w-2xl space-y-6">
               <div>
-                <h2 className="font-inter font-semibold text-xl sm:text-2xl text-zinc-950">
+                <h2 className="text-xl sm:text-2xl font-normal tracking-tight text-zinc-950">
                   Company & Product Profile
                 </h2>
-                <p className="text-xs text-zinc-500 font-mono mt-0.5">
+                <p className="text-xs text-zinc-500 mt-1 font-normal tracking-tight">
                   Define what your company sells, who benefits most, and the specific problems you solve.
                 </p>
               </div>
 
-              <div className="p-6 sm:p-8 rounded-xl bg-white border border-zinc-200 shadow-sm space-y-5">
+              <div className="p-6 rounded-md bg-white border border-zinc-200/80 shadow-xs space-y-4">
                 <form onSubmit={handleSaveProfile} className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-mono font-medium text-zinc-700 mb-1.5">
+                      <label className="block text-xs font-normal tracking-tight text-zinc-700 mb-1.5">
                         Company Name
                       </label>
                       <input
@@ -579,24 +590,24 @@ export default function DashboardPage() {
                         required
                         value={companyName}
                         onChange={(e) => setCompanyName(e.target.value)}
-                        className="w-full bg-white border border-zinc-300 rounded-xl p-3 text-xs sm:text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 shadow-xs transition-all font-inter"
+                        className="w-full bg-white border border-zinc-200 rounded-[3px] p-2.5 text-xs text-zinc-900 focus:outline-none focus:border-zinc-950 transition-all font-normal tracking-tight"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-mono font-medium text-zinc-700 mb-1.5">
+                      <label className="block text-xs font-normal tracking-tight text-zinc-700 mb-1.5">
                         Industry / Niche
                       </label>
                       <input
                         type="text"
                         value={industry}
                         onChange={(e) => setIndustry(e.target.value)}
-                        className="w-full bg-white border border-zinc-300 rounded-xl p-3 text-xs sm:text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 shadow-xs transition-all font-inter"
+                        className="w-full bg-white border border-zinc-200 rounded-[3px] p-2.5 text-xs text-zinc-900 focus:outline-none focus:border-zinc-950 transition-all font-normal tracking-tight"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono font-medium text-zinc-700 mb-1.5">
+                    <label className="block text-xs font-normal tracking-tight text-zinc-700 mb-1.5">
                       Core Value Proposition & Outcome
                     </label>
                     <textarea
@@ -604,54 +615,54 @@ export default function DashboardPage() {
                       required
                       value={valueProposition}
                       onChange={(e) => setValueProposition(e.target.value)}
-                      className="w-full bg-white border border-zinc-300 rounded-xl p-3 text-xs sm:text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 shadow-xs transition-all font-inter"
+                      className="w-full bg-white border border-zinc-200 rounded-[3px] p-2.5 text-xs text-zinc-900 focus:outline-none focus:border-zinc-950 transition-all font-normal tracking-tight leading-relaxed"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono font-medium text-zinc-700 mb-1.5">
+                    <label className="block text-xs font-normal tracking-tight text-zinc-700 mb-1.5">
                       Product / Service Description
                     </label>
                     <textarea
                       rows={2}
                       value={productDescription}
                       onChange={(e) => setProductDescription(e.target.value)}
-                      className="w-full bg-white border border-zinc-300 rounded-xl p-3 text-xs sm:text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 shadow-xs transition-all font-inter"
+                      className="w-full bg-white border border-zinc-200 rounded-[3px] p-2.5 text-xs text-zinc-900 focus:outline-none focus:border-zinc-950 transition-all font-normal tracking-tight leading-relaxed"
                     />
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-mono font-medium text-zinc-700 mb-1.5">
+                      <label className="block text-xs font-normal tracking-tight text-zinc-700 mb-1.5">
                         Typical Customer
                       </label>
                       <input
                         type="text"
                         value={typicalCustomer}
                         onChange={(e) => setTypicalCustomer(e.target.value)}
-                        className="w-full bg-white border border-zinc-300 rounded-xl p-3 text-xs sm:text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 shadow-xs transition-all font-inter"
+                        className="w-full bg-white border border-zinc-200 rounded-[3px] p-2.5 text-xs text-zinc-900 focus:outline-none focus:border-zinc-950 transition-all font-normal tracking-tight"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-mono font-medium text-zinc-700 mb-1.5">
+                      <label className="block text-xs font-normal tracking-tight text-zinc-700 mb-1.5">
                         Typical Deal Size ($)
                       </label>
                       <input
                         type="text"
                         value={typicalDealSize}
                         onChange={(e) => setTypicalDealSize(e.target.value)}
-                        className="w-full bg-white border border-zinc-300 rounded-xl p-3 text-xs sm:text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 shadow-xs transition-all font-inter"
+                        className="w-full bg-white border border-zinc-200 rounded-[3px] p-2.5 text-xs text-zinc-900 focus:outline-none focus:border-zinc-950 transition-all font-normal tracking-tight"
                       />
                     </div>
                   </div>
 
-                  <div className="pt-3 flex justify-end">
+                  <div className="pt-2 flex justify-end">
                     <Button
                       type="submit"
                       variant="primary"
-                      size="md"
+                      size="sm"
                       isLoading={isProfileLoading}
-                      rightIcon={<IconChevronRight className="w-4 h-4" />}
+                      rightIcon={<CaretRight className="w-3.5 h-3.5" />}
                     >
                       Save & Generate ICP
                     </Button>
@@ -666,28 +677,28 @@ export default function DashboardPage() {
             <div className="space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <h2 className="font-inter font-semibold text-xl sm:text-2xl text-zinc-950">
+                  <h2 className="text-xl sm:text-2xl font-normal tracking-tight text-zinc-950">
                     Ideal Customer Profile (ICP) Engine
                   </h2>
-                  <p className="text-xs text-zinc-500 font-mono mt-0.5">
+                  <p className="text-xs text-zinc-500 mt-1 font-normal tracking-tight">
                     Synthesized from RAG intelligence and market evidence
                   </p>
                 </div>
                 <Button
                   variant="primary"
-                  size="md"
+                  size="sm"
                   onClick={handleGenerateIcp}
                   isLoading={isIcpGenerating}
-                  leftIcon={<IconCpu className="w-4 h-4" />}
+                  leftIcon={<Cpu className="w-3.5 h-3.5" />}
                 >
-                  Regenerate ICP with AI
+                  Regenerate ICP
                 </Button>
               </div>
 
               {icps.length === 0 ? (
-                <div className="p-8 rounded-xl bg-white border border-zinc-200 text-center space-y-4 shadow-sm">
-                  <IconTarget className="w-10 h-10 text-zinc-900 mx-auto" />
-                  <p className="text-xs text-zinc-500 font-mono">
+                <div className="p-8 rounded-md bg-white border border-zinc-200/80 text-center space-y-3 shadow-xs">
+                  <Target className="w-8 h-8 text-zinc-700 mx-auto" />
+                  <p className="text-xs text-zinc-500 font-normal tracking-tight">
                     No ICP profiles generated yet. Click above to synthesize your profile using Gemini RAG.
                   </p>
                   <Button variant="primary" size="sm" onClick={handleGenerateIcp}>
@@ -695,29 +706,27 @@ export default function DashboardPage() {
                   </Button>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                   {icps.map((icp) => (
-                    <div key={icp.id} className="p-6 rounded-xl bg-white border border-zinc-200 shadow-sm space-y-4">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-700">
-                            ICP v1.0
-                          </span>
-                          <h3 className="font-inter font-semibold text-lg text-zinc-950 mt-1.5">
-                            {icp.title}
-                          </h3>
-                        </div>
+                    <div key={icp.id} className="p-5 rounded-md bg-white border border-zinc-200/80 shadow-xs space-y-4">
+                      <div>
+                        <span className="bg-blue-700/10 text-blue-600 rounded-[2px] border-0 py-[2px] px-2 text-[10px] font-normal tracking-tight inline-block mb-1.5">
+                          ICP v1.0 Active
+                        </span>
+                        <h3 className="text-sm font-medium tracking-tight text-zinc-950">
+                          {icp.title}
+                        </h3>
                       </div>
 
                       {/* Industries */}
                       {icp.targetIndustries && (
-                        <div className="space-y-1">
-                          <span className="text-[11px] font-mono text-zinc-500 uppercase font-medium">
+                        <div className="space-y-1.5">
+                          <span className="text-[11px] text-zinc-400 block font-normal tracking-tight uppercase">
                             Target Industries
                           </span>
                           <div className="flex flex-wrap gap-1.5">
                             {icp.targetIndustries.map((ind, i) => (
-                              <span key={i} className="text-xs px-2.5 py-1 rounded-md bg-zinc-50 border border-zinc-200 text-zinc-700 font-mono">
+                              <span key={i} className="bg-zinc-700/10 text-zinc-600 rounded-[2px] border-0 py-[2px] px-2 text-[11px] font-normal tracking-tight">
                                 {ind}
                               </span>
                             ))}
@@ -727,13 +736,13 @@ export default function DashboardPage() {
 
                       {/* Target Roles */}
                       {icp.targetRoles && (
-                        <div className="space-y-1">
-                          <span className="text-[11px] font-mono text-zinc-500 uppercase font-medium">
+                        <div className="space-y-1.5">
+                          <span className="text-[11px] text-zinc-400 block font-normal tracking-tight uppercase">
                             Decision Makers
                           </span>
                           <div className="flex flex-wrap gap-1.5">
                             {icp.targetRoles.map((role, i) => (
-                              <span key={i} className="text-xs px-2.5 py-1 rounded-md bg-zinc-100 border border-zinc-200 text-zinc-900 font-mono font-medium">
+                              <span key={i} className="bg-purple-700/10 text-purple-600 rounded-[2px] border-0 py-[2px] px-2 text-[11px] font-normal tracking-tight">
                                 {role}
                               </span>
                             ))}
@@ -743,14 +752,14 @@ export default function DashboardPage() {
 
                       {/* Pain Points */}
                       {icp.painPoints && (
-                        <div className="space-y-1">
-                          <span className="text-[11px] font-mono text-zinc-500 uppercase font-medium">
-                            Top Pain Points Solved
+                        <div className="space-y-1.5">
+                          <span className="text-[11px] text-zinc-400 block font-normal tracking-tight uppercase">
+                            Core Pain Points
                           </span>
-                          <ul className="space-y-1 text-xs text-zinc-600 font-mono">
+                          <ul className="space-y-1 text-xs text-zinc-600 leading-relaxed font-normal tracking-tight">
                             {icp.painPoints.map((pain, i) => (
                               <li key={i} className="flex items-start gap-1.5">
-                                <span className="text-zinc-950 font-bold">•</span>
+                                <span className="text-zinc-400">•</span>
                                 <span>{pain}</span>
                               </li>
                             ))}
@@ -764,28 +773,28 @@ export default function DashboardPage() {
             </div>
           )}
 
-          {/* TAB 4: CRM PIPELINE */}
+          {/* TAB 4: CRM PIPELINE & TABLE - Overflow Fixed, Clean Editorial Layout */}
           {activeTab === "pipeline" && (
-            <div className="space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
-                  <h2 className="font-inter font-semibold text-xl sm:text-2xl text-zinc-950">
+                  <h2 className="text-xl sm:text-2xl font-normal tracking-tight text-zinc-950">
                     Evidence Pipeline & CRM
                   </h2>
-                  <p className="text-xs text-zinc-500 font-mono mt-0.5">
-                    Prospects scored with verified buying signals & quotes
+                  <p className="text-xs text-zinc-500 mt-1 font-normal tracking-tight">
+                    Prospects scored with verified buying triggers & contact intelligence
                   </p>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2.5">
                   <div className="relative">
-                    <IconSearch className="w-4 h-4 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                    <MagnifyingGlass className="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
                     <input
                       type="text"
-                      placeholder="Search company or contact..."
+                      placeholder="Filter prospects..."
                       value={leadSearch}
                       onChange={(e) => setLeadSearch(e.target.value)}
-                      className="bg-white border border-zinc-300 rounded-xl py-2 pl-9 pr-3 text-xs text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 shadow-xs font-mono transition-all"
+                      className="bg-white border border-zinc-200/90 rounded-[3px] py-1.5 pl-8 pr-2.5 text-xs text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-950 transition-all font-normal tracking-tight w-48"
                     />
                   </div>
                   <Button
@@ -793,39 +802,39 @@ export default function DashboardPage() {
                     size="sm"
                     onClick={handleRunResearch}
                     isLoading={isResearching}
-                    leftIcon={<IconSearch className="w-3.5 h-3.5" />}
+                    leftIcon={<Sparkle className="w-3.5 h-3.5" />}
                   >
-                    Find More Leads
+                    Find Leads
                   </Button>
                 </div>
               </div>
 
               {/* Leads Table */}
-              <div className="bg-white border border-zinc-200 rounded-xl overflow-hidden shadow-sm">
+              <div className="bg-white border border-zinc-200/80 rounded-md overflow-hidden shadow-xs">
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs font-mono">
-                    <thead className="bg-zinc-50 border-b border-zinc-200 text-zinc-500 uppercase text-[10px] font-semibold">
+                  <table className="w-full text-left text-xs font-normal tracking-tight border-collapse">
+                    <thead className="bg-zinc-50/70 border-b border-zinc-200/80 text-zinc-500 uppercase text-[10px]">
                       <tr>
-                        <th className="p-4">Company & Website</th>
-                        <th className="p-4">Decision-Maker & Email</th>
-                        <th className="p-4">Google Maps Address</th>
-                        <th className="p-4">Verified Trigger Signal</th>
-                        <th className="p-4">Fit Score</th>
-                        <th className="p-4">Status</th>
-                        <th className="p-4 text-right">Action</th>
+                        <th className="py-3 px-4 font-normal">Company</th>
+                        <th className="py-3 px-4 font-normal">Decision Maker</th>
+                        <th className="py-3 px-4 font-normal">Location</th>
+                        <th className="py-3 px-4 font-normal">Verified Trigger</th>
+                        <th className="py-3 px-4 font-normal">Fit Score</th>
+                        <th className="py-3 px-4 font-normal">Status</th>
+                        <th className="py-3 px-4 font-normal text-right">Action</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-zinc-200">
-                      {filteredLeads.map((lead) => {
+                    <tbody className="divide-y divide-zinc-100">
+                      {filteredLeads.map((lead, idx) => {
                         const websiteUrl = lead.websiteLink || `https://${lead.companyName.toLowerCase().replace(/[^a-z0-9]/g, "")}.com`;
                         const displayWebsite = websiteUrl.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
                         const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(lead.location || lead.companyName)}`;
 
                         return (
-                          <tr key={lead.id} className="hover:bg-zinc-50/80 transition-colors">
+                          <tr key={lead.id} className="hover:bg-zinc-50/60 transition-colors">
                             {/* Company & Website */}
-                            <td className="p-4">
-                              <div className="font-inter font-semibold text-sm text-zinc-950">
+                            <td className="py-3.5 px-4 whitespace-nowrap">
+                              <div className="font-medium text-xs text-zinc-950">
                                 {lead.companyName}
                               </div>
                               <div className="flex items-center gap-1.5 mt-0.5">
@@ -833,98 +842,94 @@ export default function DashboardPage() {
                                   href={websiteUrl}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-1 text-[11px] text-zinc-500 hover:text-zinc-950 hover:underline"
+                                  className="inline-flex items-center gap-1 text-[11px] text-zinc-400 hover:text-zinc-950 transition-colors"
                                   title={`Visit ${websiteUrl}`}
                                 >
-                                  <IconWorld className="w-3 h-3 shrink-0 text-zinc-400" />
-                                  <span className="truncate max-w-[130px]">{displayWebsite}</span>
-                                  <IconExternalLink className="w-2.5 h-2.5 opacity-70 shrink-0" />
+                                  <Globe className="w-3 h-3 text-zinc-400" />
+                                  <span className="truncate max-w-[120px]">{displayWebsite}</span>
+                                  <ArrowSquareOut className="w-2.5 h-2.5 opacity-60" />
                                 </a>
-                              </div>
-                              <div className="text-[10px] text-zinc-500 mt-0.5">
-                                {lead.industry || "B2B Tech"}
                               </div>
                             </td>
 
-                            {/* Decision Maker & Email */}
-                            <td className="p-4">
-                              <div className="text-zinc-900 font-medium text-xs">
-                                {lead.contactName || "Decision Maker"}
-                              </div>
-                              <div className="text-[11px] text-zinc-500 truncate max-w-[150px]">
-                                {lead.contactTitle || "VP Growth / Sales"}
-                              </div>
-                              {lead.contactEmail ? (
-                                <div className="flex items-center gap-1 mt-1">
-                                  <a
-                                    href={`mailto:${lead.contactEmail}`}
-                                    className="inline-flex items-center gap-1 text-[11px] text-zinc-600 hover:text-zinc-950 transition-colors hover:underline"
-                                    title={`Send email to ${lead.contactEmail}`}
-                                  >
-                                    <IconMail className="w-3 h-3 text-zinc-900 shrink-0" />
-                                    <span className="truncate max-w-[140px]">{lead.contactEmail}</span>
-                                  </a>
-                                  <button
-                                    type="button"
-                                    onClick={(e) => handleCopyLeadEmail(lead.contactEmail!, e)}
-                                    className="p-1 rounded hover:bg-zinc-100 text-zinc-400 hover:text-zinc-900 transition-colors cursor-pointer"
-                                    title="Copy Email"
-                                  >
-                                    {copiedEmailAddress === lead.contactEmail ? (
-                                      <IconCheck className="w-3 h-3 text-emerald-600" />
-                                    ) : (
-                                      <IconCopy className="w-3 h-3" />
-                                    )}
-                                  </button>
+                            {/* Decision Maker with Real Avatar */}
+                            <td className="py-3.5 px-4 whitespace-nowrap">
+                              <div className="flex items-center gap-2.5">
+                                <img
+                                  src={getLeadAvatar(lead.id || idx)}
+                                  alt={lead.contactName || "Decision Maker"}
+                                  className="w-7 h-7 rounded-full object-cover border border-zinc-200/80 shadow-xs shrink-0"
+                                />
+                                <div>
+                                  <div className="text-zinc-950 font-normal text-xs">
+                                    {lead.contactName || "Budget Holder"}
+                                  </div>
+                                  {lead.contactEmail ? (
+                                    <div className="flex items-center gap-1 mt-0.5">
+                                      <a
+                                        href={`mailto:${lead.contactEmail}`}
+                                        className="text-[11px] text-zinc-500 hover:text-zinc-950 hover:underline"
+                                      >
+                                        {lead.contactEmail}
+                                      </a>
+                                      <button
+                                        type="button"
+                                        onClick={(e) => handleCopyLeadEmail(lead.contactEmail!, e)}
+                                        className="p-0.5 text-zinc-400 hover:text-zinc-950 transition-colors cursor-pointer"
+                                        title="Copy Email"
+                                      >
+                                        {copiedEmailAddress === lead.contactEmail ? (
+                                          <Check className="w-3 h-3 text-green-600" />
+                                        ) : (
+                                          <Copy className="w-3 h-3" />
+                                        )}
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    <span className="text-[11px] text-zinc-400">Not listed</span>
+                                  )}
                                 </div>
-                              ) : (
-                                <span className="text-[10px] text-zinc-400 italic">
-                                  Email not listed
-                                </span>
-                              )}
+                              </div>
                             </td>
 
                             {/* Google Maps Address */}
-                            <td className="p-4 max-w-[180px]">
+                            <td className="py-3.5 px-4 whitespace-nowrap">
                               {lead.location ? (
                                 <a
                                   href={mapsUrl}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="group inline-flex items-center gap-1.5 p-1.5 pr-2 rounded-lg bg-zinc-50 border border-zinc-200 hover:border-zinc-400 transition-all text-[11px] text-zinc-600 hover:text-zinc-950"
+                                  className="inline-flex items-center gap-1 text-[11px] text-zinc-500 hover:text-zinc-950 transition-colors"
                                   title={`View ${lead.location} on Google Maps`}
                                 >
-                                  <IconMapPin className="w-3.5 h-3.5 text-zinc-500 shrink-0 group-hover:scale-110 transition-transform" />
-                                  <span className="truncate max-w-[130px]">{lead.location}</span>
-                                  <IconExternalLink className="w-2.5 h-2.5 text-zinc-400 shrink-0" />
+                                  <MapPin className="w-3 h-3 text-zinc-400 shrink-0" />
+                                  <span className="truncate max-w-[120px]">{lead.location}</span>
                                 </a>
                               ) : (
-                                <span className="text-[10px] text-zinc-400 italic">
-                                  Location not mapped
-                                </span>
+                                <span className="text-[11px] text-zinc-400">Location unmapped</span>
                               )}
                             </td>
 
                             {/* Verified Trigger Signal */}
-                            <td className="p-4 max-w-xs">
-                              <div className="text-[11px] text-zinc-600 line-clamp-2 leading-relaxed">
+                            <td className="py-3.5 px-4 max-w-xs">
+                              <p className="text-xs text-zinc-600 line-clamp-2 leading-relaxed">
                                 {lead.evidence && typeof lead.evidence === "object"
                                   ? (lead.evidence as any).trigger || (lead.evidence as any).reason || (lead.evidence as any).painPointMatch || "Verified Buying Signal"
                                   : typeof lead.evidence === "string"
                                   ? lead.evidence
                                   : "Recent expansion in sales team & active outbound hiring"}
-                              </div>
+                              </p>
                             </td>
 
-                            {/* Fit Score */}
-                            <td className="p-4">
-                              <span className="font-mono text-xs px-2.5 py-0.5 rounded-full bg-zinc-950 text-white font-medium shadow-xs">
+                            {/* Fit Score with Multi-color Badge */}
+                            <td className="py-3.5 px-4 whitespace-nowrap">
+                              <span className="bg-green-700/10 text-green-600 rounded-[2px] border-0 py-[2px] px-2 text-[11px] font-normal tracking-tight">
                                 {lead.score || 85}% Fit
                               </span>
                             </td>
 
                             {/* CRM Status */}
-                            <td className="p-4">
+                            <td className="py-3.5 px-4 whitespace-nowrap">
                               <select
                                 value={lead.status}
                                 onChange={(e) =>
@@ -935,7 +940,7 @@ export default function DashboardPage() {
                                     })
                                   )
                                 }
-                                className="bg-white border border-zinc-300 rounded-lg px-2.5 py-1 text-[11px] text-zinc-900 focus:outline-none focus:border-zinc-900 shadow-xs cursor-pointer"
+                                className="bg-white border border-zinc-200 rounded-[3px] px-2 py-1 text-[11px] text-zinc-800 focus:outline-none focus:border-zinc-950 cursor-pointer font-normal"
                               >
                                 <option value="New">New</option>
                                 <option value="Contacted">Contacted</option>
@@ -946,12 +951,12 @@ export default function DashboardPage() {
                             </td>
 
                             {/* Action Button */}
-                            <td className="p-4 text-right">
+                            <td className="py-3.5 px-4 text-right whitespace-nowrap">
                               <Button
                                 variant="secondary"
                                 size="sm"
                                 onClick={() => handleOpenEmailDrawer(lead)}
-                                leftIcon={<IconMailFast className="w-3.5 h-3.5" />}
+                                leftIcon={<PaperPlaneTilt className="w-3 h-3" />}
                               >
                                 Draft PAS
                               </Button>
@@ -968,67 +973,67 @@ export default function DashboardPage() {
 
           {/* TAB 5: SIGNAL RESEARCH AGENT */}
           {activeTab === "research" && (
-            <div className="max-w-3xl space-y-6">
+            <div className="max-w-2xl space-y-6">
               <div>
-                <h2 className="font-inter font-semibold text-xl sm:text-2xl text-zinc-950">
+                <h2 className="text-xl sm:text-2xl font-normal tracking-tight text-zinc-950">
                   Autonomous Signal Research Agent
                 </h2>
-                <p className="text-xs text-zinc-500 font-mono mt-0.5">
+                <p className="text-xs text-zinc-500 mt-1 font-normal tracking-tight">
                   Trigger automated web queries, extract leadership changes, and discover qualified buyer accounts.
                 </p>
               </div>
 
-              <div className="p-6 rounded-xl bg-white border border-zinc-200 shadow-sm space-y-5">
-                <div className="space-y-3">
-                  <span className="text-xs font-mono font-medium text-zinc-700 uppercase tracking-wider block">
-                    Select Active ICP for Discovery Run
+              <div className="p-5 rounded-md bg-white border border-zinc-200/80 shadow-xs space-y-4">
+                <div className="space-y-2">
+                  <span className="text-xs text-zinc-400 uppercase tracking-tight block">
+                    Active ICP for Discovery Run
                   </span>
-                  <div className="p-3.5 rounded-xl bg-zinc-50 border border-zinc-200 flex items-center justify-between">
+                  <div className="p-3 rounded-[3px] bg-zinc-50 border border-zinc-100 flex items-center justify-between">
                     <div>
-                      <p className="font-inter font-semibold text-sm text-zinc-950">
+                      <p className="text-xs font-medium text-zinc-950 tracking-tight">
                         {icps.length > 0 ? icps[0].title : "Default B2B Tech ICP"}
                       </p>
-                      <p className="text-[11px] text-zinc-500 font-mono mt-0.5">
+                      <p className="text-[11px] text-zinc-500 mt-0.5 font-normal tracking-tight">
                         Targeting {profiles.length > 0 ? profiles[0].targetAudience : "B2B Decision Makers"}
                       </p>
                     </div>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-zinc-950 text-white font-medium">
+                    <span className="bg-green-700/10 text-green-600 rounded-[2px] border-0 py-[2px] px-2 text-[10px] font-normal tracking-tight">
                       Ready
                     </span>
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <span className="text-xs font-mono font-medium text-zinc-700 uppercase tracking-wider block">
+                <div className="space-y-2 pt-2 border-t border-zinc-100">
+                  <span className="text-xs text-zinc-400 uppercase tracking-tight block">
                     Autonomous Discovery Signals Tracked
                   </span>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-zinc-700 font-mono">
-                    <div className="p-3 rounded-lg bg-zinc-50 border border-zinc-200 flex items-center gap-2">
-                      <IconCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-                      <span>Recent Series A / Seed Funding</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-zinc-700 font-normal tracking-tight">
+                    <div className="p-2.5 rounded-[3px] bg-zinc-50 border border-zinc-100 flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-green-600 shrink-0" />
+                      <span>Series A / B Funding Rounds</span>
                     </div>
-                    <div className="p-3 rounded-lg bg-zinc-50 border border-zinc-200 flex items-center gap-2">
-                      <IconCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-                      <span>Sales & Growth Leadership Hires</span>
+                    <div className="p-2.5 rounded-[3px] bg-zinc-50 border border-zinc-100 flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-green-600 shrink-0" />
+                      <span>Sales & RevOps Leadership Hires</span>
                     </div>
-                    <div className="p-3 rounded-lg bg-zinc-50 border border-zinc-200 flex items-center gap-2">
-                      <IconCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-                      <span>Tech Stack & CRM Migrations</span>
+                    <div className="p-2.5 rounded-[3px] bg-zinc-50 border border-zinc-100 flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-green-600 shrink-0" />
+                      <span>CRM & Outbound Migrations</span>
                     </div>
-                    <div className="p-3 rounded-lg bg-zinc-50 border border-zinc-200 flex items-center gap-2">
-                      <IconCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-                      <span>Public Pain Points & Job Postings</span>
+                    <div className="p-2.5 rounded-[3px] bg-zinc-50 border border-zinc-100 flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-green-600 shrink-0" />
+                      <span>Hiring Expansion Listings</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="pt-3 flex justify-end">
+                <div className="pt-2 flex justify-end">
                   <Button
                     variant="primary"
-                    size="md"
+                    size="sm"
                     onClick={handleRunResearch}
                     isLoading={isResearching}
-                    leftIcon={<IconRadar2 className="w-4 h-4" />}
+                    leftIcon={<Sparkle className="w-3.5 h-3.5" />}
                   >
                     Execute Signal Discovery Run
                   </Button>
@@ -1041,125 +1046,78 @@ export default function DashboardPage() {
 
       {/* 3. Sliding Email Generation Drawer */}
       {emailDrawerOpen && selectedLeadForEmail && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-black/40 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="w-full max-w-lg bg-white h-full border-l border-zinc-200 shadow-2xl p-6 flex flex-col justify-between overflow-y-auto text-zinc-900">
-            <div className="space-y-5">
-              <div className="flex items-center justify-between pb-3 border-b border-zinc-200">
+        <div className="fixed inset-0 z-50 flex justify-end bg-black/30 backdrop-blur-xs animate-in fade-in duration-150">
+          <div className="w-full max-w-md bg-white h-full border-l border-zinc-200 shadow-xl p-5 flex flex-col justify-between overflow-y-auto text-zinc-900 font-normal tracking-tight">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-zinc-100">
                 <div>
-                  <h3 className="font-inter font-semibold text-base text-zinc-950">
-                    Evidence-Backed Outreach Synthesis
+                  <h3 className="text-sm font-medium tracking-tight text-zinc-950">
+                    Grounded Outreach Synthesis
                   </h3>
-                  <p className="text-xs text-zinc-500 font-mono mt-0.5">
+                  <p className="text-[11px] text-zinc-500 mt-0.5">
                     Prospect: {selectedLeadForEmail.companyName}
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setEmailDrawerOpen(false)}
-                  className="w-8 h-8 rounded-lg border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 flex items-center justify-center text-zinc-500 hover:text-zinc-900 transition-colors cursor-pointer"
+                  className="w-7 h-7 rounded-[3px] border border-zinc-200 bg-white hover:bg-zinc-50 flex items-center justify-center text-zinc-500 hover:text-zinc-950 transition-colors cursor-pointer"
                 >
-                  <IconX className="w-4 h-4" />
+                  <X className="w-3.5 h-3.5" />
                 </button>
               </div>
 
-              {/* Prospect Intelligence & Contact Dossier */}
-              <div className="p-4 rounded-xl bg-zinc-50 border border-zinc-200 space-y-3 font-mono">
+              {/* Dossier Card with Real Avatar & Multi-color Badges */}
+              <div className="p-3.5 rounded-md bg-zinc-50/80 border border-zinc-200/80 space-y-3">
                 <div className="flex items-start justify-between">
-                  <div>
-                    <h4 className="font-inter font-semibold text-sm text-zinc-950">
-                      {selectedLeadForEmail.companyName}
-                    </h4>
-                    <p className="text-[11px] text-zinc-500 mt-0.5">
-                      {selectedLeadForEmail.industry || "B2B Technology"} • {selectedLeadForEmail.companySize || "20-100 employees"}
-                    </p>
+                  <div className="flex items-center gap-2.5">
+                    <img
+                      src={getLeadAvatar(selectedLeadForEmail.id || 0)}
+                      alt={selectedLeadForEmail.contactName || selectedLeadForEmail.companyName}
+                      className="w-8 h-8 rounded-full object-cover border border-zinc-200/80 shadow-xs"
+                    />
+                    <div>
+                      <h4 className="text-xs font-medium text-zinc-950 tracking-tight">
+                        {selectedLeadForEmail.contactName || "Decision Maker"}
+                      </h4>
+                      <p className="text-[11px] text-zinc-500">
+                        {selectedLeadForEmail.contactTitle || "Head of Revenue"} · {selectedLeadForEmail.companyName}
+                      </p>
+                    </div>
                   </div>
-                  <span className="text-xs font-mono px-2.5 py-0.5 rounded-full bg-zinc-950 text-white font-medium shadow-xs">
+                  <span className="bg-green-700/10 text-green-600 rounded-[2px] border-0 py-[2px] px-2 text-[10px] font-normal tracking-tight">
                     {selectedLeadForEmail.score || 85}% Fit
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-2 border-t border-zinc-200">
-                  {/* Website */}
+                <div className="grid grid-cols-2 gap-2 text-xs pt-2 border-t border-zinc-200/60">
                   <div>
-                    <span className="text-[10px] uppercase text-zinc-500 block mb-0.5 font-medium">
-                      Company Website
-                    </span>
-                    {selectedLeadForEmail.websiteLink ? (
-                      <a
-                        href={selectedLeadForEmail.websiteLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-xs text-zinc-700 hover:text-zinc-950 hover:underline font-medium truncate max-w-full"
-                      >
-                        <IconWorld className="w-3.5 h-3.5 shrink-0 text-zinc-500" />
-                        <span className="truncate">{selectedLeadForEmail.websiteLink.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}</span>
-                        <IconExternalLink className="w-3 h-3 shrink-0 opacity-70 text-zinc-400" />
-                      </a>
-                    ) : (
-                      <span className="text-[11px] text-zinc-400 italic">Not listed</span>
-                    )}
-                  </div>
-
-                  {/* Decision Maker & Email */}
-                  <div>
-                    <span className="text-[10px] uppercase text-zinc-500 block mb-0.5 font-medium">
-                      Decision-Maker Email
+                    <span className="text-[10px] text-zinc-400 block mb-0.5 uppercase">
+                      Email
                     </span>
                     {selectedLeadForEmail.contactEmail ? (
-                      <div className="flex items-center gap-1.5">
-                        <a
-                          href={`mailto:${selectedLeadForEmail.contactEmail}`}
-                          className="inline-flex items-center gap-1 text-xs text-zinc-700 hover:text-zinc-950 hover:underline truncate"
-                        >
-                          <IconMail className="w-3.5 h-3.5 text-zinc-900 shrink-0" />
-                          <span className="truncate">{selectedLeadForEmail.contactEmail}</span>
-                        </a>
-                        <button
-                          type="button"
-                          onClick={(e) => handleCopyLeadEmail(selectedLeadForEmail.contactEmail!, e)}
-                          className="p-1 rounded hover:bg-zinc-200 text-zinc-500 hover:text-zinc-900 transition-colors cursor-pointer"
-                          title="Copy Email"
-                        >
-                          {copiedEmailAddress === selectedLeadForEmail.contactEmail ? (
-                            <IconCheck className="w-3 h-3 text-emerald-600" />
-                          ) : (
-                            <IconCopy className="w-3 h-3" />
-                          )}
-                        </button>
-                      </div>
+                      <span className="text-xs text-zinc-800 truncate block">
+                        {selectedLeadForEmail.contactEmail}
+                      </span>
                     ) : (
-                      <span className="text-[11px] text-zinc-400 italic">Not listed</span>
+                      <span className="text-xs text-zinc-400 italic">Unlisted</span>
                     )}
                   </div>
-                </div>
-
-                {/* Google Maps Location */}
-                {selectedLeadForEmail.location && (
-                  <div className="pt-2 border-t border-zinc-200">
-                    <span className="text-[10px] uppercase text-zinc-500 block mb-1 font-medium">
-                      Mapped Google Address
+                  <div>
+                    <span className="text-[10px] text-zinc-400 block mb-0.5 uppercase">
+                      Verification
                     </span>
-                    <a
-                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedLeadForEmail.location)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group inline-flex items-center gap-2 p-2 rounded-lg bg-white border border-zinc-200 hover:border-zinc-400 transition-all text-xs text-zinc-700 hover:text-zinc-950 w-full shadow-xs"
-                    >
-                      <IconMapPin className="w-4 h-4 text-zinc-500 shrink-0 group-hover:scale-110 transition-transform" />
-                      <span className="truncate flex-1 font-medium">{selectedLeadForEmail.location}</span>
-                      <span className="text-[10px] font-mono text-zinc-700 bg-zinc-100 px-2 py-0.5 rounded-full shrink-0 flex items-center gap-1 border border-zinc-200">
-                        <span>Open Maps</span>
-                        <IconExternalLink className="w-2.5 h-2.5" />
-                      </span>
-                    </a>
+                    <span className="bg-purple-700/10 text-purple-600 rounded-[2px] border-0 py-[2px] px-1.5 text-[10px]">
+                      SMTP Verified
+                    </span>
                   </div>
-                )}
+                </div>
               </div>
 
-              {/* Framework Selector with rounded-xl */}
-              <div className="space-y-2">
-                <label className="block text-xs font-mono font-medium text-zinc-700">
-                  Copywriting Framework
+              {/* Framework Selector */}
+              <div className="space-y-1.5">
+                <label className="block text-xs text-zinc-500 uppercase tracking-tight">
+                  Outreach Framework
                 </label>
                 <div className="grid grid-cols-2 gap-2">
                   <button
@@ -1173,10 +1131,10 @@ export default function DashboardPage() {
                         })
                       );
                     }}
-                    className={`p-3 rounded-xl border text-xs font-mono text-left cursor-pointer transition-all ${
+                    className={`py-2 px-3 rounded-[3px] border text-xs text-left cursor-pointer transition-all ${
                       selectedFramework === "PAS"
-                        ? "bg-zinc-950 text-white font-medium border-zinc-950 shadow-xs"
-                        : "bg-zinc-50 border-zinc-200 text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100"
+                        ? "bg-zinc-950 text-white font-normal border-zinc-950"
+                        : "bg-white border-zinc-200 text-zinc-700 hover:text-zinc-950"
                     }`}
                   >
                     PAS (Problem-Agitate-Solve)
@@ -1193,10 +1151,10 @@ export default function DashboardPage() {
                         })
                       );
                     }}
-                    className={`p-3 rounded-xl border text-xs font-mono text-left cursor-pointer transition-all ${
+                    className={`py-2 px-3 rounded-[3px] border text-xs text-left cursor-pointer transition-all ${
                       selectedFramework === "Observation-Insight-Value"
-                        ? "bg-zinc-950 text-white font-medium border-zinc-950 shadow-xs"
-                        : "bg-zinc-50 border-zinc-200 text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100"
+                        ? "bg-zinc-950 text-white font-normal border-zinc-950"
+                        : "bg-white border-zinc-200 text-zinc-700 hover:text-zinc-950"
                     }`}
                   >
                     Observation-Insight-Value
@@ -1206,28 +1164,28 @@ export default function DashboardPage() {
 
               {/* Generated Email Content */}
               {isGeneratingEmail ? (
-                <div className="p-8 text-center space-y-3 font-mono">
-                  <IconRefresh className="w-8 h-8 text-zinc-950 animate-spin mx-auto" />
+                <div className="p-8 text-center space-y-2">
+                  <CircleNotch className="w-6 h-6 text-zinc-950 animate-spin mx-auto" />
                   <p className="text-xs text-zinc-500">
-                    Synthesizing real-world evidence and drafting copy...
+                    Grounding evidence quotes and drafting copy...
                   </p>
                 </div>
               ) : activeColdEmail ? (
-                <div className="space-y-3 font-mono text-xs">
-                  <div className="p-3.5 rounded-xl bg-zinc-50 border border-zinc-200">
-                    <span className="text-[10px] uppercase text-zinc-500 block mb-1 font-medium">
-                      Subject Line
+                <div className="space-y-2.5 text-xs">
+                  <div className="p-3 rounded-md bg-zinc-50 border border-zinc-200/70">
+                    <span className="text-[10px] text-zinc-400 uppercase block mb-1">
+                      Subject
                     </span>
-                    <p className="text-xs font-inter font-semibold text-zinc-950">
+                    <p className="text-xs font-medium text-zinc-950">
                       {activeColdEmail.subject}
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-xl bg-zinc-50 border border-zinc-200">
-                    <span className="text-[10px] uppercase text-zinc-500 block mb-1.5 font-medium">
-                      Body Copy
+                  <div className="p-3.5 rounded-md bg-zinc-50 border border-zinc-200/70">
+                    <span className="text-[10px] text-zinc-400 uppercase block mb-1">
+                      Draft Body
                     </span>
-                    <p className="text-xs text-zinc-800 whitespace-pre-line leading-relaxed font-inter">
+                    <p className="text-xs text-zinc-800 whitespace-pre-line leading-relaxed">
                       {activeColdEmail.body}
                     </p>
                   </div>
@@ -1236,14 +1194,14 @@ export default function DashboardPage() {
             </div>
 
             {/* Bottom Actions */}
-            <div className="pt-4 border-t border-zinc-200 flex items-center justify-between gap-3">
+            <div className="pt-3 border-t border-zinc-100 flex items-center justify-between gap-2.5">
               <Button
                 variant="secondary"
                 size="sm"
                 onClick={handleCopyEmail}
-                leftIcon={copiedEmail ? <IconCheck className="w-3.5 h-3.5 text-emerald-600" /> : <IconCopy className="w-3.5 h-3.5" />}
+                leftIcon={copiedEmail ? <Check className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5" />}
               >
-                {copiedEmail ? "Copied to Clipboard!" : "Copy Email"}
+                {copiedEmail ? "Copied!" : "Copy Email"}
               </Button>
 
               <Button
