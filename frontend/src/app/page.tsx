@@ -6,11 +6,9 @@ import { Navbar } from "../components/common/Navbar";
 import { Footer } from "../components/common/Footer";
 import { HeroSection } from "../components/landing/HeroSection";
 import { LogoMarquee } from "../components/landing/LogoMarquee";
-import { InfrastructurePipeline } from "../components/landing/InfrastructurePipeline";
 import { SectionSkeleton } from "../components/ui/Skeleton";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 
-// Dynamic imports with lazy loading for below-the-fold components
 const LiveTeaserDemo = dynamic(
   () => import("../components/landing/LiveTeaserDemo").then((mod) => mod.LiveTeaserDemo),
   { loading: () => <SectionSkeleton />, ssr: true }
@@ -23,11 +21,6 @@ const TrustProof = dynamic(
 
 const FeatureGrid = dynamic(
   () => import("../components/landing/FeatureGrid").then((mod) => mod.FeatureGrid),
-  { loading: () => <SectionSkeleton />, ssr: true }
-);
-
-const WorkflowSection = dynamic(
-  () => import("../components/landing/WorkflowSection").then((mod) => mod.WorkflowSection),
   { loading: () => <SectionSkeleton />, ssr: true }
 );
 
@@ -50,78 +43,39 @@ export default function LandingPage() {
   useScrollReveal();
 
   return (
-    <div className="landing-page font-inter relative min-h-screen bg-[#FAFAFA] text-zinc-900 overflow-x-hidden selection:bg-zinc-900 selection:text-white">
-      {/* ========================================================================= */}
-      {/* 5% Architectural Gutters with Clean Grid Lines                            */}
-      {/* ========================================================================= */}
+    <div className="landing-page min-h-screen bg-white text-zinc-900 selection:bg-zinc-900 selection:text-white flex flex-col items-center w-full overflow-x-clip">
+      {/* Dynamic Nav */}
+      <Navbar />
 
-      {/* Left 5% Gutter */}
-      <aside
-        aria-hidden="true"
-        className="fixed top-0 bottom-0 left-0 w-[5%] carbon-gutter border-r border-[#E4E4E7] z-30 pointer-events-none hidden md:flex flex-col justify-between items-center py-6 opacity-80"
-      >
-        <div className="w-[1px] h-32 carbon-strip-line" />
-        <div className="rotate-90 text-[9px] font-mono tracking-[0.3em] text-zinc-400 whitespace-nowrap select-none">
-          SYS.L05 // ARCH_V3
-        </div>
-        <div className="w-[1px] h-32 carbon-strip-line" />
-      </aside>
+      {/* Main Container - Clean Editorial Framing without awkward side gutters */}
+      <main className="w-full flex-grow flex flex-col items-center">
+        {/* Hero Section */}
+        <HeroSection />
 
-      {/* Right 5% Gutter */}
-      <aside
-        aria-hidden="true"
-        className="fixed top-0 bottom-0 right-0 w-[5%] carbon-gutter border-l border-[#E4E4E7] z-30 pointer-events-none hidden md:flex flex-col justify-between items-center py-6 opacity-80"
-      >
-        <div className="w-[1px] h-32 carbon-strip-line" />
-        <div className="-rotate-90 text-[9px] font-mono tracking-[0.3em] text-zinc-400 whitespace-nowrap select-none">
-          PIPELINE // 99.98%
-        </div>
-        <div className="w-[1px] h-32 carbon-strip-line" />
-      </aside>
+        {/* Real Company Logos Marquee */}
+        <LogoMarquee />
 
-      {/* ========================================================================= */}
-      {/* Main 90% Content Container Framed by the 5% Gutters                       */}
-      {/* ========================================================================= */}
-      <div className="w-full md:w-[90%] md:mx-auto relative z-10 flex flex-col min-h-screen border-x border-[#E4E4E7] bg-white shadow-sm">
-        {/* Dynamic Nav that shifts and shrinks on scroll into floating pill dock */}
-        <Navbar />
+        {/* Interactive Engine Preview */}
+        <LiveTeaserDemo />
 
-        {/* Content Modules */}
-        <main className="flex-grow flex flex-col items-center w-full">
-          {/* Hero Section with Young Serif, 2px shadow buttons, SVG fill animation */}
-          <HeroSection />
+        {/* Metrics & Social Proof */}
+        <TrustProof />
 
-          {/* Marquee with Monochrome Partner Badges */}
-          <LogoMarquee />
+        {/* Core Capabilities Bento */}
+        <FeatureGrid />
 
-          {/* Step-by-Step "Blur to No Blur" Infrastructure Preview */}
-          <InfrastructurePipeline />
+        {/* Customer Proof */}
+        <TestimonialWall />
 
-          {/* Interactive Live Teaser Demo */}
-          <LiveTeaserDemo />
+        {/* Technical FAQ */}
+        <FAQAccordion />
 
-          {/* Social Proof & Animated Counter Statistics */}
-          <TrustProof />
+        {/* Final Conversion CTA */}
+        <BottomCTA />
+      </main>
 
-          {/* 3 Core Architecture Pillars & Asymmetric Bento Grid */}
-          <FeatureGrid />
-
-          {/* 4-Step Visual Workflow */}
-          <WorkflowSection />
-
-          {/* Verified User Testimonials */}
-          <TestimonialWall />
-
-          {/* Expandable Technical FAQ */}
-          <FAQAccordion />
-
-          {/* Final Conversion CTA */}
-          <BottomCTA />
-        </main>
-
-        {/* Footer with Halftone Effect and Giant POSTRICHMENT Watermark */}
-        <Footer />
-      </div>
+      {/* Editorial Footer */}
+      <Footer />
     </div>
   );
 }
