@@ -14,7 +14,7 @@ interface AuthState {
 const initialState: AuthState = {
   user: null,
   workspace: null,
-  token: typeof window !== 'undefined' ? localStorage.getItem('postrichment_token') : null,
+  token: null,
   isLoading: false,
   hasLoaded: false,
   error: null,
@@ -59,6 +59,11 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    initializeToken: (state) => {
+      if (typeof window !== 'undefined') {
+        state.token = localStorage.getItem('postrichment_token');
+      }
+    },
     logout: (state) => {
       state.user = null;
       state.workspace = null;
@@ -117,5 +122,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, setActiveWorkspace } = authSlice.actions;
+export const { initializeToken, logout, setActiveWorkspace } = authSlice.actions;
 export default authSlice.reducer;

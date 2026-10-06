@@ -23,8 +23,13 @@ export function UserProfileDropdown() {
   const { user, workspace, token } = useAppSelector((state) => state.auth);
   const { theme } = useAppSelector((state) => state.ui);
 
+  const [mounted, setMounted] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
   const dropdownRef = React.useRef<HTMLDivElement | null>(null);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -53,7 +58,7 @@ export function UserProfileDropdown() {
     document.documentElement.setAttribute("data-theme", nextTheme);
   };
 
-  if (!user && !token) return null;
+  if (!mounted || (!user && !token)) return null;
 
   return (
     <div className="relative inline-block text-left" ref={dropdownRef}>
@@ -69,7 +74,7 @@ export function UserProfileDropdown() {
           className="w-6 h-6 rounded-full object-cover"
         />
         <div className="hidden sm:flex flex-col text-left">
-          <span className="text-xs font-normal tracking-tight text-zinc-900 leading-tight truncate max-w-[120px]">
+          <span className="text-xs font-normal tracking-tight text-zinc-950 leading-tight truncate max-w-[120px]">
             {user?.name || (user?.email ? user.email.split("@")[0] : "Account")}
           </span>
         </div>

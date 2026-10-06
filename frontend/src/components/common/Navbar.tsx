@@ -20,6 +20,11 @@ export function Navbar() {
   const { user, token } = useAppSelector((state) => state.auth);
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleLogout = async () => {
     setMobileMenuOpen(false);
@@ -48,6 +53,8 @@ export function Navbar() {
       dispatch(fetchCurrentUser());
     }
   }, [token, user, dispatch]);
+
+  const isAuthenticated = mounted && Boolean(token || user);
 
   return (
     <header
@@ -112,7 +119,7 @@ export function Navbar() {
 
         {/* Action Controls */}
         <div className="flex items-center gap-2.5">
-          {token || user ? (
+          {isAuthenticated ? (
             <div className="flex items-center gap-2">
               <button
                 onClick={() => router.push("/dashboard")}
