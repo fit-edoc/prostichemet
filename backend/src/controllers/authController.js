@@ -6,7 +6,7 @@ const googleLoginSchema = z.object({
   idToken: z.string().optional(),
   email: z.string().email().optional(),
   name: z.string().optional(),
-  avatarUrl: z.string().url().optional(),
+  avatarUrl: z.string().optional().nullable(),
   googleId: z.string().optional(),
 }).refine(data => data.idToken || data.email, {
   message: 'Either idToken or email is required',
