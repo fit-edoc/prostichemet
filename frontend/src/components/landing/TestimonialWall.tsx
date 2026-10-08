@@ -7,7 +7,7 @@ export function TestimonialWall() {
   const testimonials = [
     {
       quote:
-        "Postrichment cut our prospecting research time by 80%. The signal detection for Series A funding and SDR hiring is shockingly accurate.",
+        "Postrichly cut our prospecting research time by 80%. The signal detection for Series A funding and SDR hiring is shockingly accurate.",
       author: "Priya Sharma",
       role: "Head of Growth, TechFlow Agency",
       metric: "3.4x more meetings",
