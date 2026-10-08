@@ -1,6 +1,7 @@
 const { db } = require('../db');
 const { icpProfiles, businessProfiles } = require('../db/schema');
 const llmProvider = require('../services/llm');
+const ragService = require('../services/ragService');
 const researchAgent = require('../services/researchAgent');
 const { eq, and, desc } = require('drizzle-orm');
 const { successResponse, errorResponse } = require('../utils/response');
@@ -27,8 +28,12 @@ const generateIcp = async (req, res, next) => {
     }
     const profile = profiles[0];
 
-    // 2. Generate ICP via RAG and Gemini
-    const icpData = await llmProvider.generateICPWithRAG(profile);
+    // 2. Retrieve relevant market/framework context via RAG
+    const ragQuery = `${profile.industry || 'B2B'} ${profile.region || ''} ${profile.targetAudience || ''} market persona ICP frameworks`;
+    const contextDocs = await ragService.retrieveContext(ragQuery, req.workspaceId, 3);
+
+    // 3. Generate ICP via RAG and Gemini
+    const icpData = await llmProvider.generateICPWithRAG(profile, contextDocs);
 
     // 3. Save ICP to database
     const [newIcp] = await db
