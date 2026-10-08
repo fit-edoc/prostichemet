@@ -31,7 +31,7 @@ export function LiveTeaserDemo() {
           </span>
         </div>
         <h2 className="text-2xl sm:text-4xl text-zinc-950 font-normal tracking-tight leading-tight">
-          How Postrichment works in practice.
+          How Postrichly works in practice.
         </h2>
         <p className="text-xs sm:text-sm text-zinc-500 mt-2 font-normal tracking-tight max-w-lg mx-auto">
           Explore the four stages of autonomous account discovery and trigger-based synthesis.
@@ -198,7 +198,7 @@ export function LiveTeaserDemo() {
                 Noticed CloudFlow is hiring 4 Senior SDRs following your Series B. Ramping new reps on manual prospect research often slows down time-to-first-meeting by weeks.
               </p>
               <p>
-                We built Postrichment to feed your reps live-verified buyer signals with pre-grounded context directly into your CRM so they only reach out with real timing evidence.
+                We built Postrichly to feed your reps live-verified buyer signals with pre-grounded context directly into your CRM so they only reach out with real timing evidence.
               </p>
               <p>
                 Worth a quick look before the new cohort begins?
