@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   GithubLogo,
   TwitterLogo,
@@ -17,23 +18,17 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-10 border-b border-zinc-200/60">
           {/* Brand Column (6 cols) */}
           <div className="md:col-span-6 space-y-3">
-            {/* Raw Brand Icon without BG Black */}
+            {/* Brand Logo & Name */}
             <Link href="/" className="inline-flex items-center gap-2 group">
-              <svg
-                className="w-5 h-5 text-zinc-950 transition-transform group-hover:scale-105"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="12" cy="12" r="9" />
-                <path d="M12 3v6" />
-                <path d="m15 15-3-3-3 3" />
-              </svg>
+              <Image
+                src="/logo.png"
+                alt="Postrichly"
+                width={24}
+                height={24}
+                className="w-6 h-6 rounded object-contain transition-transform group-hover:scale-105"
+              />
               <span className="text-sm font-normal tracking-tight text-zinc-950">
-                Postrichment
+                Postrichly
               </span>
             </Link>
 
@@ -120,7 +115,7 @@ export function Footer() {
 
         {/* Bottom Bar: Copyright & Operational Status */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-400 font-normal tracking-tight">
-          <p>© {new Date().getFullYear()} Postrichment Inc. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Postrichly Inc. All rights reserved.</p>
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
             <span className="text-zinc-500">All systems operational</span>
