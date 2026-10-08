@@ -50,6 +50,18 @@ export const createBusinessProfile = createAsyncThunk(
   }
 );
 
+export const updateBusinessProfile = createAsyncThunk(
+  'profile/updateBusinessProfile',
+  async ({ id, profile }: { id: number; profile: Partial<Omit<BusinessProfile, 'id' | 'workspaceId' | 'createdAt'>> }, { rejectWithValue }) => {
+    try {
+      const data = await profileApi.updateProfile(id, profile);
+      return data;
+    } catch (err: any) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
 const profileSlice = createSlice({
   name: 'profile',
   initialState,
@@ -87,6 +99,24 @@ const profileSlice = createSlice({
         state.activeProfile = action.payload;
       })
       .addCase(createBusinessProfile.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(updateBusinessProfile.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateBusinessProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const index = state.profiles.findIndex(p => p.id === action.payload.id);
+        if (index !== -1) {
+          state.profiles[index] = action.payload;
+        } else {
+          state.profiles.unshift(action.payload);
+        }
+        state.activeProfile = action.payload;
+      })
+      .addCase(updateBusinessProfile.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       });
