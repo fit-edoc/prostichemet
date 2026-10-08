@@ -2,10 +2,12 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
 import { createBusinessProfile } from "../../store/slices/profileSlice";
 import { generateIcpWithRAG } from "../../store/slices/icpSlice";
+import { scrapeAndIngest } from "../../store/slices/ragSlice";
 import { Button } from "../../components/ui/Button";
 import { UserProfileDropdown } from "../../components/common/UserProfileDropdown";
 import {
@@ -20,6 +22,9 @@ import {
   Coins,
   User,
   ShieldCheck,
+  MagnifyingGlass,
+  Database,
+  MapPin,
 } from "@phosphor-icons/react";
 
 export default function OnboardingPage() {
@@ -27,6 +32,7 @@ export default function OnboardingPage() {
   const dispatch = useAppDispatch();
   const { user, token } = useAppSelector((state) => state.auth);
   const { isLoading: isProfileLoading } = useAppSelector((state) => state.profile);
+  const { isIngesting: isScrapingIngesting, successMessage: ragSuccessMessage } = useAppSelector((state) => state.rag);
 
   // Form State
   const [companyName, setCompanyName] = React.useState("");
@@ -38,12 +44,42 @@ export default function OnboardingPage() {
   const [region, setRegion] = React.useState("North America & Global");
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
+  // Scraping RAG state
+  const [websiteUrl, setWebsiteUrl] = React.useState("");
+  const [scrapeNotice, setScrapeNotice] = React.useState<string | null>(null);
+
   // Protect route
   React.useEffect(() => {
     if (!token && !user) {
       router.push("/login");
     }
   }, [token, user, router]);
+
+  const handleScrapeAndFill = async () => {
+    if (!websiteUrl.trim()) return;
+    setScrapeNotice(null);
+    try {
+      const resultAction = await dispatch(scrapeAndIngest({ url: websiteUrl.trim() }));
+      if (scrapeAndIngest.fulfilled.match(resultAction)) {
+        const data = resultAction.payload;
+        if (data && data.extractedData) {
+          const profile = data.extractedData;
+          if (profile.companyName) setCompanyName(profile.companyName);
+          if (profile.industry) setIndustry(profile.industry);
+          if (profile.valueProposition) setValueProposition(profile.valueProposition);
+          if (profile.productDescription) setProductDescription(profile.productDescription);
+          if (profile.targetAudience) setTargetAudience(profile.targetAudience);
+          if (profile.region) setRegion(profile.region);
+          if (profile.typicalDealSize) setTypicalDealSize(profile.typicalDealSize);
+          setScrapeNotice(`Scraped ${data.url} & ingested ${data.chunksIngested} vector knowledge chunks into RAG!`);
+        }
+      } else {
+        setScrapeNotice("Could not parse website. You can still fill out the form manually.");
+      }
+    } catch {
+      setScrapeNotice("Scraping connection error. You can continue manually.");
+    }
+  };
 
   const handleApplyTemplate = (type: "agency" | "saas" | "devtools") => {
     if (type === "agency") {
@@ -114,26 +150,21 @@ export default function OnboardingPage() {
 
   return (
     <div className="min-h-screen w-full bg-[#FAFAFA] text-zinc-950 flex flex-col font-normal tracking-tight selection:bg-zinc-900 selection:text-white">
-      {/* Top Header with RAW Icon */}
+      {/* Top Header */}
       <header className="w-full border-b border-zinc-200/80 bg-white/80 backdrop-blur-md sticky top-0 z-40 px-6 py-3">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 group">
-            <svg
-              className="w-5 h-5 text-zinc-950 transition-transform group-hover:scale-105"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="12" cy="12" r="9" />
-              <path d="M12 3v6" />
-              <path d="m15 15-3-3-3 3" />
-            </svg>
-            <span className="text-sm font-normal text-zinc-950">Postrichment</span>
+            <Image
+              src="/logo.png"
+              alt="Postrichly"
+              width={24}
+              height={24}
+              className="w-6 h-6 rounded object-contain transition-transform group-hover:scale-105"
+              priority
+            />
+            <span className="text-sm font-normal text-zinc-950">Postrichly</span>
             <span className="bg-blue-700/10 text-blue-600 rounded-[2px] border-0 py-[2px] px-2 text-[10px] hidden sm:inline-flex">
-              Company Intake
+              Company Intake & RAG Pipeline
             </span>
           </Link>
 
@@ -146,26 +177,71 @@ export default function OnboardingPage() {
         </div>
       </header>
 
-      {/* Main Intake Container */}
-      <main className="flex-1 max-w-2xl w-full mx-auto px-4 py-8 space-y-6">
-        {/* Step Indicator Header with Multi-color Badge */}
-        <div className="text-center space-y-1.5">
-          <span className="bg-purple-700/10 text-purple-600 rounded-[2px] border-0 py-[2px] px-2 text-[11px] inline-flex items-center gap-1.5">
-            <Sparkle className="w-3.5 h-3.5" />
-            Step 1 of 1: Configure Your GTM Engine
-          </span>
+      {/* Main Container */}
+      <main className="max-w-3xl w-full mx-auto px-6 py-8 flex-1 space-y-6">
+        <div>
+          <div className="flex items-center gap-2 mb-1.5">
+            <span className="bg-zinc-900 text-white rounded-[2px] px-1.5 py-0.5 text-[10px] uppercase font-mono">
+              Step 1 of 2
+            </span>
+            <span className="text-xs text-zinc-400">GTM Grounding Setup</span>
+          </div>
           <h1 className="text-2xl sm:text-3xl font-normal tracking-tight text-zinc-950">
-            Tell us about your company
+            Tell us about your company & target territory
           </h1>
-          <p className="text-xs text-zinc-500 max-w-md mx-auto leading-relaxed">
-            Our autonomous research engine uses your value proposition to find verified buyers, extract growth triggers, and draft personalized outreach.
+          <p className="text-xs text-zinc-500 mt-1 max-w-xl font-normal leading-relaxed">
+            Our multi-agent RAG pipeline retrieves localized market signals and grounds prospect leads strictly within your entered geographic region and target decision-makers.
           </p>
+        </div>
+
+        {/* 1. NEW: Scraping RAG Bar */}
+        <div className="p-4 rounded-md bg-white border border-blue-200 shadow-xs space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5 text-xs font-medium text-zinc-900">
+              <Database className="w-3.5 h-3.5 text-blue-600" />
+              <span>Live Web Scraping RAG Engine</span>
+            </div>
+            <span className="text-[10px] bg-blue-50 text-blue-700 px-1.5 py-0.5 rounded">
+              Auto-Extract & Vector Grounding
+            </span>
+          </div>
+          <p className="text-[11px] text-zinc-500 leading-normal">
+            Paste your company URL (or target company website). Our autonomous scraper extracts your product offerings, target territory, and value proposition, then indexes it directly into your RAG vector base.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-2 pt-1">
+            <div className="relative flex-1">
+              <Globe className="w-3.5 h-3.5 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="url"
+                placeholder="https://yourcompany.com"
+                value={websiteUrl}
+                onChange={(e) => setWebsiteUrl(e.target.value)}
+                className="w-full bg-zinc-50 border border-zinc-200 rounded-[3px] py-1.5 pl-8 pr-3 text-xs text-zinc-900 focus:outline-none focus:border-zinc-950 font-normal"
+              />
+            </div>
+            <Button
+              type="button"
+              variant="secondary"
+              size="sm"
+              onClick={handleScrapeAndFill}
+              isLoading={isScrapingIngesting}
+              leftIcon={<Sparkle className="w-3.5 h-3.5 text-blue-600" />}
+            >
+              Scrape & Auto-Fill Form
+            </Button>
+          </div>
+          {scrapeNotice && (
+            <div className="p-2 rounded bg-blue-50/70 border border-blue-100 text-[11px] text-blue-800 flex items-center gap-1.5">
+              <Check className="w-3 h-3 text-blue-600 shrink-0" />
+              <span>{scrapeNotice}</span>
+            </div>
+          )}
         </div>
 
         {/* Quick Template Presets */}
         <div className="space-y-1.5">
           <p className="text-[11px] text-zinc-400 uppercase tracking-tight text-center">
-            Quick 1-Click Templates
+            Or choose a pre-configured B2B preset
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
             <button
@@ -291,22 +367,42 @@ export default function OnboardingPage() {
               />
             </div>
 
-            {/* 4. Target Audience, Deal Size & Region */}
+            {/* 4. Target Audience, Deal Size & Territory */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
                 <label className="block text-xs font-normal text-zinc-700 mb-1.5">
-                  Target Decision-Makers
+                  Target Decision-Makers <span className="text-rose-500">*</span>
                 </label>
                 <div className="relative">
                   <User className="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
                   <input
                     type="text"
-                    placeholder="Founders, VP Sales"
+                    required
+                    placeholder="Founders, VP Sales, CTOs"
                     value={targetAudience}
                     onChange={(e) => setTargetAudience(e.target.value)}
                     className="w-full bg-white border border-zinc-200 rounded-[3px] py-1.5 pl-7 pr-2.5 text-xs text-zinc-900 focus:outline-none focus:border-zinc-950 font-normal"
                   />
                 </div>
+                <p className="text-[10px] text-zinc-400 mt-1">Leads will strictly target these roles</p>
+              </div>
+
+              <div>
+                <label className="block text-xs font-normal text-zinc-700 mb-1.5">
+                  Target Location / Territory <span className="text-rose-500">*</span>
+                </label>
+                <div className="relative">
+                  <MapPin className="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. London, UK or Berlin, Germany or Austin, TX"
+                    value={region}
+                    onChange={(e) => setRegion(e.target.value)}
+                    className="w-full bg-white border border-zinc-200 rounded-[3px] py-1.5 pl-7 pr-2.5 text-xs text-zinc-900 focus:outline-none focus:border-zinc-950 font-normal"
+                  />
+                </div>
+                <p className="text-[10px] text-zinc-400 mt-1">Leads will strictly be in this location</p>
               </div>
 
               <div>
@@ -323,22 +419,7 @@ export default function OnboardingPage() {
                     className="w-full bg-white border border-zinc-200 rounded-[3px] py-1.5 pl-7 pr-2.5 text-xs text-zinc-900 focus:outline-none focus:border-zinc-950 font-normal"
                   />
                 </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-normal text-zinc-700 mb-1.5">
-                  Geographic Region
-                </label>
-                <div className="relative">
-                  <Globe className="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="text"
-                    placeholder="North America & Global"
-                    value={region}
-                    onChange={(e) => setRegion(e.target.value)}
-                    className="w-full bg-white border border-zinc-200 rounded-[3px] py-1.5 pl-7 pr-2.5 text-xs text-zinc-900 focus:outline-none focus:border-zinc-950 font-normal"
-                  />
-                </div>
+                <p className="text-[10px] text-zinc-400 mt-1">Expected annual contract value</p>
               </div>
             </div>
 
@@ -346,7 +427,7 @@ export default function OnboardingPage() {
             <div className="pt-3 border-t border-zinc-100 flex flex-col sm:flex-row items-center justify-between gap-3">
               <div className="flex items-center gap-1.5 text-xs text-zinc-500">
                 <Check className="w-3.5 h-3.5 text-green-600" />
-                <span>AI auto-generates your ICP profile & initial leads</span>
+                <span>RAG pipeline grounds ICP & leads to your territory</span>
               </div>
 
               <Button
