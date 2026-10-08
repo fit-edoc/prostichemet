@@ -44,18 +44,26 @@ class LLMProvider {
         model: 'gemini-2.5-flash',
         contents: prompt,
         config: {
-          systemInstruction: system || "You are an expert sales, go-to-market strategist, and B2B researcher.",
+          systemInstruction: system || "You are an expert sales, go-to-market strategist, and B2B researcher. Respond strictly with valid JSON without markdown wrapping.",
           responseMimeType: "application/json",
           temperature: 0.2,
         }
       });
 
-      const parsed = JSON.parse(response.text);
+      let rawText = response.text || "{}";
+      rawText = rawText.trim();
+      if (rawText.startsWith('```json')) {
+        rawText = rawText.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+      } else if (rawText.startsWith('```')) {
+        rawText = rawText.replace(/^```\s*/, '').replace(/\s*```$/, '');
+      }
+
+      const parsed = JSON.parse(rawText);
       return parsed;
     } catch (error) {
       console.error("Gemini Generation Error:", error.message);
-      // Graceful fallback (Principle 14: AI failures should degrade gracefully)
-      return this._mockResponse();
+      // Graceful fallback (Degrade gracefully)
+      return null;
     }
   }
 
@@ -77,16 +85,20 @@ class LLMProvider {
       Industry: ${businessProfile.industry || 'B2B'}
       Value Proposition: ${businessProfile.valueProposition}
       Product Description: ${businessProfile.productDescription || ''}
-      Target Audience: ${businessProfile.targetAudience || ''}
-      Typical Customer: ${businessProfile.typicalCustomer || ''}
+      Target Audience / Ideal Persona: ${businessProfile.targetAudience || 'Decision Makers'}
+      Target Territory / Geographic Region: ${businessProfile.region || 'Global'}
       Typical Deal Size: ${businessProfile.typicalDealSize || ''}
 
       [Retrieved Market/Industry Context & Frameworks]
       ${contextStr}
 
+      Instructions:
+      - The ICP title, targetRoles, and targetIndustries must reflect the target audience: "${businessProfile.targetAudience || 'Decision Makers'}"
+      - Pain points should directly tie to the solution provided in the value proposition.
+
       Respond STRICTLY in the following JSON format:
       {
-        "title": "Clear target persona title (e.g. VP of Sales, Head of Growth, Agency Founder)",
+        "title": "Clear target persona title (e.g. ${businessProfile.targetAudience || 'VP of Sales & Growth'})",
         "targetIndustries": ["Industry Vertical 1", "Industry Vertical 2", "Industry Vertical 3"],
         "targetRoles": ["Exact Job Title 1", "Exact Job Title 2", "Exact Job Title 3"],
         "companySize": ["e.g. 10-50 employees", "e.g. 50-200 employees"],
@@ -98,10 +110,42 @@ class LLMProvider {
       }
     `;
 
-    return this.generate({
+    const generated = await this.generate({
       prompt,
       system: "You are a master B2B Go-To-Market strategist. Produce laser-focused, realistic ICP definitions grounded in market facts.",
     });
+
+    if (generated && generated.title) {
+      return generated;
+    }
+
+    return this._dynamicIcpFallback(businessProfile);
+  }
+
+  _dynamicIcpFallback(businessProfile) {
+    const audience = businessProfile.targetAudience || "Founders & VP of Sales";
+    const industry = businessProfile.industry || "B2B Tech & Services";
+    const region = businessProfile.region || "Global & North America";
+
+    return {
+      title: audience.split(',')[0].trim() || "Head of Growth & Operations",
+      targetIndustries: [
+        industry,
+        `${industry} Scaleups`,
+        "High-Growth Companies"
+      ],
+      targetRoles: [
+        audience.split(',')[0]?.trim() || "VP of Sales",
+        audience.split(',')[1]?.trim() || "Head of Revenue",
+        "Founder & CEO"
+      ],
+      companySize: ["10-50 employees", "50-250 employees"],
+      painPoints: [
+        `High customer acquisition costs and friction finding qualified buyers in ${region}`,
+        "Manual prospecting wastes 15+ hours per week per rep instead of closing revenue",
+        "Low response rates due to generic cold outreach without verified real-time trigger evidence"
+      ]
+    };
   }
 
   _mockResponse() {
