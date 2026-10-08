@@ -26,6 +26,7 @@ export const loginWithGoogle = createAsyncThunk(
     try {
       const data = await authApi.loginWithGoogle(payload);
       if (typeof window !== 'undefined') {
+        localStorage.setItem('postrichly_token', data.token);
         localStorage.setItem('postrichment_token', data.token);
       }
       return data;
@@ -61,7 +62,7 @@ const authSlice = createSlice({
   reducers: {
     initializeToken: (state) => {
       if (typeof window !== 'undefined') {
-        state.token = localStorage.getItem('postrichment_token');
+        state.token = localStorage.getItem('postrichly_token') || localStorage.getItem('postrichment_token');
       }
     },
     logout: (state) => {
@@ -70,6 +71,7 @@ const authSlice = createSlice({
       state.token = null;
       state.hasLoaded = false;
       if (typeof window !== 'undefined') {
+        localStorage.removeItem('postrichly_token');
         localStorage.removeItem('postrichment_token');
       }
     },
@@ -115,6 +117,7 @@ const authSlice = createSlice({
           state.user = null;
           state.token = null;
           if (typeof window !== 'undefined') {
+            localStorage.removeItem('postrichly_token');
             localStorage.removeItem('postrichment_token');
           }
         }
