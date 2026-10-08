@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
@@ -133,27 +134,48 @@ export default function LoginPage() {
     }
   }, [sessionStatus, session, token, dispatch, routeUserAfterLogin]);
 
+  const gsiInitializedRef = React.useRef(false);
+  const handleCredentialResponseRef = React.useRef(handleGoogleCredentialResponse);
+  handleCredentialResponseRef.current = handleGoogleCredentialResponse;
+
   React.useEffect(() => {
     if (typeof window === "undefined" || token) return;
 
-    const scriptId = "google-gsi-client";
-    let script = document.getElementById(scriptId) as HTMLScriptElement | null;
-
     const initializeGsi = () => {
-      if (window.google?.accounts?.id && GOOGLE_CLIENT_ID) {
+      if (window.google?.accounts?.id && GOOGLE_CLIENT_ID && !gsiInitializedRef.current) {
         try {
           window.google.accounts.id.initialize({
             client_id: GOOGLE_CLIENT_ID,
-            callback: handleGoogleCredentialResponse,
+            callback: (res: { credential: string }) => {
+              handleCredentialResponseRef.current(res);
+            },
             auto_select: false,
             cancel_on_tap_outside: true,
+            use_fedcm_for_prompt: false,
           });
-          window.google.accounts.id.prompt();
+          gsiInitializedRef.current = true;
+
+          // Render official Google button into dedicated element if available
+          const gsiContainer = document.getElementById("gsi-button-container");
+          if (gsiContainer) {
+            window.google.accounts.id.renderButton(gsiContainer, {
+              type: "standard",
+              shape: "rectangular",
+              theme: "outline",
+              text: "continue_with",
+              size: "large",
+              width: 320,
+              logo_alignment: "left",
+            });
+          }
         } catch (e) {
           console.warn("GIS initialization notice:", e);
         }
       }
     };
+
+    const scriptId = "google-gsi-client";
+    let script = document.getElementById(scriptId) as HTMLScriptElement | null;
 
     if (!script) {
       script = document.createElement("script");
@@ -166,7 +188,7 @@ export default function LoginPage() {
     } else {
       initializeGsi();
     }
-  }, [GOOGLE_CLIENT_ID, handleGoogleCredentialResponse, token]);
+  }, [GOOGLE_CLIENT_ID, token]);
 
   const handleGoogleSignInClick = async () => {
     try {
@@ -192,26 +214,21 @@ export default function LoginPage() {
       {/* LEFT: Clean Editorial Brand Showcase */}
       <div className="relative hidden lg:flex flex-col justify-between overflow-hidden bg-zinc-950 p-12 text-white border-r border-zinc-800">
         <div className="relative z-10 flex flex-col justify-between h-full space-y-12">
-          {/* Top Brand Header with RAW Icon */}
-          <div className="flex items-center gap-2.5">
-            <svg
-              className="w-5 h-5 text-white"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="12" cy="12" r="9" />
-              <path d="M12 3v6" />
-              <path d="m15 15-3-3-3 3" />
-            </svg>
-            <span className="text-base font-normal tracking-tight text-white">Postrichment</span>
+          {/* Top Brand Header with Logo */}
+          <Link href="/" className="flex items-center gap-2.5">
+            <Image
+              src="/logo.png"
+              alt="Postrichly"
+              width={26}
+              height={26}
+              className="w-6.5 h-6.5 rounded object-contain"
+              priority
+            />
+            <span className="text-base font-normal tracking-tight text-white">Postrichly</span>
             <span className="bg-blue-700/10 text-blue-400 rounded-[2px] border-0 py-[2px] px-2 text-[10px] font-normal tracking-tight">
               Autonomous GTM
             </span>
-          </div>
+          </Link>
 
           {/* Centerpiece Hero Statement */}
           <div className="space-y-6 max-w-lg">
@@ -224,7 +241,7 @@ export default function LoginPage() {
                 Turn unverified domains into verified, signal-backed pipeline.
               </h1>
               <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed font-normal tracking-tight">
-                Postrichment autonomously monitors real-time buyer intent, hiring surges, and tech stack shifts to deliver high-converting B2B accounts.
+                Postrichly autonomously monitors real-time buyer intent, hiring surges, and tech stack shifts to deliver high-converting B2B accounts.
               </p>
             </div>
 
@@ -309,7 +326,7 @@ export default function LoginPage() {
             {/* Header */}
             <div className="space-y-1.5">
               <h2 className="text-xl font-normal tracking-tight text-zinc-950">
-                Welcome to Postrichment
+                Welcome to <span className="bg-black text-white px-0.5">Postrichly</span>
               </h2>
               <p className="text-xs text-zinc-500 leading-relaxed font-normal tracking-tight">
                 Sign in with your verified Google account to access your autonomous GTM workspace and enrichment pipeline.
@@ -388,7 +405,7 @@ export default function LoginPage() {
 
         {/* Footer legal notes */}
         <div className="w-full max-w-sm mx-auto text-center text-[11px] text-zinc-400 py-2">
-          By signing in, you agree to Postrichment&apos;s{" "}
+          By signing in, you agree to Postrichly&apos;s{" "}
           <Link href="/terms" className="underline hover:text-zinc-600">
             Terms
           </Link>{" "}
