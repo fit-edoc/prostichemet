@@ -15,4 +15,7 @@ router.get('/:id', profileController.getProfileById);
 // POST /api/v1/profiles
 router.post('/', validate(profileController.profileSchema), profileController.createProfile);
 
+// PUT /api/v1/profiles/:id
+router.put('/:id', validate(profileController.profileSchema), profileController.updateProfile);
+
 module.exports = router;
