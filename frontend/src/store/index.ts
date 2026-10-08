@@ -4,6 +4,7 @@ import profileReducer from './slices/profileSlice';
 import icpReducer from './slices/icpSlice';
 import crmReducer from './slices/crmSlice';
 import uiReducer from './slices/uiSlice';
+import ragReducer from './slices/ragSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     icp: icpReducer,
     crm: crmReducer,
     ui: uiReducer,
+    rag: ragReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
