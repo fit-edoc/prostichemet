@@ -26,7 +26,7 @@ export function FeatureGrid() {
         </h2>
 
         <p className="text-xs sm:text-sm text-zinc-500 mt-2 font-normal tracking-tight leading-relaxed">
-          Postrichment replaces static scraping with real-time signal classification, vector grounding, and trigger-first synthesis.
+          Postrichly replaces static scraping with real-time signal classification, vector grounding, and trigger-first synthesis.
         </p>
       </div>
 
