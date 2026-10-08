@@ -1,5 +1,5 @@
 import { apiClient } from './apiClient';
-import { User, Workspace, BusinessProfile, ICPProfile, ProspectLead, ColdEmail } from '../types';
+import { User, Workspace, BusinessProfile, ICPProfile, ProspectLead, ColdEmail, KnowledgeDocument, ScrapedCompanyProfile } from '../types';
 
 export const authApi = {
   loginWithGoogle: (data: { idToken?: string; email?: string; name?: string; avatarUrl?: string; googleId?: string }) =>
@@ -17,6 +17,18 @@ export const profileApi = {
   getProfileById: (id: number) => apiClient.get<BusinessProfile>(`/profiles/${id}`),
   createProfile: (profile: Omit<BusinessProfile, 'id' | 'workspaceId' | 'createdAt'>) =>
     apiClient.post<BusinessProfile>('/profiles', profile),
+  updateProfile: (id: number, profile: Partial<Omit<BusinessProfile, 'id' | 'workspaceId' | 'createdAt'>>) =>
+    apiClient.put<BusinessProfile>(`/profiles/${id}`, profile),
+};
+
+export const ragApi = {
+  scrapeAndIngest: (url: string, companyName?: string) =>
+    apiClient.post<{ message: string; url: string; extractedData: ScrapedCompanyProfile; chunksIngested: number; chunks: KnowledgeDocument[] }>('/rag/scrape-and-ingest', { url, companyName }),
+  scrapePreview: (url: string) =>
+    apiClient.post<{ scrapedData: { title: string; description: string; headings: string[] }; profile: ScrapedCompanyProfile }>('/rag/scrape-preview', { url }),
+  getKnowledge: () => apiClient.get<KnowledgeDocument[]>('/rag/knowledge'),
+  deleteKnowledge: (id: number) => apiClient.delete<{ message: string; id: number }>(`/rag/knowledge/${id}`),
+  queryKnowledge: (query: string, limit = 4) => apiClient.post<KnowledgeDocument[]>('/rag/query', { query, limit }),
 };
 
 export const icpApi = {
