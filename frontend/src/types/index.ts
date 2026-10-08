@@ -93,3 +93,26 @@ export interface ApiResponse<T> {
     details?: any[];
   };
 }
+
+export interface KnowledgeDocument {
+  id: number;
+  workspaceId?: number | null;
+  category: string;
+  title: string;
+  content: string;
+  metadata?: any;
+  createdAt: string;
+}
+
+export interface ScrapedCompanyProfile {
+  companyName: string;
+  industry: string;
+  valueProposition: string;
+  productDescription: string;
+  targetAudience: string;
+  region: string;
+  typicalDealSize?: string;
+  keyOfferings?: string[];
+  evidenceQuotes?: string[];
+}
+
