@@ -10,7 +10,23 @@ const ragService = require('./services/ragService');
 const app = express();
 const port = process.env.PORT || 4000;
 
-app.use(cors());
+app.use((req, res, next) => {
+  const origin = req.headers.origin || '*';
+  res.setHeader('Access-Control-Allow-Origin', origin);
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Requested-With,Accept');
+  res.setHeader('Access-Control-Allow-Private-Network', 'true');
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204);
+  }
+  next();
+});
+
+app.use(cors({
+  origin: true,
+  credentials: true,
+}));
 app.use(express.json());
 
 // API v1 versioned routes (docs/14-api-design.md)
@@ -24,7 +40,7 @@ app.get('/api/health', (req, res) => {
   return successResponse(res, {
     status: 'healthy',
     timestamp: new Date().toISOString(),
-    service: 'Postrichment AI GTM Backend',
+    service: 'Postrichly AI GTM Backend',
     version: '1.0.0',
   });
 });
@@ -33,7 +49,7 @@ app.get('/api/v1/health', (req, res) => {
   return successResponse(res, {
     status: 'healthy',
     timestamp: new Date().toISOString(),
-    service: 'Postrichment AI GTM Backend',
+    service: 'Postrichly AI GTM Backend',
     version: '1.0.0',
   });
 });
@@ -43,7 +59,7 @@ app.use(errorHandler);
 
 app.listen(port, async () => {
   console.log(`=========================================`);
-  console.log(`🚀 Postrichment Backend running on port ${port}`);
+  console.log(`🚀 Postrichly Backend running on port ${port}`);
   console.log(`📡 API Base: http://localhost:${port}/api/v1`);
   console.log(`=========================================`);
 
