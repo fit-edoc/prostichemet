@@ -14,7 +14,7 @@ const faqs: FAQItem[] = [
     id: "rag",
     question: "How does the RAG Research Agent prevent hallucinations?",
     answer:
-      "Unlike generic LLM wrappers, Postrichment grounds every prospect research task against live web crawl sources and vector knowledge bases. If a signal cannot be substantiated with verifiable public source evidence, it is strictly omitted.",
+      "Unlike generic LLM wrappers, Postrichly grounds every prospect research task against live web crawl sources and vector knowledge bases. If a signal cannot be substantiated with verifiable public source evidence, it is strictly omitted.",
   },
   {
     id: "scoring",
@@ -32,7 +32,7 @@ const faqs: FAQItem[] = [
     id: "human",
     question: "Is human approval required before sending outbound?",
     answer:
-      "Yes. Postrichment is designed as a Human-in-the-Loop AI sales assistant. You can review all scored prospects, inspect the underlying evidence quotes, edit generated emails, and approve campaigns before any message is sent.",
+      "Yes. Postrichly is designed as a Human-in-the-Loop AI sales assistant. You can review all scored prospects, inspect the underlying evidence quotes, edit generated emails, and approve campaigns before any message is sent.",
   },
   {
     id: "crm",
