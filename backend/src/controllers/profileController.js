@@ -81,8 +81,49 @@ const getProfileById = async (req, res, next) => {
   }
 };
 
+const updateProfile = async (req, res, next) => {
+  try {
+    const profileId = parseInt(req.params.id);
+    const {
+      companyName,
+      industry,
+      valueProposition,
+      productDescription,
+      targetAudience,
+      typicalCustomer,
+      typicalDealSize,
+      region,
+    } = req.body;
+
+    const [updatedProfile] = await db
+      .update(businessProfiles)
+      .set({
+        companyName,
+        industry,
+        valueProposition,
+        productDescription,
+        targetAudience,
+        typicalCustomer,
+        typicalDealSize,
+        region,
+        updatedAt: new Date(),
+      })
+      .where(and(eq(businessProfiles.id, profileId), eq(businessProfiles.workspaceId, req.workspaceId)))
+      .returning();
+
+    if (!updatedProfile) {
+      return errorResponse(res, 'NOT_FOUND', 'Business profile not found', 404);
+    }
+
+    return successResponse(res, updatedProfile);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createProfile,
+  updateProfile,
   getProfiles,
   getProfileById,
   profileSchema,
