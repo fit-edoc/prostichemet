@@ -2,13 +2,26 @@ const { drizzle } = require('drizzle-orm/postgres-js');
 const postgres = require('postgres');
 require('dotenv').config();
 
-const client = postgres({
-  host: process.env.DB_HOST || "localhost",
-  port: parseInt(process.env.DB_PORT || "5432"),
-  database: process.env.DB_NAME || "postrichment",
-  username: process.env.DB_USER || "postgres",
-  password: process.env.DB_PASSWORD || "postgres",
-});
+const connectionString = process.env.DATABASE_URL;
+
+const client = connectionString
+  ? postgres(connectionString, {
+      ssl: connectionString.includes('localhost') || process.env.DB_SSL === 'false' ? false : 'require',
+      max: parseInt(process.env.DB_MAX_CONNECTIONS || '10'),
+      idle_timeout: 20,
+      connect_timeout: 10,
+    })
+  : postgres({
+      host: process.env.DB_HOST || "localhost",
+      port: parseInt(process.env.DB_PORT || "5432"),
+      database: process.env.DB_NAME || "postrichment",
+      username: process.env.DB_USER || "postgres",
+      password: process.env.DB_PASSWORD || "postgres",
+      ssl: process.env.DB_SSL === 'true' ? 'require' : false,
+      max: parseInt(process.env.DB_MAX_CONNECTIONS || '10'),
+      idle_timeout: 20,
+      connect_timeout: 10,
+    });
 
 const db = drizzle(client);
 
