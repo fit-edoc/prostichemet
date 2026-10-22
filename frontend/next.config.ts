@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+const backendUrl = process.env.BACKEND_URL || "http://127.0.0.1:4000";
+
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
@@ -7,7 +9,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/v1/:path*",
-        destination: "http://127.0.0.1:4000/api/v1/:path*",
+        destination: `${backendUrl.replace(/\/+$/, "")}/api/v1/:path*`,
       },
     ];
   },
