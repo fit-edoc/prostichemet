@@ -43,6 +43,8 @@ export interface ICPProfile {
   createdAt?: string;
 }
 
+export type IcpProfile = ICPProfile;
+
 export interface LeadEvidence {
   trigger?: string;
   painPointMatch?: string;
