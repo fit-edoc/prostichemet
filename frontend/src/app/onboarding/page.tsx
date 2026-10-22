@@ -26,6 +26,7 @@ import {
   Database,
   MapPin,
 } from "@phosphor-icons/react";
+import { SMB_INDUSTRY_CATEGORIES, SMB_COMPANY_SCALE_OPTIONS } from "../../components/dashboard/dashboardUtils";
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -36,12 +37,14 @@ export default function OnboardingPage() {
 
   // Form State
   const [companyName, setCompanyName] = React.useState("");
-  const [industry, setIndustry] = React.useState("B2B SaaS & Tech");
+  const [industry, setIndustry] = React.useState("Commercial HVAC, Mechanical & Trades");
+  const [customIndustry, setCustomIndustry] = React.useState("");
+  const [companyScale, setCompanyScale] = React.useState("Small Business (1 - 25 employees)");
   const [valueProposition, setValueProposition] = React.useState("");
   const [productDescription, setProductDescription] = React.useState("");
-  const [targetAudience, setTargetAudience] = React.useState("Founders, VP Sales, Heads of Growth");
-  const [typicalDealSize, setTypicalDealSize] = React.useState("$10k - $50k / yr");
-  const [region, setRegion] = React.useState("North America & Global");
+  const [targetAudience, setTargetAudience] = React.useState("Owners, General Contractors, Property Managers");
+  const [typicalDealSize, setTypicalDealSize] = React.useState("$15,000 - $60,000 / yr");
+  const [region, setRegion] = React.useState("Austin, TX & Regional");
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   // Scraping RAG state
@@ -50,7 +53,12 @@ export default function OnboardingPage() {
 
   // Protect route
   React.useEffect(() => {
-    if (!token && !user) {
+    const savedToken =
+      typeof window !== "undefined"
+        ? localStorage.getItem("postrichly_token") || localStorage.getItem("postrichment_token")
+        : null;
+
+    if (!savedToken && !token && !user) {
       router.push("/login");
     }
   }, [token, user, router]);
@@ -81,31 +89,43 @@ export default function OnboardingPage() {
     }
   };
 
-  const handleApplyTemplate = (type: "agency" | "saas" | "devtools") => {
-    if (type === "agency") {
-      setCompanyName("Nexus Growth Media");
-      setIndustry("AI Outbound & Sales Development Agency");
-      setValueProposition("Book 15-25 qualified enterprise sales meetings per month on a pure pay-per-meeting basis.");
-      setProductDescription("Done-for-you AI prospect research, real-time trigger tracking, and automated multichannel cold email deliverability.");
-      setTargetAudience("Founders, VP of Sales, CROs at Seed & Series A B2B Startups");
-      setTypicalDealSize("$3,000 - $8,000 / mo");
+  const handleApplyTemplate = (type: "hvac" | "agency" | "msp" | "saas") => {
+    if (type === "hvac") {
+      setCompanyName("Casa Mechanical & HVAC");
+      setIndustry("Commercial HVAC, Mechanical & Trades");
+      setCompanyScale("Small Business (1 - 25 employees)");
+      setValueProposition("Prevent commercial equipment downtime with 24/7 preventative maintenance and prompt emergency HVAC service.");
+      setProductDescription("Commercial rooftop unit repairs, chiller maintenance, and preventative HVAC service contracts.");
+      setTargetAudience("Property Managers, Facilities Directors, General Contractors");
+      setTypicalDealSize("$15,000 - $60,000 / yr");
+      setRegion("Austin, TX & Regional");
+    } else if (type === "agency") {
+      setCompanyName("Apex Outbound Partners");
+      setIndustry("AI Outbound & Sales Development Agencies");
+      setCompanyScale("Growing SMB (25 - 100 employees)");
+      setValueProposition("Book 15-25 qualified SMB and enterprise sales meetings per month on a pure pay-per-meeting basis.");
+      setProductDescription("Done-for-you AI prospect research, real-time trigger tracking, and automated multichannel cold outreach.");
+      setTargetAudience("Founders, VP of Sales, CROs at Growing SMBs");
+      setTypicalDealSize("$3,500 - $8,000 / mo");
       setRegion("North America & UK");
-    } else if (type === "saas") {
+    } else if (type === "msp") {
+      setCompanyName("IT GOAT Solutions");
+      setIndustry("IT Managed Service Providers (MSP) & Cloud Support");
+      setCompanyScale("Small Business (1 - 25 employees)");
+      setValueProposition("Complete cybersecurity, cloud management, and 24/7 helpdesk support for small and medium businesses.");
+      setProductDescription("Managed IT services, Microsoft 365 cloud migration, network security, and compliance monitoring.");
+      setTargetAudience("Managing Partners, CEOs, Directors of Operations, Office Managers");
+      setTypicalDealSize("$2,000 - $6,500 / mo");
+      setRegion("Regional & North America");
+    } else {
       setCompanyName("ScaleAgent AI");
-      setIndustry("B2B Enterprise SaaS & Agentic Automation");
-      setValueProposition("Automate manual account research by 70% and increase cold email reply rates from 1.8% to 6.4%.");
+      setIndustry("B2B SaaS & Tech Startups");
+      setCompanyScale("Growing SMB (25 - 100 employees)");
+      setValueProposition("Automate manual account research by 70% and increase cold outreach reply rates from 1.8% to 6.4%.");
       setProductDescription("Autonomous AI SDR agents that continuously monitor buying signals (funding rounds, hiring spikes) and draft personalized outreach.");
       setTargetAudience("VP Sales, Heads of Demand Gen, SDR Team Leads");
       setTypicalDealSize("$12,000 - $48,000 / yr");
       setRegion("Global");
-    } else {
-      setCompanyName("CloudGuard Pro");
-      setIndustry("Cybersecurity & Cloud Infrastructure");
-      setValueProposition("Zero-friction compliance automation and vulnerability remediation for modern cloud stacks.");
-      setProductDescription("Continuous cloud security posture management with automated SOC2 & ISO 27001 audit workflows.");
-      setTargetAudience("CTOs, CISOs, Heads of DevOps");
-      setTypicalDealSize("$25,000 - $100,000 / yr");
-      setRegion("North America & EMEA");
     }
   };
 
@@ -113,16 +133,20 @@ export default function OnboardingPage() {
     e.preventDefault();
     if (!companyName.trim() || !valueProposition.trim()) return;
 
+    const finalIndustry = industry === "Other Commercial & Local Niche" && customIndustry.trim()
+      ? customIndustry.trim()
+      : industry;
+
     setIsSubmitting(true);
     try {
       const resultAction = await dispatch(
         createBusinessProfile({
           companyName: companyName.trim(),
-          industry,
+          industry: finalIndustry,
           valueProposition: valueProposition.trim(),
           productDescription: productDescription.trim() || valueProposition.trim(),
           targetAudience,
-          typicalCustomer: targetAudience,
+          typicalCustomer: companyScale,
           typicalDealSize,
           region,
         })
@@ -238,25 +262,25 @@ export default function OnboardingPage() {
           )}
         </div>
 
-        {/* Quick Template Presets */}
+        {/* Quick Template Presets for SMB & Mid-Market */}
         <div className="space-y-1.5">
           <p className="text-[11px] text-zinc-400 uppercase tracking-tight text-center">
-            Or choose a pre-configured B2B preset
+            Or choose a pre-configured Small / Medium Business preset
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             <button
               type="button"
-              onClick={() => handleApplyTemplate("saas")}
+              onClick={() => handleApplyTemplate("hvac")}
               className="p-3 rounded-md bg-white border border-zinc-200/80 hover:border-zinc-400 transition-all text-left cursor-pointer shadow-xs"
             >
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs font-medium text-zinc-950">
-                  B2B AI SaaS
+                  Commercial HVAC
                 </span>
-                <Lightning className="w-3.5 h-3.5 text-zinc-700" />
+                <Buildings className="w-3.5 h-3.5 text-zinc-700" />
               </div>
               <p className="text-[11px] text-zinc-500 line-clamp-2">
-                Outbound research automation for sales leaders.
+                Mechanical services &amp; facilities contracts.
               </p>
             </button>
 
@@ -272,23 +296,39 @@ export default function OnboardingPage() {
                 <Target className="w-3.5 h-3.5 text-zinc-700" />
               </div>
               <p className="text-[11px] text-zinc-500 line-clamp-2">
-                Done-for-you pipeline & meeting booking.
+                Done-for-you pipeline &amp; meeting booking.
               </p>
             </button>
 
             <button
               type="button"
-              onClick={() => handleApplyTemplate("devtools")}
+              onClick={() => handleApplyTemplate("msp")}
               className="p-3 rounded-md bg-white border border-zinc-200/80 hover:border-zinc-400 transition-all text-left cursor-pointer shadow-xs"
             >
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs font-medium text-zinc-950">
-                  Cybersecurity
+                  IT &amp; MSP Services
                 </span>
                 <ShieldCheck className="w-3.5 h-3.5 text-zinc-700" />
               </div>
               <p className="text-[11px] text-zinc-500 line-clamp-2">
-                Cloud compliance and SOC2 automation.
+                Managed IT &amp; cloud support for SMBs.
+              </p>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handleApplyTemplate("saas")}
+              className="p-3 rounded-md bg-white border border-zinc-200/80 hover:border-zinc-400 transition-all text-left cursor-pointer shadow-xs"
+            >
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs font-medium text-zinc-950">
+                  B2B AI SaaS
+                </span>
+                <Lightning className="w-3.5 h-3.5 text-zinc-700" />
+              </div>
+              <p className="text-[11px] text-zinc-500 line-clamp-2">
+                Outbound research automation for sales leaders.
               </p>
             </button>
           </div>
@@ -298,7 +338,7 @@ export default function OnboardingPage() {
         <div className="p-6 rounded-md bg-white border border-zinc-200/80 shadow-xs space-y-5">
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* 1. Company Name & Industry */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <label className="block text-xs font-normal text-zinc-700 mb-1.5">
                   Company / Agency Name <span className="text-rose-500">*</span>
@@ -308,7 +348,7 @@ export default function OnboardingPage() {
                   <input
                     type="text"
                     required
-                    placeholder="ScaleAgent AI"
+                    placeholder="Casa Mechanical Services"
                     value={companyName}
                     onChange={(e) => setCompanyName(e.target.value)}
                     className="w-full bg-white border border-zinc-200 rounded-[3px] py-2 pl-8 pr-3 text-xs text-zinc-900 focus:outline-none focus:border-zinc-950 transition-all font-normal"
@@ -318,7 +358,7 @@ export default function OnboardingPage() {
 
               <div>
                 <label className="block text-xs font-normal text-zinc-700 mb-1.5">
-                  Industry / Market Domain
+                  Industry / Market Category <span className="text-rose-500">*</span>
                 </label>
                 <div className="relative">
                   <Briefcase className="w-3.5 h-3.5 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2" />
@@ -327,16 +367,54 @@ export default function OnboardingPage() {
                     onChange={(e) => setIndustry(e.target.value)}
                     className="w-full bg-white border border-zinc-200 rounded-[3px] py-2 pl-8 pr-3 text-xs text-zinc-900 focus:outline-none focus:border-zinc-950 transition-all font-normal cursor-pointer"
                   >
-                    <option value="B2B SaaS & Tech">B2B SaaS & Tech Startups</option>
-                    <option value="AI Outbound & Sales Agency">AI Outbound & Sales Agency</option>
-                    <option value="FinTech & Payments">FinTech & Financial Services</option>
-                    <option value="Cybersecurity & Cloud">Cybersecurity & Cloud Security</option>
-                    <option value="Healthcare & BioTech">Healthcare & Life Sciences Tech</option>
-                    <option value="DevTools & Infrastructure">Developer Tools & Infrastructure</option>
+                    {SMB_INDUSTRY_CATEGORIES.map((catGroup) => (
+                      <optgroup key={catGroup.group} label={catGroup.group}>
+                        {catGroup.options.map((opt) => (
+                          <option key={opt} value={opt}>
+                            {opt}
+                          </option>
+                        ))}
+                      </optgroup>
+                    ))}
                   </select>
                 </div>
               </div>
+
+              <div>
+                <label className="block text-xs font-normal text-zinc-700 mb-1.5">
+                  Target Business Scale <span className="text-rose-500">*</span>
+                </label>
+                <div className="relative">
+                  <select
+                    value={companyScale}
+                    onChange={(e) => setCompanyScale(e.target.value)}
+                    className="w-full bg-white border border-zinc-200 rounded-[3px] py-2 px-3 text-xs text-zinc-900 focus:outline-none focus:border-zinc-950 transition-all font-normal cursor-pointer"
+                  >
+                    {SMB_COMPANY_SCALE_OPTIONS.map((scale) => (
+                      <option key={scale} value={scale}>
+                        {scale}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <p className="text-[10px] text-zinc-400 mt-1">Grounds leads to Small &amp; Mid-Market</p>
+              </div>
             </div>
+
+            {industry === "Other Commercial & Local Niche" && (
+              <div>
+                <label className="block text-xs font-normal text-zinc-700 mb-1.5">
+                  Custom Industry / Niche Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. Solar Engineering & Commercial Roof Panels"
+                  value={customIndustry}
+                  onChange={(e) => setCustomIndustry(e.target.value)}
+                  className="w-full bg-white border border-zinc-200 rounded-[3px] py-2 px-3 text-xs text-zinc-900 focus:outline-none focus:border-zinc-950 font-normal"
+                />
+              </div>
+            )}
 
             {/* 2. Value Proposition */}
             <div>

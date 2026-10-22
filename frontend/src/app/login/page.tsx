@@ -17,7 +17,6 @@ import {
   Lock,
   TrendUp,
   MagnifyingGlass,
-  Users,
 } from "@phosphor-icons/react";
 
 declare global {
@@ -27,6 +26,7 @@ declare global {
         id: {
           initialize: (config: any) => void;
           prompt: (notification?: any) => void;
+          renderButton: (parent: HTMLElement | null, options: any) => void;
         };
       };
     };
@@ -48,29 +48,50 @@ export default function LoginPage() {
     process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ||
     "529660410268-901jul4s7dr715pvokkt2qbpn7ac83jl.apps.googleusercontent.com";
 
+  const isNavigatingRef = React.useRef(false);
   const routeUserAfterLogin = React.useCallback(async () => {
+    if (isNavigatingRef.current) return;
+    isNavigatingRef.current = true;
+    setIsProcessing(true);
     setStatusMessage("Checking workspace profiles...");
+
     try {
       const profileAction = await dispatch(fetchProfiles());
-      if (fetchProfiles.fulfilled.match(profileAction) && profileAction.payload && profileAction.payload.length > 0) {
-        setStatusMessage("Profile loaded! Navigating to Dashboard...");
-        router.push("/dashboard");
+      const hasProfiles =
+        fetchProfiles.fulfilled.match(profileAction) &&
+        Array.isArray(profileAction.payload) &&
+        profileAction.payload.length > 0;
+
+      const target = hasProfiles ? "/dashboard" : "/onboarding";
+      setStatusMessage(`Navigating to ${hasProfiles ? "Dashboard" : "Profile Setup"}...`);
+
+      // Use window.location.replace for guaranteed top-level navigation that cannot be blocked
+      if (typeof window !== "undefined") {
+        window.location.replace(target);
       } else {
-        setStatusMessage("Navigating to Business Profile setup...");
-        router.push("/onboarding");
+        router.replace(target);
       }
     } catch {
-      router.push("/onboarding");
+      if (typeof window !== "undefined") {
+        window.location.replace("/onboarding");
+      } else {
+        router.replace("/onboarding");
+      }
     }
   }, [dispatch, router]);
 
   const hasRoutedRef = React.useRef(false);
   React.useEffect(() => {
-    if (token && user && !hasRoutedRef.current) {
+    const savedToken =
+      typeof window !== "undefined"
+        ? localStorage.getItem("postrichly_token") || localStorage.getItem("postrichment_token")
+        : null;
+
+    if ((token || savedToken) && !hasRoutedRef.current && sessionStatus !== "loading") {
       hasRoutedRef.current = true;
       routeUserAfterLogin();
     }
-  }, [token, user, routeUserAfterLogin]);
+  }, [token, sessionStatus, routeUserAfterLogin]);
 
   const handleGoogleCredentialResponse = React.useCallback(
     async (response: { credential: string }) => {
@@ -106,7 +127,7 @@ export default function LoginPage() {
   );
 
   React.useEffect(() => {
-    if (sessionStatus === "authenticated" && session?.user && !token && !hasAttemptedSessionSync.current) {
+    if (sessionStatus === "authenticated" && session?.user && !hasAttemptedSessionSync.current) {
       hasAttemptedSessionSync.current = true;
       setIsProcessing(true);
       setStatusMessage("Syncing Google account with workspace...");
@@ -130,9 +151,13 @@ export default function LoginPage() {
           setIsProcessing(false);
           setStatusMessage(null);
         }
+      }).catch((err: any) => {
+        setErrorMessage(err?.message || "Failed to link your workspace session.");
+        setIsProcessing(false);
+        setStatusMessage(null);
       });
     }
-  }, [sessionStatus, session, token, dispatch, routeUserAfterLogin]);
+  }, [sessionStatus, session, dispatch, routeUserAfterLogin]);
 
   const gsiInitializedRef = React.useRef(false);
   const handleCredentialResponseRef = React.useRef(handleGoogleCredentialResponse);
@@ -335,9 +360,15 @@ export default function LoginPage() {
 
             {/* Error Message Notice */}
             {(errorMessage || reduxError) && (
-              <div className="p-3 rounded-[3px] bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-start gap-2">
-                <Lock className="w-3.5 h-3.5 shrink-0 mt-0.5" />
-                <span>{errorMessage || reduxError}</span>
+              <div className="p-3 rounded-[3px] bg-rose-50 border border-rose-200 text-rose-700 text-xs flex flex-col gap-1.5">
+                <div className="flex items-start gap-2">
+                  <Lock className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+                  <span>
+                    {(errorMessage || reduxError)?.includes("Failed to fetch")
+                      ? "Unable to reach the backend API. Please ensure 'npm run dev' is active in the backend directory."
+                      : errorMessage || reduxError}
+                  </span>
+                </div>
               </div>
             )}
 
