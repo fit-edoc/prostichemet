@@ -10,25 +10,40 @@ const ragService = require('./services/ragService');
 const app = express();
 const port = process.env.PORT || 4000;
 
-// Clean, standards-compliant CORS configuration (avoids duplicate Access-Control-Allow-Origin headers)
-const allowedOrigins = process.env.ALLOWED_ORIGINS
-  ? process.env.ALLOWED_ORIGINS.split(',').map(s => s.trim())
-  : null;
+// Allowed origins including production, preview environments, and local dev
+const defaultOrigins = [
+  'https://prospail.vercel.app',
+  'http://localhost:3000',
+  
+ 
+];
+
+const envOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(',').map(s => s.trim().replace(/\/$/, ''))
+  : [];
+
+const allowedOrigins = [...new Set([...defaultOrigins, ...envOrigins])];
 
 app.use(cors({
   origin: (origin, callback) => {
     // Allow non-browser requests (e.g. server-to-server, curl, health checks)
     if (!origin) return callback(null, true);
-    // If no specific origins defined in env, reflect origin for seamless dev/staging
-    if (!allowedOrigins) return callback(null, true);
-    if (allowedOrigins.includes(origin) || allowedOrigins.includes('*') || origin.endsWith('.vercel.app')) {
+
+    const cleanOrigin = origin.replace(/\/$/, '');
+    if (
+      allowedOrigins.includes(cleanOrigin) ||
+      allowedOrigins.includes('*') ||
+      cleanOrigin.endsWith('.vercel.app') ||
+      cleanOrigin.includes('localhost')
+    ) {
       return callback(null, true);
     }
-    return callback(null, true);
+    return callback(null, false);
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  optionsSuccessStatus: 204,
 }));
 
 app.use(express.json());
