@@ -68,7 +68,7 @@ export function IcpEngineTab({
                     Target Industries
                   </span>
                   <div className="flex flex-wrap gap-1.5">
-                    {icp.targetIndustries.map((ind, i) => (
+                    {icp.targetIndustries.map((ind: string, i: number) => (
                       <span key={i} className="bg-zinc-700/10 text-zinc-600 rounded-[2px] border-0 py-[2px] px-2 text-[11px] font-normal tracking-tight">
                         {ind}
                       </span>
@@ -84,7 +84,7 @@ export function IcpEngineTab({
                     Decision Makers
                   </span>
                   <div className="flex flex-wrap gap-1.5">
-                    {icp.targetRoles.map((role, i) => (
+                    {icp.targetRoles.map((role: string, i: number) => (
                       <span key={i} className="bg-purple-700/10 text-purple-600 rounded-[2px] border-0 py-[2px] px-2 text-[11px] font-normal tracking-tight">
                         {role}
                       </span>
@@ -100,7 +100,7 @@ export function IcpEngineTab({
                     Core Pain Points
                   </span>
                   <ul className="space-y-1 text-xs text-zinc-600 leading-relaxed font-normal tracking-tight">
-                    {icp.painPoints.map((pain, i) => (
+                    {icp.painPoints.map((pain: string, i: number) => (
                       <li key={i} className="flex items-start gap-1.5">
                         <span className="text-zinc-400">•</span>
                         <span>{pain}</span>

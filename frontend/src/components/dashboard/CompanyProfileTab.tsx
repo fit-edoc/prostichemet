@@ -9,7 +9,9 @@ import {
   Check,
   MapPin,
   User,
+  Briefcase,
 } from "@phosphor-icons/react";
+import { SMB_INDUSTRY_CATEGORIES, SMB_COMPANY_SCALE_OPTIONS } from "./dashboardUtils";
 
 interface CompanyProfileTabProps {
   companyName: string;
@@ -141,14 +143,33 @@ export function CompanyProfileTab({
             </div>
             <div>
               <label className="block text-xs font-normal tracking-tight text-zinc-700 mb-1.5">
-                Industry / Niche
+                Industry / Category <span className="text-rose-500">*</span>
               </label>
-              <input
-                type="text"
-                value={industry}
-                onChange={(e) => setIndustry(e.target.value)}
-                className="w-full bg-white border border-zinc-200 rounded-[3px] p-2.5 text-xs text-zinc-900 focus:outline-none focus:border-zinc-950 transition-all font-normal tracking-tight"
-              />
+              <div className="space-y-1.5">
+                <select
+                  value={industry}
+                  onChange={(e) => setIndustry(e.target.value)}
+                  className="w-full bg-white border border-zinc-200 rounded-[3px] p-2 text-xs text-zinc-900 focus:outline-none focus:border-zinc-950 transition-all font-normal tracking-tight cursor-pointer"
+                >
+                  {SMB_INDUSTRY_CATEGORIES.map((catGroup) => (
+                    <optgroup key={catGroup.group} label={catGroup.group}>
+                      {catGroup.options.map((opt) => (
+                        <option key={opt} value={opt}>
+                          {opt}
+                        </option>
+                      ))}
+                    </optgroup>
+                  ))}
+                  <option value="Custom">Custom Niche...</option>
+                </select>
+                <input
+                  type="text"
+                  placeholder="Or refine custom industry / niche..."
+                  value={industry}
+                  onChange={(e) => setIndustry(e.target.value)}
+                  className="w-full bg-white border border-zinc-200 rounded-[3px] py-1.5 px-2.5 text-xs text-zinc-900 focus:outline-none focus:border-zinc-950 transition-all font-normal tracking-tight"
+                />
+              </div>
             </div>
           </div>
 
@@ -223,14 +244,29 @@ export function CompanyProfileTab({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-normal tracking-tight text-zinc-700 mb-1.5">
-                Typical Customer Profile
+                Target Business Scale / Customer Profile
               </label>
-              <input
-                type="text"
-                value={typicalCustomer}
-                onChange={(e) => setTypicalCustomer(e.target.value)}
-                className="w-full bg-white border border-zinc-200 rounded-[3px] p-2.5 text-xs text-zinc-900 focus:outline-none focus:border-zinc-950 transition-all font-normal tracking-tight"
-              />
+              <div className="space-y-1.5">
+                <select
+                  value={typicalCustomer}
+                  onChange={(e) => setTypicalCustomer(e.target.value)}
+                  className="w-full bg-white border border-zinc-200 rounded-[3px] p-2 text-xs text-zinc-900 focus:outline-none focus:border-zinc-950 transition-all font-normal tracking-tight cursor-pointer"
+                >
+                  {SMB_COMPANY_SCALE_OPTIONS.map((scale) => (
+                    <option key={scale} value={scale}>
+                      {scale}
+                    </option>
+                  ))}
+                  <option value="Custom">Custom Scale...</option>
+                </select>
+                <input
+                  type="text"
+                  placeholder="Or describe target customer size..."
+                  value={typicalCustomer}
+                  onChange={(e) => setTypicalCustomer(e.target.value)}
+                  className="w-full bg-white border border-zinc-200 rounded-[3px] py-1.5 px-2.5 text-xs text-zinc-900 focus:outline-none focus:border-zinc-950 transition-all font-normal tracking-tight"
+                />
+              </div>
             </div>
             <div>
               <label className="block text-xs font-normal tracking-tight text-zinc-700 mb-1.5">

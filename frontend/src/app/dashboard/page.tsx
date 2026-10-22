@@ -305,7 +305,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] text-zinc-900 flex flex-col md:flex-row selection:bg-zinc-900 selection:text-white font-normal tracking-tight">
+    <div className="h-screen w-full bg-[#FAFAFA] text-zinc-900 flex flex-col md:flex-row overflow-hidden selection:bg-zinc-900 selection:text-white font-normal tracking-tight">
       {/* 1. Sidebar Navigation */}
       <DashboardSidebar
         activeTab={activeTab}
@@ -319,7 +319,7 @@ export default function DashboardPage() {
       />
 
       {/* 2. Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 bg-[#FAFAFA]">
+      <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden bg-[#FAFAFA]">
         {/* Top Header Bar */}
         <DashboardHeader
           activeTab={activeTab}
@@ -331,7 +331,7 @@ export default function DashboardPage() {
         />
 
         {/* Dashboard Main View Container */}
-        <main className="flex-1 p-5 md:p-8 space-y-6 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 lg:p-8 space-y-6 pb-24">
           {/* TAB 1: OVERVIEW */}
           {activeTab === "overview" && (
             <DashboardOverviewTab

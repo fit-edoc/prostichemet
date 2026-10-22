@@ -14,6 +14,7 @@ import {
 } from "@phosphor-icons/react";
 import { ProspectLead, BusinessProfile, IcpProfile } from "../../types";
 import { getLeadAvatar } from "./dashboardUtils";
+import { LinkedInIcon, GmailIcon, GoogleMapsIcon } from "./CrmPipelineTab";
 
 interface DashboardOverviewTabProps {
   leads: ProspectLead[];
@@ -136,68 +137,101 @@ export function DashboardOverviewTab({
           </div>
 
           <div className="divide-y divide-zinc-100">
-            {leads.slice(0, 4).map((lead, idx) => (
-              <div key={lead.id} className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div className="flex items-start gap-3">
-                  <img
-                    src={getLeadAvatar(lead.id || idx)}
-                    alt={lead.contactName || lead.companyName}
-                    className="w-9 h-9 rounded-full object-cover border border-zinc-200/80 shadow-xs shrink-0 mt-0.5"
-                  />
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-xs font-medium text-zinc-950 tracking-tight">
-                        {lead.companyName}
-                      </span>
-                      <span className="bg-green-700/10 text-green-600 rounded-[2px] border-0 py-[2px] px-2 text-[10px] font-normal tracking-tight">
-                        {lead.score || 85}% Fit
-                      </span>
-                      {lead.websiteLink && (
+            {leads.slice(0, 4).map((lead, idx) => {
+              const hasDirectProfile =
+                lead.contactLinkedin &&
+                lead.contactLinkedin.includes("linkedin.com/in/") &&
+                !lead.contactLinkedin.includes("first-last") &&
+                !lead.contactLinkedin.includes("contact-profile");
+
+              const contactLinkedinUrl =
+                lead.contactLinkedin && lead.contactLinkedin.startsWith("http")
+                  ? lead.contactLinkedin
+                  : lead.contactLinkedin
+                  ? `https://${lead.contactLinkedin}`
+                  : `https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(
+                      (lead.contactName || lead.ownerName || "") + " " + lead.companyName
+                    )}`;
+
+              const websiteDisplay = lead.websiteLink
+                ? lead.websiteLink.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")
+                : "";
+
+              return (
+                <div key={lead.id} className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="flex items-start gap-3">
+                    <img
+                      src={getLeadAvatar(lead.id || idx)}
+                      alt={lead.contactName || lead.companyName}
+                      className="w-10 h-10 rounded-full object-cover border border-zinc-200/90 shadow-2xs shrink-0 mt-0.5"
+                    />
+                    <div className="space-y-1.5">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-xs font-semibold text-zinc-950 tracking-tight">
+                          {lead.companyName}
+                        </span>
+                        <span className="bg-emerald-50 text-emerald-700 border border-emerald-200/80 px-2 py-0.5 rounded-[3px] text-[10px] font-semibold flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                          {lead.score || 85}% Fit
+                        </span>
+                        {lead.websiteLink && (
+                          <a
+                            href={lead.websiteLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-[11px] text-blue-600 hover:text-blue-800 transition-colors"
+                          >
+                            <Globe className="w-3 h-3 text-emerald-600" />
+                            <span>{websiteDisplay}</span>
+                            <ArrowSquareOut className="w-2.5 h-2.5 opacity-70" />
+                          </a>
+                        )}
                         <a
-                          href={lead.websiteLink}
+                          href={contactLinkedinUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-[11px] text-zinc-400 hover:text-zinc-950 transition-colors"
+                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[3px] bg-[#0A66C2] hover:bg-[#004182] text-white text-[10px] font-medium shadow-2xs transition-colors"
+                          title={hasDirectProfile ? "Open verified LinkedIn profile" : "Search LinkedIn for this contact"}
                         >
-                          <Globe className="w-3 h-3 text-zinc-400" />
-                          <span>{lead.websiteLink.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}</span>
-                          <ArrowSquareOut className="w-2.5 h-2.5 opacity-70" />
+                          <LinkedInIcon className="w-3 h-3 fill-white" />
+                          <span>{hasDirectProfile ? "LinkedIn" : "Find on LinkedIn"}</span>
+                          <ArrowSquareOut className="w-2 h-2 opacity-80" />
                         </a>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-3 text-xs text-zinc-500 flex-wrap font-normal tracking-tight">
-                      <span className="text-zinc-800">
-                        {lead.contactName ? `${lead.contactName} (${lead.contactTitle || "Decision-Maker"})` : lead.industry || "Target Company"}
-                      </span>
-                      {lead.contactEmail && (
-                        <span className="inline-flex items-center gap-1 text-zinc-600">
-                          <EnvelopeSimple className="w-3 h-3 text-zinc-700" />
-                          <a href={`mailto:${lead.contactEmail}`} className="hover:underline hover:text-zinc-950">
-                            {lead.contactEmail}
-                          </a>
+                      </div>
+                      <div className="flex items-center gap-3 text-xs text-zinc-500 flex-wrap font-normal tracking-tight">
+                        <span className="text-zinc-800 font-medium">
+                          {lead.contactName ? `${lead.contactName} (${lead.contactTitle || "Decision-Maker"})` : lead.industry || "Target Company"}
                         </span>
-                      )}
-                      {lead.location && (
-                        <span className="inline-flex items-center gap-1 text-zinc-400">
-                          <MapPin className="w-3 h-3 text-zinc-500" />
-                          <span>{lead.location}</span>
-                        </span>
-                      )}
+                        {lead.contactEmail && (
+                          <span className="inline-flex items-center gap-1 text-zinc-600">
+                            <GmailIcon className="w-3.5 h-3.5 shrink-0" />
+                            <a href={`mailto:${lead.contactEmail}`} className="hover:underline hover:text-zinc-950">
+                              {lead.contactEmail}
+                            </a>
+                          </span>
+                        )}
+                        {lead.location && (
+                          <span className="inline-flex items-center gap-1 text-zinc-500">
+                            <GoogleMapsIcon className="w-3 h-3 shrink-0" />
+                            <span>{lead.location}</span>
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => onOpenEmailDrawer(lead)}
-                  leftIcon={<PaperPlaneTilt className="w-3.5 h-3.5" />}
-                  className="shrink-0"
-                >
-                  Draft PAS Email
-                </Button>
-              </div>
-            ))}
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => onOpenEmailDrawer(lead)}
+                    leftIcon={<PaperPlaneTilt className="w-3.5 h-3.5 text-blue-600" />}
+                    className="shrink-0"
+                  >
+                    Draft PAS Email
+                  </Button>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
