@@ -22,66 +22,75 @@ class ResearchAgent {
       ? contextDocs.map(d => `[${d.title}]\n${d.content}`).join('\n\n')
       : 'Standard B2B Sales Trigger Intelligence.';
 
-    // 2. Multi-Agent Prompt with strict location, audience & evidence constraints
-    const systemInstruction = `You are Postrichly's Autonomous B2B Research Agent. 
-Your mission is to discover authentic, high-value candidate companies strictly matching the specified geographic region and target audience.
+    // 2. Multi-Agent Prompt with strict location, audience & evidence constraints for Small & Medium Businesses
+    const targetSize = businessProfile.typicalCustomer || "Small & Medium Businesses (10-250 employees)";
+    const systemInstruction = `You are Postrichly's Autonomous B2B Research Agent, specifically engineered to discover authentic Small Businesses (SMBs) and Medium-Sized Businesses.
+Your mission is to perform live web research to discover authentic, existing candidate companies strictly matching the specified geographic region, target industry, and target audience.
 MANDATORY RULES:
-1. TERRITORY CONFORMANCE: Every prospect company's "location" field MUST be located within the user's specified Target Geographic Territory: "${targetRegion}". Never invent random Silicon Valley / San Francisco locations unless the target territory is specifically San Francisco.
-2. AUDIENCE MATCHING: The prospect's "contactTitle" and "contactName" must strictly reflect the specified Target Audience: "${targetAudience}".
-3. BUYING SIGNALS: Always include 3 concrete, verifiable growth signals (e.g., recent funding, leadership hires, tech stack migrations, hiring SDRs).
-4. FACTUAL EVIDENCE: Provide clear evidence explaining WHY this company needs our solution.
-5. Provide realistic websites and corporate emails. Respond strictly in valid JSON array format.`;
+1. REAL SMB & MID-MARKET BUSINESSES: Use live search to find actual, currently operating small businesses (1-50 employees) and medium-sized businesses (50-500 employees) located in "${targetRegion}". Never invent fake company names or fake domains.
+2. GENUINE DECISION-MAKERS: Find the real business owners, founders, managing directors, partners, CEOs, or executive leaders for each company.
+3. ACCURATE LINKEDIN URLS: For each contact, provide their authentic verified personal LinkedIn URL ("https://www.linkedin.com/in/..."). If the exact profile slug cannot be verified with certainty, provide a targeted LinkedIn search URL in the exact format: "https://www.linkedin.com/search/results/people/?keywords=Firstname+Lastname+Company". NEVER invent a non-existent vanity URL (like linkedin.com/in/first-last) that results in a 404 page!
+For company LinkedIn, provide their verified page ("https://www.linkedin.com/company/...") or working search URL: "https://www.linkedin.com/search/results/companies/?keywords=Company".
+4. TERRITORY CONFORMANCE: Every prospect company's "location" field MUST be physically located within "${targetRegion}".
+5. CONCRETE SIGNALS & COMMERCIAL FIT: Provide 3 concrete, verifiable growth signals and a clear commercial reason why this small/medium business needs our solution.
+Respond strictly in valid JSON array format.`;
 
     const prompt = `
+      Perform live web research to find ${leadCount} real, currently active Small or Medium-Sized Businesses (SMBs) matching these parameters:
+
       [Target Territory & Geographic Region]
       MANDATORY REGION: "${targetRegion}"
       (All prospect companies must have their location physically in "${targetRegion}")
 
-      [Target Decision-Makers & Audience]
-      MANDATORY AUDIENCE: "${targetAudience}"
+      [Target Business Scale]
+      TARGET SEGMENT: Small Business & Medium-Sized Business (SMB / Mid-Market, 5-500 employees)
 
-      [Our Business Profile Context]
+      [Target Decision-Makers & Audience]
+      MANDATORY AUDIENCE: "${targetAudience}" (e.g. Owners, Founders, Managing Directors, VP of Sales, Operations Leaders)
+
+      [Our Solution Context]
       Our Company: ${businessProfile.companyName}
       Our Industry: ${targetIndustry}
       What We Sell / Value Proposition: ${businessProfile.valueProposition}
       Product Description: ${businessProfile.productDescription || ''}
-      Typical Deal Size: ${businessProfile.typicalDealSize || '$10k - $50k / yr'}
+      Typical Deal Size: ${businessProfile.typicalDealSize || '$5k - $30k / yr'}
 
       [Ideal Customer Profile (ICP)]
       Persona Title: ${icpProfile.title}
       Target Industries: ${JSON.stringify(icpProfile.targetIndustries || [targetIndustry])}
       Target Roles: ${JSON.stringify(icpProfile.targetRoles || [targetAudience])}
-      Target Company Sizes: ${JSON.stringify(icpProfile.companySize || ['10-50 employees', '50-200 employees'])}
+      Target Company Sizes: ${JSON.stringify(icpProfile.companySize || ['5-50 employees', '50-250 employees'])}
       Core Pain Points: ${JSON.stringify(icpProfile.painPoints || [])}
 
       [Retrieved Market Intelligence & RAG Knowledge Base]
       ${contextStr}
 
       TASK:
-      Generate ${leadCount} hyper-targeted candidate companies located strictly in "${targetRegion}" that match "${targetAudience}".
+      Search the web to find ${leadCount} real small-to-medium businesses located strictly in "${targetRegion}" that need our solution.
       
       Respond STRICTLY in JSON array format with objects having these exact keys:
       [
         {
-          "companyName": "Company Name",
-          "ownerName": "Executive / Founder Name",
-          "companySize": "25-100 employees",
+          "companyName": "Real Existing Company Name",
+          "ownerName": "Real Owner / Founder / Executive Name",
+          "companySize": "15-50 employees",
           "industry": "${targetIndustry}",
-          "location": "A realistic address or City, Region located strictly within ${targetRegion}",
-          "websiteLink": "https://companydomain.com",
-          "contactName": "Contact Full Name",
+          "location": "Real Address or City, Region in ${targetRegion}",
+          "websiteLink": "https://actualdomain.com",
+          "contactName": "Real Executive Full Name",
           "contactTitle": "Job Title matching ${targetAudience}",
-          "contactEmail": "contact@companydomain.com",
-          "contactLinkedin": "https://linkedin.com/in/contact-profile",
-          "score": 94,
+          "contactEmail": "contact@actualdomain.com",
+          "contactLinkedin": "https://www.linkedin.com/in/verified-slug OR https://www.linkedin.com/search/results/people/?keywords=Name+Company",
+          "companyLinkedin": "https://www.linkedin.com/company/verified-company OR https://www.linkedin.com/search/results/companies/?keywords=Company",
+          "score": 93,
           "signals": [
-            "Specific signal 1 (e.g. Raised Seed/Series A, or opened new office)",
-            "Specific signal 2 (e.g. Actively hiring sales reps or expanding tech)",
-            "Specific signal 3 (e.g. Launched new enterprise service)"
+            "Concrete growth signal 1 (e.g. recent expansion, hiring, new location)",
+            "Concrete growth signal 2 (e.g. upgraded service line or modernizing operations)",
+            "Concrete growth signal 3 (e.g. customer demand increase or technology shift)"
           ],
           "evidence": {
             "trigger": "Why now is the exact timing trigger to reach out",
-            "painPointMatch": "Specific pain point this company has that we solve",
+            "painPointMatch": "Specific pain point this SMB company has that we solve",
             "reason": "Clear commercial reason why our value proposition is an urgent fit"
           }
         }
@@ -94,6 +103,7 @@ MANDATORY RULES:
       const leadsData = await llmProvider.generate({
         prompt,
         system: systemInstruction,
+        useSearch: true,
       });
 
       if (Array.isArray(leadsData)) {
@@ -111,7 +121,7 @@ MANDATORY RULES:
       console.warn('[Research Agent] LLM generation error:', err.message);
     }
 
-    // Dynamic Fallback: Grounded strictly by entered location & target audience
+    // Dynamic Fallback: Grounded strictly by entered location & target audience for SMBs
     if (!candidates || candidates.length === 0) {
       console.log(`[Research Agent] Using dynamic localized fallback for territory: "${targetRegion}" and audience: "${targetAudience}"`);
       candidates = this._generateLocalizedDynamicFallback({
@@ -151,6 +161,35 @@ MANDATORY RULES:
         location = `${location}, ${targetRegion}`;
       }
 
+      // Normalize verified LinkedIn Page URLs
+      let linkedin = (lead.contactLinkedin || "").trim();
+      const personName = lead.contactName || lead.ownerName || "decision-maker";
+      const companyName = lead.companyName || "company";
+
+      if (!linkedin || (!linkedin.includes("linkedin.com/in/") && !linkedin.includes("linkedin.com/search/"))) {
+        if (linkedin && linkedin.startsWith("in/")) {
+          linkedin = `https://www.linkedin.com/${linkedin}`;
+        } else if (linkedin && linkedin.startsWith("http") && linkedin.includes("linkedin.com")) {
+          linkedin = linkedin;
+        } else {
+          // Guaranteed working targeted search query that finds this exact person and company on LinkedIn:
+          linkedin = `https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(personName + ' ' + companyName)}`;
+        }
+      }
+
+      const companyLinkedin = (lead.companyLinkedin && (lead.companyLinkedin.includes("linkedin.com/company/") || lead.companyLinkedin.includes("linkedin.com/search/")))
+        ? lead.companyLinkedin
+        : `https://www.linkedin.com/search/results/companies/?keywords=${encodeURIComponent(companyName)}`;
+
+      const leadEvidence = typeof lead.evidence === 'object' && lead.evidence !== null
+        ? { ...lead.evidence, companyLinkedin }
+        : {
+            trigger: typeof lead.evidence === 'string' ? lead.evidence : `Expanding operations in ${targetRegion} and active outbound hiring`,
+            painPointMatch: `Struggling with manual prospect research and pipeline generation`,
+            reason: `Direct fit for ${businessProfile.companyName}'s value proposition`,
+            companyLinkedin,
+          };
+
       const [savedLead] = await db
         .insert(crmProspects)
         .values({
@@ -165,12 +204,8 @@ MANDATORY RULES:
           contactName: lead.contactName || lead.ownerName || "Decision Maker",
           contactTitle: lead.contactTitle || targetAudience.split(',')[0].trim() || "Head of Growth",
           contactEmail: email,
-          contactLinkedin: lead.contactLinkedin || `https://linkedin.com/search/results/all/?keywords=${encodeURIComponent(lead.companyName || 'prospect')}`,
-          evidence: lead.evidence || {
-            trigger: `Expanding operations in ${targetRegion} and active outbound hiring`,
-            painPointMatch: `Struggling with manual prospect research and pipeline generation`,
-            reason: `Direct fit for ${businessProfile.companyName}'s value proposition`,
-          },
+          contactLinkedin: linkedin,
+          evidence: leadEvidence,
           signals: Array.isArray(lead.signals) && lead.signals.length > 0 ? lead.signals : [
             `Active regional expansion in ${targetRegion}`,
             `Hiring leadership in ${targetIndustry}`,
@@ -285,7 +320,7 @@ MANDATORY RULES:
         contactName: person.name,
         contactTitle: title,
         contactEmail: `${person.name.toLowerCase().replace(/\s+/g, '.')}@${slug}.io`,
-        contactLinkedin: `https://linkedin.com/in/${person.name.toLowerCase().replace(/\s+/g, '-')}`,
+        contactLinkedin: `https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(person.name + ' ' + cName)}`,
         score: 91 + (i % 8),
         signals: [
           `Active operations and expansion in ${cleanRegion}`,

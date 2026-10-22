@@ -31,23 +31,34 @@ class LLMProvider {
   }
 
   /**
-   * Generates structured response using Gemini 2.5 Flash
+   * Generates structured response using Gemini 2.5 Flash, with optional real-time Google Search Grounding
    */
-  async generate({ prompt, system }) {
+  async generate({ prompt, system, useSearch = false }) {
     if (!this.ai) {
       console.warn("No GEMINI_API_KEY found, falling back to structured mock response.");
       return this._mockResponse();
     }
 
     try {
+      const config = {
+        temperature: 0.2,
+      };
+
+      if (system) {
+        config.systemInstruction = system;
+      }
+
+      if (useSearch) {
+        // Enable live Google Search grounding for real SMB business and executive discovery
+        config.tools = [{ googleSearch: {} }];
+      } else {
+        config.responseMimeType = "application/json";
+      }
+
       const response = await this.ai.models.generateContent({
         model: 'gemini-2.5-flash',
         contents: prompt,
-        config: {
-          systemInstruction: system || "You are an expert sales, go-to-market strategist, and B2B researcher. Respond strictly with valid JSON without markdown wrapping.",
-          responseMimeType: "application/json",
-          temperature: 0.2,
-        }
+        config,
       });
 
       let rawText = response.text || "{}";
@@ -56,6 +67,13 @@ class LLMProvider {
         rawText = rawText.replace(/^```json\s*/, '').replace(/\s*```$/, '');
       } else if (rawText.startsWith('```')) {
         rawText = rawText.replace(/^```\s*/, '').replace(/\s*```$/, '');
+      }
+
+      // Robust JSON bracket slicing in case of surrounding commentary or citations
+      const firstBracket = rawText.search(/[{\[]/);
+      const lastBracket = Math.max(rawText.lastIndexOf('}'), rawText.lastIndexOf(']'));
+      if (firstBracket !== -1 && lastBracket !== -1 && lastBracket >= firstBracket) {
+        rawText = rawText.slice(firstBracket, lastBracket + 1);
       }
 
       const parsed = JSON.parse(rawText);
