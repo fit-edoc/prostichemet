@@ -8,7 +8,6 @@ module.exports = {
   dbCredentials: process.env.DATABASE_URL
     ? {
         url: process.env.DATABASE_URL,
-        ssl: !process.env.DATABASE_URL.includes("localhost"),
       }
     : {
         host: process.env.DB_HOST || "localhost",

@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const morgan = require('morgan');
 const apiV1Router = require('./routes');
 const { errorHandler } = require('./middleware/errorHandler');
 const { successResponse } = require('./utils/response');
@@ -14,8 +15,7 @@ const port = process.env.PORT || 4000;
 const defaultOrigins = [
   'https://prospail.vercel.app',
   'http://localhost:3000',
-  
- 
+  'http://127.0.0.1:3000',
 ];
 
 const envOrigins = process.env.ALLOWED_ORIGINS
@@ -47,6 +47,9 @@ app.use(cors({
 }));
 
 app.use(express.json());
+
+// Request logging via Morgan for cloud/Render server console visibility
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
 
 // Root endpoint for Render ping / service discovery
 app.get('/', (req, res) => {

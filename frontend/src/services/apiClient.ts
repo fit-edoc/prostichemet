@@ -9,17 +9,23 @@ class ApiClient {
   }
 
   private getBaseUrl(): string {
-    // In client browser, prefer the same-origin Next.js proxy route ('/api/v1') for localhost development
-    // to eliminate browser CORS preflight issues, IPv6 (::1) mismatches, and port-blocking extensions.
     if (typeof window !== 'undefined') {
       const isLocalhost =
-        !process.env.NEXT_PUBLIC_API_URL ||
-        CONFIGURED_API_URL.includes('localhost') ||
-        CONFIGURED_API_URL.includes('127.0.0.1');
+        window.location.hostname === 'localhost' ||
+        window.location.hostname === '127.0.0.1';
 
       if (isLocalhost) {
-        return '/api/v1';
+        return process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:4000/api/v1';
       }
+
+      // In production browser (e.g. deployed on Vercel):
+      const configured = process.env.NEXT_PUBLIC_API_URL;
+      if (configured && !configured.includes('localhost') && !configured.includes('127.0.0.1')) {
+        return configured.replace(/\/+$/, '');
+      }
+
+      // Default to relative same-origin route so Next.js rewrites proxy to backendUrl safely
+      return '/api/v1';
     }
     return CONFIGURED_API_URL;
   }
@@ -27,7 +33,7 @@ class ApiClient {
   async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
     const primaryBase = this.getBaseUrl();
-    const primaryUrl = `${primaryBase}${cleanEndpoint}`;
+    const primaryUrl = primaryBase === '/api/v1' ? `/api/v1${cleanEndpoint}` : `${primaryBase}${cleanEndpoint}`;
     const token = this.getAuthToken();
 
     const headers: Record<string, string> = {
@@ -45,10 +51,29 @@ class ApiClient {
         headers,
       });
 
-      const json: ApiResponse<T> = await response.json();
+      const contentType = response.headers.get('content-type') || '';
+      let json: ApiResponse<T> | null = null;
 
-      if (!response.ok || !json.success) {
-        const errorMsg = json.error?.message || `Request failed with status ${response.status}`;
+      if (contentType.includes('application/json')) {
+        try {
+          json = await response.json();
+        } catch (parseErr: any) {
+          throw new Error(`Invalid JSON response from server: ${parseErr.message}`);
+        }
+      } else {
+        const text = await response.text();
+        if (!response.ok) {
+          throw new Error(
+            response.status === 500
+              ? `Backend service error (500): Could not communicate with server at ${primaryUrl}. Verify your backend service is running.`
+              : `HTTP ${response.status} from ${primaryUrl}: ${text.slice(0, 150) || response.statusText}`
+          );
+        }
+        throw new Error(`Expected JSON from ${primaryUrl}, received non-JSON: ${text.slice(0, 100)}`);
+      }
+
+      if (!json || !response.ok || !json.success) {
+        const errorMsg = json?.error?.message || `Request failed with status ${response.status}`;
         throw new Error(errorMsg);
       }
 
@@ -58,11 +83,15 @@ class ApiClient {
       // If primary request failed (e.g., cross-origin Failed to fetch, network timeout, or connection refused),
       // retry once via the alternate route (proxy vs direct)
       if (typeof window !== 'undefined') {
+        const isLocalhost =
+          window.location.hostname === 'localhost' ||
+          window.location.hostname === '127.0.0.1';
+
         const fallbackUrl = primaryUrl.startsWith('http')
           ? `/api/v1${cleanEndpoint}`
-          : `${CONFIGURED_API_URL}${cleanEndpoint}`;
+          : (isLocalhost ? `http://127.0.0.1:4000/api/v1${cleanEndpoint}` : null);
 
-        if (fallbackUrl !== primaryUrl) {
+        if (fallbackUrl && fallbackUrl !== primaryUrl) {
           try {
             console.warn(`[apiClient] Initial request to ${primaryUrl} failed (${error.message}). Retrying via ${fallbackUrl}...`);
             const fallbackResponse = await fetch(fallbackUrl, {
@@ -70,10 +99,26 @@ class ApiClient {
               headers,
             });
 
-            const fallbackJson: ApiResponse<T> = await fallbackResponse.json();
+            const fallbackContentType = fallbackResponse.headers.get('content-type') || '';
+            let fallbackJson: ApiResponse<T> | null = null;
 
-            if (!fallbackResponse.ok || !fallbackJson.success) {
-              const errorMsg = fallbackJson.error?.message || `Request failed with status ${fallbackResponse.status}`;
+            if (fallbackContentType.includes('application/json')) {
+              try {
+                fallbackJson = await fallbackResponse.json();
+              } catch (fallbackParseErr: any) {
+                throw new Error(`Invalid JSON from ${fallbackUrl}: ${fallbackParseErr.message}`);
+              }
+            } else {
+              const fallbackText = await fallbackResponse.text();
+              throw new Error(
+                fallbackResponse.status === 500
+                  ? `Proxy error (500) via ${fallbackUrl}: Backend server unreachable. Check BACKEND_URL or local server status.`
+                  : `HTTP ${fallbackResponse.status} via ${fallbackUrl}: ${fallbackText.slice(0, 150) || fallbackResponse.statusText}`
+              );
+            }
+
+            if (!fallbackJson || !fallbackResponse.ok || !fallbackJson.success) {
+              const errorMsg = fallbackJson?.error?.message || `Request failed with status ${fallbackResponse.status}`;
               throw new Error(errorMsg);
             }
 

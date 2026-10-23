@@ -53,30 +53,16 @@ export default function LoginPage() {
     if (isNavigatingRef.current) return;
     isNavigatingRef.current = true;
     setIsProcessing(true);
-    setStatusMessage("Checking workspace profiles...");
+    setStatusMessage("Navigating to Dashboard...");
 
-    try {
-      const profileAction = await dispatch(fetchProfiles());
-      const hasProfiles =
-        fetchProfiles.fulfilled.match(profileAction) &&
-        Array.isArray(profileAction.payload) &&
-        profileAction.payload.length > 0;
+    // Silently prefetch profile data in background
+    dispatch(fetchProfiles()).catch(() => {});
 
-      const target = hasProfiles ? "/dashboard" : "/onboarding";
-      setStatusMessage(`Navigating to ${hasProfiles ? "Dashboard" : "Profile Setup"}...`);
-
-      // Use window.location.replace for guaranteed top-level navigation that cannot be blocked
-      if (typeof window !== "undefined") {
-        window.location.replace(target);
-      } else {
-        router.replace(target);
-      }
-    } catch {
-      if (typeof window !== "undefined") {
-        window.location.replace("/onboarding");
-      } else {
-        router.replace("/onboarding");
-      }
+    // Guaranteed top-level redirect directly to dashboard
+    if (typeof window !== "undefined") {
+      window.location.replace("/dashboard");
+    } else {
+      router.replace("/dashboard");
     }
   }, [dispatch, router]);
 
@@ -111,14 +97,14 @@ export default function LoginPage() {
         if (loginWithGoogle.fulfilled.match(resultAction)) {
           await routeUserAfterLogin();
         } else {
-          setErrorMessage(
-            (resultAction.payload as string) || "Google authentication failed. Please try again."
-          );
+          console.error("[Login Error]:", resultAction.payload);
+          setErrorMessage("Sign in could not be completed. Please try again.");
           setIsProcessing(false);
           setStatusMessage(null);
         }
       } catch (err: any) {
-        setErrorMessage(err?.message || "An unexpected error occurred during Google sign-in.");
+        console.error("[Login Exception]:", err);
+        setErrorMessage("Sign in could not be completed. Please try again.");
         setIsProcessing(false);
         setStatusMessage(null);
       }
@@ -130,7 +116,7 @@ export default function LoginPage() {
     if (sessionStatus === "authenticated" && session?.user && !hasAttemptedSessionSync.current) {
       hasAttemptedSessionSync.current = true;
       setIsProcessing(true);
-      setStatusMessage("Syncing Google account with workspace...");
+      setStatusMessage("Connecting to workspace...");
 
       const sessionData = session as any;
       dispatch(
@@ -145,14 +131,18 @@ export default function LoginPage() {
         if (loginWithGoogle.fulfilled.match(resultAction)) {
           await routeUserAfterLogin();
         } else {
+          console.error("[Session Sync Error]:", resultAction.payload);
           setErrorMessage(
-            (resultAction.payload as string) || "Failed to link your workspace session."
+            typeof resultAction.payload === "string"
+              ? resultAction.payload
+              : "Could not connect to workspace. Please ensure the backend server is running."
           );
           setIsProcessing(false);
           setStatusMessage(null);
         }
       }).catch((err: any) => {
-        setErrorMessage(err?.message || "Failed to link your workspace session.");
+        console.error("[Session Sync Exception]:", err);
+        setErrorMessage(err?.message || "Could not connect to workspace. Please ensure the backend server is running.");
         setIsProcessing(false);
         setStatusMessage(null);
       });

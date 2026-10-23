@@ -17,7 +17,24 @@ const loginWithGoogle = async (req, res, next) => {
     const result = await authService.loginWithGoogle(req.body);
     return successResponse(res, result, 200);
   } catch (error) {
-    return errorResponse(res, 'AUTH_FAILED', error.message, 401);
+    // Log detailed failure to server console (Render logs) for debugging
+    console.error('❌ [AUTH FAILURE] /api/v1/auth/google:', {
+      error: error.message,
+      stack: error.stack,
+      payload: {
+        hasIdToken: !!req.body?.idToken,
+        email: req.body?.email,
+        name: req.body?.name,
+      },
+    });
+
+    // Send generic, safe error message to client without exposing database or system internals
+    return errorResponse(
+      res,
+      'AUTH_FAILED',
+      'Sign in could not be completed. Please try again.',
+      401
+    );
   }
 };
 

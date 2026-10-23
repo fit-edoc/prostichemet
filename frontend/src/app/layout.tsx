@@ -21,6 +21,13 @@ export const metadata: Metadata = {
     description: "Discover verified decision-makers backed by verifiable evidence.",
     type: "website",
   },
+  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? {
+        verification: {
+          google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+        },
+      }
+    : {}),
 };
 
 export default function RootLayout({
