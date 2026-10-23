@@ -1,6 +1,6 @@
 import { ApiResponse } from '../types';
 
-const CONFIGURED_API_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api/v1').replace(/\/+$/, '');
+const CONFIGURED_API_URL = (process.env.BACKEND_URL || 'http://localhost:4000/api/v1').replace(/\/+$/, '');
 
 class ApiClient {
   private getAuthToken(): string | null {
@@ -15,11 +15,11 @@ class ApiClient {
         window.location.hostname === '127.0.0.1';
 
       if (isLocalhost) {
-        return process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:4000/api/v1';
+        return process.env.BACKEND_URL || 'http://127.0.0.1:4000/api/v1';
       }
 
       // In production browser (e.g. deployed on Vercel):
-      const configured = process.env.NEXT_PUBLIC_API_URL;
+      const configured = process.env.BACKEND_URL;
       if (configured && !configured.includes('localhost') && !configured.includes('127.0.0.1')) {
         return configured.replace(/\/+$/, '');
       }
