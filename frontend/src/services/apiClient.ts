@@ -1,6 +1,10 @@
 import { ApiResponse } from '../types';
 
-const CONFIGURED_API_URL = (process.env.BACKEND_URL || 'http://localhost:4000/api/v1').replace(/\/+$/, '');
+const CONFIGURED_API_URL = (
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  process.env.BACKEND_URL ||
+  'http://localhost:4000/api/v1'
+).replace(/\/+$/, '');
 
 class ApiClient {
   private getAuthToken(): string | null {
@@ -15,11 +19,15 @@ class ApiClient {
         window.location.hostname === '127.0.0.1';
 
       if (isLocalhost) {
-        return process.env.BACKEND_URL || 'http://127.0.0.1:4000/api/v1';
+        return (
+          process.env.NEXT_PUBLIC_BACKEND_URL ||
+          process.env.BACKEND_URL ||
+          'http://127.0.0.1:4000/api/v1'
+        );
       }
 
       // In production browser (e.g. deployed on Vercel):
-      const configured = process.env.BACKEND_URL;
+      const configured = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.BACKEND_URL;
       if (configured && !configured.includes('localhost') && !configured.includes('127.0.0.1')) {
         return configured.replace(/\/+$/, '');
       }
@@ -112,7 +120,7 @@ class ApiClient {
               const fallbackText = await fallbackResponse.text();
               throw new Error(
                 fallbackResponse.status === 500
-                  ? `Proxy error (500) via ${fallbackUrl}: Backend server unreachable. Check BACKEND_URL or local server status.`
+                  ? `Proxy error (500) via ${fallbackUrl}: Backend server unreachable. Check NEXT_PUBLIC_BACKEND_URL or local server status.`
                   : `HTTP ${fallbackResponse.status} via ${fallbackUrl}: ${fallbackText.slice(0, 150) || fallbackResponse.statusText}`
               );
             }

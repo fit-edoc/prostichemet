@@ -1,12 +1,11 @@
 import type { NextConfig } from "next";
 
-const backendUrl =
-  process.env.BACKEND_URL      ||
-  (process.env.BACKEND_URL &&
-  !process.env.BACKEND_URL.includes("localhost") &&
-  !process.env.BACKEND_URL.includes("127.0.0.1")
-    ? process.env.BACKEND_URL.replace(/\/api\/v1\/?$/, "")
-    : "http://localhost:4000");
+const rawBackendUrl =
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  process.env.BACKEND_URL ||
+  "http://localhost:4000";
+
+const backendUrl = rawBackendUrl.replace(/\/api\/v1\/?$/, "").replace(/\/+$/, "");
 
 const nextConfig: NextConfig = {
   /* config options here */
