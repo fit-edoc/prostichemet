@@ -4,9 +4,11 @@ require('dotenv').config();
 
 const connectionString = process.env.DATABASE_URL;
 
+const isLocal = !connectionString || connectionString.includes('localhost') || connectionString.includes('127.0.0.1');
+
 const client = connectionString
   ? postgres(connectionString, {
-      ssl: connectionString.includes('localhost') || process.env.DB_SSL === 'false' ? false : 'require',
+      ssl: isLocal || process.env.DB_SSL === 'false' ? false : { rejectUnauthorized: false },
       max: parseInt(process.env.DB_MAX_CONNECTIONS || '10'),
       idle_timeout: 20,
       connect_timeout: 10,
@@ -17,7 +19,7 @@ const client = connectionString
       database: process.env.DB_NAME || "postrichment",
       username: process.env.DB_USER || "postgres",
       password: process.env.DB_PASSWORD || "postgres",
-      ssl: process.env.DB_SSL === 'true' ? 'require' : false,
+      ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
       max: parseInt(process.env.DB_MAX_CONNECTIONS || '10'),
       idle_timeout: 20,
       connect_timeout: 10,

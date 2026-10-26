@@ -1,6 +1,6 @@
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
-const { db } = require('../db');
+const { db, initDatabase } = require('../db');
 const { users, workspaces, workspaceMembers } = require('../db/schema');
 const { eq, and } = require('drizzle-orm');
 
@@ -88,7 +88,16 @@ class AuthService {
     }
 
     // 1. Find or create user
-    const existingUsers = await db.select().from(users).where(eq(users.email, profile.email));
+    let existingUsers;
+    try {
+      existingUsers = await db.select().from(users).where(eq(users.email, profile.email));
+    } catch (dbErr) {
+      console.warn('⚠️ Users query failed. Initializing missing database tables...', dbErr.message);
+      if (typeof initDatabase === 'function') {
+        await initDatabase();
+      }
+      existingUsers = await db.select().from(users).where(eq(users.email, profile.email));
+    }
     let user;
 
     if (existingUsers.length > 0) {
