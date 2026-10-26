@@ -58,88 +58,84 @@ export function Navbar() {
   const isAuthenticated = mounted && Boolean(token || user);
 
   return (
-    <header
-      className={`fixed left-0 right-0 z-50 transition-all duration-200 flex justify-center px-4 ${
-        isScrolled ? "top-2.5" : "top-0"
-      }`}
-    >
-      <div
-        className={`w-full transition-all duration-200 flex items-center justify-between ${
-          isScrolled
-            ? "max-w-4xl py-2 px-4 rounded-md bg-white/95 backdrop-blur-md border border-zinc-200/80 shadow-xs"
-            : "max-w-6xl py-3.5 px-4 bg-white/80 backdrop-blur-sm border-b border-zinc-200/60"
+    <>
+      <header
+        className={`fixed left-0 right-0 z-50 transition-all duration-300 flex items-center justify-between max-w-6xl mx-auto px-4 sm:px-6 pointer-events-none ${
+          isScrolled ? "top-2.5" : "top-4"
         }`}
       >
-        {/* Brand Logo & Name in Instrument Sans */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <Image
-            src="/logo.png"
-            alt="Postrichly"
-            width={100}
-            height={100}
-            className="w-8 h-8 rounded object-contain transition-transform group-hover:scale-105"
-            priority
-          />
-          <span className="text-sm font-normal tracking-tight text-zinc-950">
-            Postrichly
-          </span>
-        </Link>
+        {/* Div 1 (Left): Brand Logo & Name */}
+        <div className="pointer-events-auto flex items-center px-4 py-2 rounded-full bg-neutral-900/85 backdrop-blur-md border border-neutral-800/90 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.6)] hover:border-neutral-700 transition-all">
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <Image
+              src="/logo.png"
+              alt="Postrichly"
+              width={100}
+              height={100}
+              className="w-7 h-7 rounded-md object-contain transition-transform group-hover:scale-105"
+              priority
+            />
+            <span className="text-sm font-medium tracking-tight text-white group-hover:text-neutral-200 transition-colors">
+              Postrichly
+            </span>
+          </Link>
+        </div>
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-6 text-xs font-normal tracking-tight text-zinc-600">
+        {/* Div 2 (Center): Navigation Links */}
+        <nav className="pointer-events-auto hidden md:flex items-center gap-1 px-3 py-1.5 rounded-full bg-neutral-900/85 backdrop-blur-md border border-neutral-800/90 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.6)]">
           <a
             href="#demo"
-            className="hover:text-zinc-950 transition-colors"
+            className="px-3.5 py-1.5 rounded-full text-xs font-normal text-neutral-300 hover:text-white hover:bg-neutral-800/70 transition-all tracking-tight"
           >
             Product
           </a>
           <a
             href="#features"
-            className="hover:text-zinc-950 transition-colors"
+            className="px-3.5 py-1.5 rounded-full text-xs font-normal text-neutral-300 hover:text-white hover:bg-neutral-800/70 transition-all tracking-tight"
           >
             Capabilities
           </a>
           <a
             href="#testimonials"
-            className="hover:text-zinc-950 transition-colors"
+            className="px-3.5 py-1.5 rounded-full text-xs font-normal text-neutral-300 hover:text-white hover:bg-neutral-800/70 transition-all tracking-tight"
           >
             Proof
           </a>
           <a
             href="#faq"
-            className="hover:text-zinc-950 transition-colors"
+            className="px-3.5 py-1.5 rounded-full text-xs font-normal text-neutral-300 hover:text-white hover:bg-neutral-800/70 transition-all tracking-tight"
           >
             FAQ
           </a>
         </nav>
 
-        {/* Action Controls */}
-        <div className="flex items-center gap-2.5">
+        {/* Div 3 (Right): Action Links & Controls */}
+        <div className="pointer-events-auto flex items-center gap-2 px-3 py-1.5 rounded-full bg-neutral-900/85 backdrop-blur-md border border-neutral-800/90 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.6)]">
           {isAuthenticated ? (
             <div className="flex items-center gap-2">
               <button
                 onClick={() => router.push("/dashboard")}
-                className="btn-dark-xl px-3 py-1.5 flex items-center gap-1.5 text-xs font-normal cursor-pointer"
+                className="btn-bevel bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 text-white px-3 py-1.5 flex items-center gap-1.5 text-xs font-normal cursor-pointer"
               >
-                <SquaresFour className="w-3.5 h-3.5 text-zinc-900" />
+                <SquaresFour className="w-3.5 h-3.5 text-white" />
                 <span>Dashboard</span>
               </button>
               <UserProfileDropdown />
             </div>
           ) : (
-            <div className="hidden sm:flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2">
               <button
                 onClick={() => router.push("/login")}
-                className="text-xs font-normal tracking-tight text-zinc-600 hover:text-zinc-950 px-2.5 py-1.5 transition-colors cursor-pointer"
+                className="text-xs font-normal tracking-tight text-neutral-300 hover:text-white px-3 py-1.5 rounded-full hover:bg-neutral-800/60 transition-all cursor-pointer"
               >
                 Sign In
               </button>
               <button
                 onClick={() => router.push("/login")}
-                className="btn-invert-xl px-3 py-1.5 flex items-center gap-1 text-xs font-normal tracking-tight cursor-pointer group"
+                className="btn-bevel bg-white hover:bg-neutral-100 !text-zinc-950 font-medium px-3.5 py-1.5 flex items-center gap-1 text-xs tracking-tight cursor-pointer group shadow-sm"
               >
-                <span>Get Started</span>
-                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                <span className="!text-zinc-950 font-medium">Get Started</span>
+                <ArrowRight className="w-3 h-3 !text-zinc-950 transition-transform group-hover:translate-x-0.5" />
               </button>
             </div>
           )}
@@ -148,7 +144,7 @@ export function Navbar() {
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle Menu"
-            className="md:hidden w-7 h-7 rounded-[3px] border border-zinc-200 bg-white flex items-center justify-center text-zinc-700 hover:text-zinc-950 transition-all cursor-pointer"
+            className="md:hidden w-7 h-7 rounded-full border border-neutral-700 bg-neutral-800/80 flex items-center justify-center text-neutral-300 hover:text-white transition-all cursor-pointer"
           >
             {mobileMenuOpen ? (
               <X className="w-3.5 h-3.5" />
@@ -157,52 +153,52 @@ export function Navbar() {
             )}
           </button>
         </div>
-      </div>
+      </header>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer (Dark Neutral Theme) */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed top-14 left-4 right-4 bg-white border border-zinc-200 rounded-md p-4 shadow-md flex flex-col gap-3 text-xs font-normal tracking-tight">
+        <div className="md:hidden fixed top-20 left-4 right-4 bg-neutral-950/95 border border-neutral-800 rounded-2xl p-5 shadow-2xl backdrop-blur-xl flex flex-col gap-3 text-xs font-normal tracking-tight z-50 text-neutral-200">
           <a
             href="#demo"
             onClick={() => setMobileMenuOpen(false)}
-            className="py-1 text-zinc-700 hover:text-zinc-950"
+            className="py-1.5 px-3 rounded-lg hover:bg-neutral-900 text-neutral-300 hover:text-white transition-colors"
           >
             Product
           </a>
           <a
             href="#features"
             onClick={() => setMobileMenuOpen(false)}
-            className="py-1 text-zinc-700 hover:text-zinc-950"
+            className="py-1.5 px-3 rounded-lg hover:bg-neutral-900 text-neutral-300 hover:text-white transition-colors"
           >
             Capabilities
           </a>
           <a
             href="#testimonials"
             onClick={() => setMobileMenuOpen(false)}
-            className="py-1 text-zinc-700 hover:text-zinc-950"
+            className="py-1.5 px-3 rounded-lg hover:bg-neutral-900 text-neutral-300 hover:text-white transition-colors"
           >
             Proof
           </a>
           <a
             href="#faq"
             onClick={() => setMobileMenuOpen(false)}
-            className="py-1 text-zinc-700 hover:text-zinc-950"
+            className="py-1.5 px-3 rounded-lg hover:bg-neutral-900 text-neutral-300 hover:text-white transition-colors"
           >
             FAQ
           </a>
-          <div className="pt-2 border-t border-zinc-100 flex flex-col gap-2">
+          <div className="pt-2 border-t border-neutral-800 flex flex-col gap-2">
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
                 router.push("/login");
               }}
-              className="btn-invert-xl py-2 text-center text-xs"
+              className="btn-bevel bg-white text-zinc-950 font-medium py-2 text-center text-xs"
             >
               Start Free Research
             </button>
           </div>
         </div>
       )}
-    </header>
+    </>
   );
 }
