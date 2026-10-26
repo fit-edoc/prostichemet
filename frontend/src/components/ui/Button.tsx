@@ -26,15 +26,18 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
+    const glassBevelShadow =
+      "shadow-[inset_0px_1px_1px_rgba(255,255,255,0.2),inset_0px_2px_2px_rgba(255,255,255,0.15),inset_0px_4px_4px_rgba(255,255,255,0.1),inset_0px_8px_8px_rgba(255,255,255,0.05),inset_0px_16px_16px_rgba(255,255,255,0.05),0px_-1px_1px_rgba(0,0,0,0.02),0px_-2px_2px_rgba(0,0,0,0.03),0px_-4px_4px_rgba(0,0,0,0.05),0px_-8px_8px_rgba(0,0,0,0.06),0px_-16px_16px_rgba(0,0,0,0.08)]";
+
     const sizeClasses = {
-      sm: "text-xs px-3 py-1.5 rounded-[4px] gap-1.5 font-normal tracking-tight",
-      md: "text-xs sm:text-sm px-4 py-2 rounded-[4px] gap-2 font-normal tracking-tight",
-      lg: "text-sm sm:text-base px-5 py-2.5 rounded-[4px] gap-2.5 font-normal tracking-tight",
+      sm: "text-xs px-3.5 py-1.5 rounded-[24px] gap-1.5 font-normal tracking-tight",
+      md: "text-xs sm:text-sm px-4.5 py-2 rounded-[24px] gap-2 font-normal tracking-tight",
+      lg: "text-sm sm:text-base px-6 py-2.5 rounded-[24px] gap-2.5 font-normal tracking-tight",
     }[size];
 
     const variantClasses = {
       primary:
-        "bg-zinc-950 text-white border border-zinc-950 hover:bg-zinc-800 shadow-xs active:translate-y-[0.5px]",
+        `bg-zinc-950 text-white border border-[rgba(255,255,255,0.13)] hover:bg-zinc-900 ${glassBevelShadow} active:translate-y-[0.5px] duration-400`,
       secondary:
         "bg-white text-zinc-900 border border-zinc-200/90 hover:bg-zinc-50 hover:border-zinc-300 shadow-xs active:translate-y-[0.5px]",
       outline:
