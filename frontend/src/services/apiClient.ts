@@ -1,10 +1,14 @@
 import { ApiResponse } from '../types';
 
-const CONFIGURED_API_URL = (
+const rawConfiguredUrl = (
   process.env.NEXT_PUBLIC_BACKEND_URL ||
   process.env.BACKEND_URL ||
   'http://localhost:4000/api/v1'
 ).replace(/\/+$/, '');
+
+const CONFIGURED_API_URL = rawConfiguredUrl.endsWith('/api/v1')
+  ? rawConfiguredUrl
+  : `${rawConfiguredUrl}/api/v1`;
 
 class ApiClient {
   private getAuthToken(): string | null {
@@ -19,17 +23,19 @@ class ApiClient {
         window.location.hostname === '127.0.0.1';
 
       if (isLocalhost) {
-        return (
+        const local = (
           process.env.NEXT_PUBLIC_BACKEND_URL ||
           process.env.BACKEND_URL ||
           'http://127.0.0.1:4000/api/v1'
-        );
+        ).replace(/\/+$/, '');
+        return local.endsWith('/api/v1') ? local : `${local}/api/v1`;
       }
 
       // In production browser (e.g. deployed on Vercel):
       const configured = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.BACKEND_URL;
       if (configured && !configured.includes('localhost') && !configured.includes('127.0.0.1')) {
-        return configured.replace(/\/+$/, '');
+        const cleaned = configured.replace(/\/+$/, '');
+        return cleaned.endsWith('/api/v1') ? cleaned : `${cleaned}/api/v1`;
       }
 
       // Default to relative same-origin route so Next.js rewrites proxy to backendUrl safely
