@@ -32,7 +32,7 @@ const loginWithGoogle = async (req, res, next) => {
     return errorResponse(
       res,
       'AUTH_FAILED',
-      'Sign in could not be completed. Please try again.',
+      error.message || 'Sign in could not be completed. Please try again.',
       401
     );
   }
