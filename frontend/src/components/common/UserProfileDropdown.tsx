@@ -65,7 +65,7 @@ export function UserProfileDropdown() {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 p-1 pr-2.5 rounded-md bg-white border border-zinc-200/80 hover:border-zinc-300 shadow-xs transition-all cursor-pointer select-none"
+        className="flex items-center gap-2 p-1 pr-2.5 rounded-full bg-neutral-800/90 border border-neutral-700/80 hover:border-neutral-600 shadow-xs transition-all cursor-pointer select-none"
         aria-expanded={isOpen}
       >
         <img
@@ -74,28 +74,28 @@ export function UserProfileDropdown() {
           className="w-6 h-6 rounded-full object-cover"
         />
         <div className="hidden sm:flex flex-col text-left">
-          <span className="text-xs font-normal tracking-tight text-zinc-950 leading-tight truncate max-w-[120px]">
+          <span className="text-xs font-normal tracking-tight text-white leading-tight truncate max-w-[120px]">
             {user?.name || (user?.email ? user.email.split("@")[0] : "Account")}
           </span>
         </div>
         <CaretDown
-          className={`w-3 h-3 text-zinc-500 transition-transform duration-150 ${
+          className={`w-3 h-3 text-neutral-400 transition-transform duration-150 ${
             isOpen ? "rotate-180" : ""
           }`}
         />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-56 rounded-md bg-white border border-zinc-200 shadow-md py-1.5 z-50 animate-in fade-in zoom-in-95 duration-100 text-xs font-normal tracking-tight">
-          <div className="px-3.5 py-2 border-b border-zinc-100">
-            <p className="text-zinc-950 font-normal tracking-tight truncate">
+        <div className="absolute right-0 mt-2 w-56 rounded-xl bg-neutral-900/95 border border-neutral-800 shadow-2xl py-1.5 z-50 backdrop-blur-xl animate-in fade-in zoom-in-95 duration-100 text-xs font-normal tracking-tight text-white">
+          <div className="px-3.5 py-2 border-b border-neutral-800">
+            <p className="text-white font-medium tracking-tight truncate">
               {user?.name || "Active Session"}
             </p>
-            <p className="text-[11px] text-zinc-500 truncate mt-0.5">
+            <p className="text-[11px] text-neutral-400 truncate mt-0.5">
               {user?.email || "Signed in"}
             </p>
             <div className="mt-2">
-              <span className="bg-green-700/10 text-green-600 rounded-[2px] border-0 py-[2px] px-2 text-[10px] font-normal tracking-tight inline-flex items-center gap-1">
+              <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-[2px] py-[2px] px-2 text-[10px] font-normal tracking-tight inline-flex items-center gap-1">
                 <ShieldCheck className="w-3 h-3" />
                 <span>{workspace?.name || "Enterprise Cluster"}</span>
               </span>
@@ -106,36 +106,36 @@ export function UserProfileDropdown() {
             <Link
               href="/dashboard"
               onClick={() => setIsOpen(false)}
-              className="flex items-center gap-2.5 px-3.5 py-2 text-zinc-700 hover:text-zinc-950 hover:bg-zinc-50 transition-colors"
+              className="flex items-center gap-2.5 px-3.5 py-2 text-neutral-300 hover:text-white hover:bg-neutral-800/70 transition-colors"
             >
-              <User className="w-3.5 h-3.5 text-zinc-500" />
+              <User className="w-3.5 h-3.5 text-neutral-400" />
               <span>Signal Research Console</span>
             </Link>
 
             <button
               type="button"
               onClick={handleThemeToggle}
-              className="w-full flex items-center justify-between px-3.5 py-2 text-zinc-700 hover:text-zinc-950 hover:bg-zinc-50 transition-colors cursor-pointer text-left"
+              className="w-full flex items-center justify-between px-3.5 py-2 text-neutral-300 hover:text-white hover:bg-neutral-800/70 transition-colors cursor-pointer text-left"
             >
               <div className="flex items-center gap-2.5">
                 {theme === "dark" ? (
-                  <Sun className="w-3.5 h-3.5 text-zinc-500" />
+                  <Sun className="w-3.5 h-3.5 text-neutral-400" />
                 ) : (
-                  <Moon className="w-3.5 h-3.5 text-zinc-500" />
+                  <Moon className="w-3.5 h-3.5 text-neutral-400" />
                 )}
                 <span>Interface Theme</span>
               </div>
-              <span className="text-[10px] text-zinc-400 capitalize">{theme}</span>
+              <span className="text-[10px] text-neutral-500 capitalize">{theme}</span>
             </button>
           </div>
 
-          <div className="border-t border-zinc-100 pt-1">
+          <div className="border-t border-neutral-800 pt-1">
             <button
               type="button"
               onClick={handleLogout}
-              className="w-full flex items-center gap-2.5 px-3.5 py-2 text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer text-left"
+              className="w-full flex items-center gap-2.5 px-3.5 py-2 text-rose-400 hover:bg-rose-950/30 transition-colors cursor-pointer text-left"
             >
-              <SignOut className="w-3.5 h-3.5 text-rose-500" />
+              <SignOut className="w-3.5 h-3.5 text-rose-400" />
               <span>Log out</span>
             </button>
           </div>
