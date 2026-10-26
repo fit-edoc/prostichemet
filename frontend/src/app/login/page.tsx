@@ -44,9 +44,7 @@ export default function LoginPage() {
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const hasAttemptedSessionSync = React.useRef(false);
 
-  const GOOGLE_CLIENT_ID =
-    process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ||
-    "529660410268-901jul4s7dr715pvokkt2qbpn7ac83jl.apps.googleusercontent.com";
+  const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "";
 
   const isNavigatingRef = React.useRef(false);
   const routeUserAfterLogin = React.useCallback(async () => {
@@ -98,13 +96,17 @@ export default function LoginPage() {
           await routeUserAfterLogin();
         } else {
           console.error("[Login Error]:", resultAction.payload);
-          setErrorMessage("Sign in could not be completed. Please try again.");
+          setErrorMessage(
+            typeof resultAction.payload === "string"
+              ? resultAction.payload
+              : "Sign in could not be completed. Please try again."
+          );
           setIsProcessing(false);
           setStatusMessage(null);
         }
       } catch (err: any) {
         console.error("[Login Exception]:", err);
-        setErrorMessage("Sign in could not be completed. Please try again.");
+        setErrorMessage(err?.message || "Sign in could not be completed. Please try again.");
         setIsProcessing(false);
         setStatusMessage(null);
       }
