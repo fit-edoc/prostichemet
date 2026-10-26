@@ -1,29 +1,10 @@
-# Postrichment System Architecture
+# System Architecture Overview
 
-## 1. Redux State Management & Network Deduplication
-- Request guards added to crmSlice, icpSlice, and profileSlice to eliminate infinite polling loops on route mount.
+## Overview
+Postrichment (Prospail) is an agentic AI-driven Go-To-Market & Lead Enrichment Platform.
 
-## 2. 5% Architectural Carbon Rails
-- Left and right gutters occupy exactly 5% screen width with repetitive carbon mesh background and SYS.L05 / SYS.R05 telemetry markers.
-
-## 3. Dynamic Dock Navigation
-- Shrinks and transitions to a floating pill dock when scroll exceeds 30px.
-
-## 4. Icon Uniformity
-- All sparkles/sprinkles strictly replaced by Tabler SVG icons.
-
-## 5. Blur-to-No-Blur Pipeline Animation
-- Stages smoothly transition from backdrop-filter: blur(4px) to crystal clear state.
-- Users can freeze the stream or manually click between Signal, Crawl, Synthesize, and Dispatch steps.
-
-## 6. Interactive Outbound Framework Switcher
-- Allows comparing PAS vs Observation-Insight frameworks with instant copy.
-
-## 7. Interactive Terminal Mockup
-- Displays simulated live payload inspector with one-click clipboard copy confirmation.
-
-## 8. Footer Cluster Telemetry
-- Dynamic cluster status pill with ping measurements and protocol status.
-
-## 9. CRM Table & Lead Outreach Drawer
-- Pure monochrome CRM table displaying enriched emails, websites, and Google Maps addresses with sliding right-hand outreach generation drawer.
+### Core Modules
+1. **Frontend App**: Next.js 16 with React 19, Turbopack, TailwindCSS, Redux Toolkit, and Auth.js v5.
+2. **Backend Engine**: Express.js REST API with Drizzle ORM on PostgreSQL.
+3. **AI Layer**: Google Gemini 2.0 / 1.5 Flash for high-speed RAG, intent analysis, and cold email drafting.
+4. **Data Extraction**: Automated web crawler and markdown sanitizer for company profile ingestion.
