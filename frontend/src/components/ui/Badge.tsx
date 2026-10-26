@@ -1,50 +1,31 @@
-import * as React from "react";
+'use client';
+import React from 'react';
 
-export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  variant?: "green" | "blue" | "amber" | "purple" | "rose" | "neutral";
-  size?: "sm" | "md";
-  dot?: boolean;
+export interface BadgeProps {
+  children: React.ReactNode;
+  variant?: 'default' | 'success' | 'warning' | 'info' | 'purple';
+  size?: 'sm' | 'md';
+  className?: string;
 }
 
-export function Badge({
-  children,
-  className = "",
-  variant = "green",
-  size = "sm",
-  dot = false,
-  ...props
-}: BadgeProps) {
-  const sizeClasses = {
-    sm: "text-[11px] px-2 py-[2px] tracking-tight leading-none",
-    md: "text-xs px-2.5 py-[2px] tracking-tight leading-none",
-  }[size];
+export function Badge({ children, variant = 'default', size = 'sm', className = '' }: BadgeProps) {
+  const variantStyles = {
+    default: 'bg-zinc-800/80 text-zinc-300 border-zinc-700/60',
+    success: 'bg-emerald-950/40 text-emerald-300 border-emerald-800/40',
+    warning: 'bg-amber-950/40 text-amber-300 border-amber-800/40',
+    info: 'bg-sky-950/40 text-sky-300 border-sky-800/40',
+    purple: 'bg-purple-950/40 text-purple-300 border-purple-800/40',
+  };
 
-  const variantClasses = {
-    green: "bg-green-700/10 text-green-600 border-0 font-normal",
-    blue: "bg-blue-700/10 text-blue-600 border-0 font-normal",
-    amber: "bg-amber-700/10 text-amber-600 border-0 font-normal",
-    purple: "bg-purple-700/10 text-purple-600 border-0 font-normal",
-    rose: "bg-rose-700/10 text-rose-600 border-0 font-normal",
-    neutral: "bg-zinc-700/10 text-zinc-600 border-0 font-normal",
-  }[variant];
-
-  const dotClasses = {
-    green: "bg-green-600",
-    blue: "bg-blue-600",
-    amber: "bg-amber-600",
-    purple: "bg-purple-600",
-    rose: "bg-rose-600",
-    neutral: "bg-zinc-600",
-  }[variant];
+  const sizeStyles = {
+    sm: 'text-xs px-2 py-0.5',
+    md: 'text-xs px-2.5 py-1',
+  };
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-[2px] ${sizeClasses} ${variantClasses} ${className}`}
-      {...props}
+      className={`inline-flex items-center gap-1 font-medium rounded-full border ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
     >
-      {dot && (
-        <span className={`w-1.5 h-1.5 rounded-full ${dotClasses} animate-pulse`} />
-      )}
       {children}
     </span>
   );
