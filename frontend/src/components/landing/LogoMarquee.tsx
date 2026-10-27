@@ -82,15 +82,15 @@ export function LogoMarquee() {
   ];
 
   return (
-    <div className="w-full py-8 border-y border-zinc-200/80 bg-zinc-50/50 relative overflow-hidden">
+    <div className="w-full py-8 border-y border-neutral-800/80 bg-zinc-950/80 relative overflow-hidden">
       {/* Edge gradient masks for seamless fade */}
-      <div className="absolute top-0 bottom-0 left-0 w-16 bg-gradient-to-r from-zinc-50 to-transparent z-10 pointer-events-none" />
-      <div className="absolute top-0 bottom-0 right-0 w-16 bg-gradient-to-l from-zinc-50 to-transparent z-10 pointer-events-none" />
+      <div className="absolute top-0 bottom-0 left-0 w-24 bg-gradient-to-r from-zinc-950 to-transparent z-10 pointer-events-none" />
+      <div className="absolute top-0 bottom-0 right-0 w-24 bg-gradient-to-l from-zinc-950 to-transparent z-10 pointer-events-none" />
 
       {/* Header editorial note */}
       <div className="max-w-6xl mx-auto px-4 mb-4 text-center">
-        <div className="inline-flex items-center gap-1.5 text-xs text-zinc-500 font-normal tracking-tight">
-          <Sparkle className="w-3.5 h-3.5 text-zinc-700" />
+        <div className="inline-flex items-center gap-1.5 text-xs text-neutral-400 font-normal tracking-tight">
+          <Sparkle className="w-3.5 h-3.5 text-neutral-300" />
           <span>Trusted by modern revenue teams & outbound leaders</span>
         </div>
       </div>
@@ -101,7 +101,7 @@ export function LogoMarquee() {
           {companies.map((co, idx) => (
             <div
               key={`c1-${idx}`}
-              className="flex items-center gap-2 text-zinc-500 hover:text-zinc-950 transition-colors opacity-75 hover:opacity-100 cursor-default shrink-0 px-4"
+              className="flex items-center gap-2 text-neutral-400 hover:text-white transition-colors opacity-75 hover:opacity-100 cursor-default shrink-0 px-4"
               title={co.name}
             >
               {co.svg}
@@ -113,7 +113,7 @@ export function LogoMarquee() {
           {companies.map((co, idx) => (
             <div
               key={`c2-${idx}`}
-              className="flex items-center gap-2 text-zinc-500 hover:text-zinc-950 transition-colors opacity-75 hover:opacity-100 cursor-default shrink-0 px-4"
+              className="flex items-center gap-2 text-neutral-400 hover:text-white transition-colors opacity-75 hover:opacity-100 cursor-default shrink-0 px-4"
               title={co.name}
             >
               {co.svg}
