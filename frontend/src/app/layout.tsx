@@ -8,7 +8,7 @@ import { StoreProvider } from "../store/StoreProvider";
 import { SmoothScrollProvider } from "../components/common/SmoothScrollProvider";
 
 export const metadata: Metadata = {
-  title: "Postrichly — Autonomous GTM Intelligence & Lead Enrichment",
+  title: "Prospail — Autonomous GTM Intelligence & Lead Enrichment",
   description: "Discover verified B2B buyers with live signal evidence, vector grounding, and automated CRM enrichment.",
   keywords: ["AI sales research", "lead enrichment", "ICP generator", "B2B outbound", "cold email AI", "signal discovery"],
   icons: {
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     apple: "/logo.png",
   },
   openGraph: {
-    title: "Postrichly — Autonomous GTM Intelligence",
+    title: "Prospail — Autonomous GTM Intelligence",
     description: "Discover verified decision-makers backed by verifiable evidence.",
     type: "website",
   },
