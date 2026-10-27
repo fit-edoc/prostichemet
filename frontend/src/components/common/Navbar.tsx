@@ -65,18 +65,18 @@ export function Navbar() {
         }`}
       >
         {/* Div 1 (Left): Brand Logo & Name */}
-        <div className="pointer-events-auto flex items-center px-4 py-2 rounded-full bg-neutral-900/85 backdrop-blur-md border border-neutral-800/90 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.6)] hover:border-neutral-700 transition-all">
+        <div className="pointer-events-auto flex items-center px-4 py-2 rounded-full  backdrop-blur-md ">
           <Link href="/" className="flex items-center gap-2.5 group">
             <Image
               src="/logo.png"
-              alt="Postrichly"
+              alt="Prospail"
               width={100}
               height={100}
               className="w-7 h-7 rounded-md object-contain transition-transform group-hover:scale-105"
               priority
             />
             <span className="text-sm font-medium tracking-tight text-white group-hover:text-neutral-200 transition-colors">
-              Postrichly
+              Prospail
             </span>
           </Link>
         </div>
@@ -123,21 +123,13 @@ export function Navbar() {
               <UserProfileDropdown />
             </div>
           ) : (
-            <div className="flex items-center gap-1 sm:gap-2">
-              <button
-                onClick={() => router.push("/login")}
-                className="text-xs font-normal tracking-tight text-neutral-300 hover:text-white px-3 py-1.5 rounded-full hover:bg-neutral-800/60 transition-all cursor-pointer"
-              >
-                Sign In
-              </button>
-              <button
-                onClick={() => router.push("/login")}
-                className="btn-bevel bg-white hover:bg-neutral-100 !text-zinc-950 font-medium px-3.5 py-1.5 flex items-center gap-1 text-xs tracking-tight cursor-pointer group shadow-sm"
-              >
-                <span className="!text-zinc-950 font-medium">Get Started</span>
-                <ArrowRight className="w-3 h-3 !text-zinc-950 transition-transform group-hover:translate-x-0.5" />
-              </button>
-            </div>
+            <button
+              onClick={() => router.push("/login")}
+              className="btn-bevel bg-gradient-to-b from-neutral-800 to-neutral-900 hover:from-neutral-700 hover:to-neutral-800 text-white border border-neutral-600/80 font-medium px-3.5 py-1.5 flex items-center gap-1.5 text-xs tracking-tight cursor-pointer group shadow-[inset_0px_1px_1px_rgba(255,255,255,0.25),0_4px_16px_-2px_rgba(0,0,0,0.5)]"
+            >
+              <span className="text-white font-medium">Sign In</span>
+              <ArrowRight className="w-3 h-3 text-white transition-transform group-hover:translate-x-0.5" />
+            </button>
           )}
 
           {/* Mobile Menu Button */}
@@ -192,9 +184,10 @@ export function Navbar() {
                 setMobileMenuOpen(false);
                 router.push("/login");
               }}
-              className="btn-bevel bg-white text-zinc-950 font-medium py-2 text-center text-xs"
+              className="btn-bevel bg-gradient-to-b from-neutral-800 to-neutral-900 hover:from-neutral-700 hover:to-neutral-800 text-white border border-neutral-600/80 font-medium py-2 flex items-center justify-center gap-1.5 text-xs tracking-tight cursor-pointer shadow-[inset_0px_1px_1px_rgba(255,255,255,0.25),0_4px_16px_-2px_rgba(0,0,0,0.5)]"
             >
-              Start Free Research
+              <span className="text-white font-medium">Sign In</span>
+              <ArrowRight className="w-3 h-3 text-white" />
             </button>
           </div>
         </div>
