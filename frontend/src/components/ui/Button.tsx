@@ -37,13 +37,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variantClasses = {
       primary:
-        `bg-zinc-950 text-white border border-[rgba(255,255,255,0.13)] hover:bg-zinc-900 ${glassBevelShadow} active:translate-y-[0.5px] duration-400`,
+        `bg-gradient-to-b from-neutral-800 to-neutral-900 text-white border border-neutral-700/80 hover:border-neutral-600 ${glassBevelShadow} active:translate-y-[0.5px] duration-300 font-medium`,
       secondary:
-        "bg-white text-zinc-900 border border-zinc-200/90 hover:bg-zinc-50 hover:border-zinc-300 shadow-xs active:translate-y-[0.5px]",
+        `bg-neutral-900/90 text-white border border-neutral-700/80 hover:bg-neutral-800 hover:border-neutral-600 ${glassBevelShadow} active:translate-y-[0.5px] duration-300 font-medium`,
       outline:
-        "bg-transparent text-zinc-700 border border-zinc-200 hover:bg-zinc-50 hover:text-zinc-950 active:translate-y-[0.5px]",
+        `bg-transparent text-white border border-neutral-700/80 hover:bg-neutral-800/60 hover:border-neutral-600 shadow-sm active:translate-y-[0.5px]`,
       ghost:
-        "bg-transparent text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100 active:translate-y-[0.5px]",
+        "bg-transparent text-neutral-300 hover:text-white hover:bg-neutral-800/60 active:translate-y-[0.5px]",
     }[variant];
 
     return (
