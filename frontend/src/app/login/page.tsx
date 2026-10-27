@@ -68,7 +68,7 @@ export default function LoginPage() {
   React.useEffect(() => {
     const savedToken =
       typeof window !== "undefined"
-        ? localStorage.getItem("postrichly_token") || localStorage.getItem("postrichment_token")
+        ? localStorage.getItem("prospail_token") || localStorage.getItem("postrichly_token") || localStorage.getItem("postrichment_token")
         : null;
 
     if ((token || savedToken) && !hasRoutedRef.current && sessionStatus !== "loading") {
@@ -235,13 +235,13 @@ export default function LoginPage() {
           <Link href="/" className="flex items-center gap-2.5">
             <Image
               src="/logo.png"
-              alt="Postrichly"
+              alt="Prospail"
               width={26}
               height={26}
               className="w-6.5 h-6.5 rounded object-contain"
               priority
             />
-            <span className="text-base font-normal tracking-tight text-white">Postrichly</span>
+            <span className="text-base font-normal tracking-tight text-white">Prospail</span>
             <span className="bg-blue-700/10 text-blue-400 rounded-[2px] border-0 py-[2px] px-2 text-[10px] font-normal tracking-tight">
               Autonomous GTM
             </span>
@@ -258,7 +258,7 @@ export default function LoginPage() {
                 Turn unverified domains into verified, signal-backed pipeline.
               </h1>
               <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed font-normal tracking-tight">
-                Postrichly autonomously monitors real-time buyer intent, hiring surges, and tech stack shifts to deliver high-converting B2B accounts.
+                Prospail autonomously monitors real-time buyer intent, hiring surges, and tech stack shifts to deliver high-converting B2B accounts.
               </p>
             </div>
 
@@ -343,7 +343,7 @@ export default function LoginPage() {
             {/* Header */}
             <div className="space-y-1.5">
               <h2 className="text-xl font-normal tracking-tight text-zinc-950">
-                Welcome to <span className="bg-black text-white px-0.5">Postrichly</span>
+                Welcome to <span className="bg-black text-white px-0.5">Prospail</span>
               </h2>
               <p className="text-xs text-zinc-500 leading-relaxed font-normal tracking-tight">
                 Sign in with your verified Google account to access your autonomous GTM workspace and enrichment pipeline.
@@ -428,7 +428,7 @@ export default function LoginPage() {
 
         {/* Footer legal notes */}
         <div className="w-full max-w-sm mx-auto text-center text-[11px] text-zinc-400 py-2">
-          By signing in, you agree to Postrichly&apos;s{" "}
+          By signing in, you agree to Prospail&apos;s{" "}
           <Link href="/terms" className="underline hover:text-zinc-600">
             Terms
           </Link>{" "}

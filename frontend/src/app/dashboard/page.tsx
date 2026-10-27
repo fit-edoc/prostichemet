@@ -75,7 +75,7 @@ export default function DashboardPage() {
   React.useEffect(() => {
     const savedToken =
       typeof window !== "undefined"
-        ? localStorage.getItem("postrichly_token") || localStorage.getItem("postrichment_token")
+        ? localStorage.getItem("prospail_token") || localStorage.getItem("postrichly_token") || localStorage.getItem("postrichment_token")
         : token;
     if (!savedToken && !token) {
       router.push("/login");

@@ -44,7 +44,7 @@ export function DashboardSidebar({
           <Link href="/" className="flex items-center gap-2 group">
             <Image
               src="/logo.png"
-              alt="Postrichly"
+              alt="Prospail"
               width={24}
               height={24}
               className="w-6 h-6 rounded object-contain transition-transform group-hover:scale-105"
@@ -52,7 +52,7 @@ export function DashboardSidebar({
             />
             <div>
               <span className="text-sm font-normal tracking-tight text-zinc-950 block leading-tight">
-                Postrichly
+                Prospail
               </span>
               <span className="text-[10px] text-zinc-400 font-normal tracking-tight">
                 Autonomous GTM
@@ -176,7 +176,7 @@ export function DashboardSidebar({
         </div>
 
         <div className="flex items-center justify-between text-[11px] text-zinc-400 px-1">
-          <span>Postrichly Core</span>
+          <span>Prospail Core</span>
           <Link href="/onboarding" className="text-zinc-600 hover:text-zinc-950 transition-colors">
             New Intake
           </Link>

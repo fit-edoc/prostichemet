@@ -55,7 +55,7 @@ export default function OnboardingPage() {
   React.useEffect(() => {
     const savedToken =
       typeof window !== "undefined"
-        ? localStorage.getItem("postrichly_token") || localStorage.getItem("postrichment_token")
+        ? localStorage.getItem("prospail_token") || localStorage.getItem("postrichly_token") || localStorage.getItem("postrichment_token")
         : null;
 
     if (!savedToken && !token && !user) {
@@ -180,13 +180,13 @@ export default function OnboardingPage() {
           <Link href="/" className="flex items-center gap-2 group">
             <Image
               src="/logo.png"
-              alt="Postrichly"
+              alt="Prospail"
               width={24}
               height={24}
               className="w-6 h-6 rounded object-contain transition-transform group-hover:scale-105"
               priority
             />
-            <span className="text-sm font-normal text-zinc-950">Postrichly</span>
+            <span className="text-sm font-normal text-zinc-950">Prospail</span>
             <span className="bg-blue-700/10 text-blue-600 rounded-[2px] border-0 py-[2px] px-2 text-[10px] hidden sm:inline-flex">
               Company Intake & RAG Pipeline
             </span>
