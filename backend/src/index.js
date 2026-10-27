@@ -55,7 +55,7 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
 app.get('/', (req, res) => {
   return res.status(200).json({
     status: 'online',
-    service: 'Postrichly AI GTM Backend',
+    service: 'Prospail AI GTM Backend',
     docs: '/api/v1/health',
     timestamp: new Date().toISOString(),
   });
@@ -66,7 +66,7 @@ app.get('/health', (req, res) => {
   return successResponse(res, {
     status: 'healthy',
     timestamp: new Date().toISOString(),
-    service: 'Postrichly AI GTM Backend',
+    service: 'Prospail AI GTM Backend',
     version: '1.0.0',
   });
 });
@@ -82,7 +82,7 @@ app.get('/api/health', (req, res) => {
   return successResponse(res, {
     status: 'healthy',
     timestamp: new Date().toISOString(),
-    service: 'Postrichly AI GTM Backend',
+    service: 'Prospail AI GTM Backend',
     version: '1.0.0',
   });
 });
@@ -91,7 +91,7 @@ app.get('/api/v1/health', (req, res) => {
   return successResponse(res, {
     status: 'healthy',
     timestamp: new Date().toISOString(),
-    service: 'Postrichly AI GTM Backend',
+    service: 'Prospail AI GTM Backend',
     version: '1.0.0',
   });
 });
@@ -101,7 +101,7 @@ app.use(errorHandler);
 
 app.listen(port, '0.0.0.0', async () => {
   console.log(`=========================================`);
-  console.log(`🚀 Postrichly Backend running on port ${port}`);
+  console.log(`🚀 Prospail Backend running on port ${port}`);
   console.log(`📡 API Base: http://localhost:${port}/api/v1`);
   console.log(`=========================================`);
 
