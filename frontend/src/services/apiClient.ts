@@ -13,7 +13,11 @@ const CONFIGURED_API_URL = rawConfiguredUrl.endsWith('/api/v1')
 class ApiClient {
   private getAuthToken(): string | null {
     if (typeof window === 'undefined') return null;
-    return localStorage.getItem('postrichly_token') || localStorage.getItem('postrichment_token');
+    return (
+      localStorage.getItem('prospail_token') ||
+      localStorage.getItem('postrichly_token') ||
+      localStorage.getItem('postrichment_token')
+    );
   }
 
   private getBaseUrl(): string {
