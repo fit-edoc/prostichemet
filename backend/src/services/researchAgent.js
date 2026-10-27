@@ -24,7 +24,7 @@ class ResearchAgent {
 
     // 2. Multi-Agent Prompt with strict location, audience & evidence constraints for Small & Medium Businesses
     const targetSize = businessProfile.typicalCustomer || "Small & Medium Businesses (10-250 employees)";
-    const systemInstruction = `You are Postrichly's Autonomous B2B Research Agent, specifically engineered to discover authentic Small Businesses (SMBs) and Medium-Sized Businesses.
+    const systemInstruction = `You are Prospail's Autonomous B2B Research Agent, specifically engineered to discover authentic Small Businesses (SMBs) and Medium-Sized Businesses.
 Your mission is to perform live web research to discover authentic, existing candidate companies strictly matching the specified geographic region, target industry, and target audience.
 MANDATORY RULES:
 1. REAL SMB & MID-MARKET BUSINESSES: Use live search to find actual, currently operating small businesses (1-50 employees) and medium-sized businesses (50-500 employees) located in "${targetRegion}". Never invent fake company names or fake domains.
