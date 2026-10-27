@@ -26,7 +26,7 @@ export function HeroSection() {
       <div className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0">
         {/* Shape 1: Top-Left Floating Glass Pill (w-36 h-11) */}
         <div
-          className="absolute top-12 left-4 md:left-10 lg:left-20 animate-float-slow hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-neutral-900/80 backdrop-blur-md border border-neutral-700/60 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.5)]"
+          className="absolute top-20 left-4 md:left-10  lg:top-30 animate-float-slow hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-neutral-900/80 backdrop-blur-md border border-neutral-700/60 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.5)]"
           style={{ animationDelay: "0s" }}
         >
           <span className="relative flex h-2 w-2">
@@ -103,12 +103,7 @@ export function HeroSection() {
       {/* Hero Content */}
       <div className="relative z-10 flex flex-col items-center w-full max-w-4xl mx-auto px-4">
         {/* Multi-color Badge: Blue Engine */}
-        <div className="mb-6">
-          <span className="bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full py-[3px] px-3 text-[11px] font-normal tracking-tight inline-flex items-center gap-1.5 backdrop-blur-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-            Autonomous GTM Intelligence Engine
-          </span>
-        </div>
+       
 
         {/* Main Headline in Instrument Sans weight 400 tracking tight */}
         <h1 className="text-3xl sm:text-5xl md:text-6xl text-white font-normal tracking-tight leading-[1.12] max-w-3xl mx-auto">
@@ -125,20 +120,20 @@ export function HeroSection() {
         <div className="flex flex-col sm:flex-row items-center gap-3 mb-12">
           <button
             onClick={() => router.push("/login")}
-            className="btn-bevel bg-white !text-zinc-950 hover:bg-neutral-100 px-5 py-2.5 flex items-center justify-center gap-2 text-xs font-semibold tracking-tight cursor-pointer group shadow-lg w-full sm:w-auto"
+            className="btn-bevel bg-gradient-to-b from-neutral-800 to-neutral-900 hover:from-neutral-700 hover:to-neutral-800 text-white border border-neutral-600/80 px-5 py-2.5 flex items-center justify-center gap-2 text-xs font-medium tracking-tight cursor-pointer group shadow-[inset_0px_1px_1px_rgba(255,255,255,0.25),0_6px_20px_-2px_rgba(0,0,0,0.6)] w-full sm:w-auto"
           >
-            <span className="!text-zinc-950 font-semibold">Start Free Research</span>
-            <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 !text-zinc-950" />
+            <span className="text-white font-medium">Start Free Research</span>
+            <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 text-white" />
           </button>
 
           <button
             onClick={() => {
               document.getElementById("demo")?.scrollIntoView({ behavior: "smooth" });
             }}
-            className="btn-bevel bg-neutral-900/80 hover:bg-neutral-800 text-white border border-neutral-700/80 px-5 py-2.5 flex items-center justify-center gap-2 text-xs font-normal tracking-tight cursor-pointer shadow-md w-full sm:w-auto backdrop-blur-sm"
+            className="btn-bevel bg-teal-800/90 hover:bg-neutral-800 text-white border border-neutral-700/80 px-5 py-2.5 flex items-center justify-center gap-2 text-xs font-medium tracking-tight cursor-pointer shadow-[inset_0px_1px_1px_rgba(255,255,255,0.18),0_4px_16px_-2px_rgba(0,0,0,0.5)] w-full sm:w-auto backdrop-blur-sm"
           >
-            <MagnifyingGlass className="w-3.5 h-3.5 text-neutral-300" />
-            <span>Explore Demo</span>
+            <MagnifyingGlass className="w-3.5 h-3.5 text-white" />
+            <span className="text-white font-medium">Explore Demo</span>
           </button>
         </div>
 
