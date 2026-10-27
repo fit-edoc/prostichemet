@@ -43,7 +43,7 @@ export default function LandingPage() {
   useScrollReveal();
 
   return (
-    <div className="landing-page min-h-screen bg-white text-zinc-900 selection:bg-zinc-900 selection:text-white flex flex-col items-center w-full overflow-x-clip">
+    <div className="landing-page min-h-screen bg-zinc-950 text-white selection:bg-neutral-800 selection:text-white flex flex-col items-center w-full overflow-x-clip">
       {/* Dynamic Nav */}
       <Navbar />
 
