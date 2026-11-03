@@ -22,7 +22,6 @@ import {
   Coins,
   User,
   ShieldCheck,
-  MagnifyingGlass,
   Database,
   MapPin,
 } from "@phosphor-icons/react";
@@ -33,7 +32,7 @@ export default function OnboardingPage() {
   const dispatch = useAppDispatch();
   const { user, token } = useAppSelector((state) => state.auth);
   const { isLoading: isProfileLoading } = useAppSelector((state) => state.profile);
-  const { isIngesting: isScrapingIngesting, successMessage: ragSuccessMessage } = useAppSelector((state) => state.rag);
+  const { isIngesting: isScrapingIngesting } = useAppSelector((state) => state.rag);
 
   // Form State
   const [companyName, setCompanyName] = React.useState("");

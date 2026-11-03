@@ -34,7 +34,7 @@ export default function LoginPage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { data: session, status: sessionStatus } = useSession();
-  const { isLoading: isAuthLoading, error: reduxError, token, user } = useAppSelector((state) => state.auth);
+  const { isLoading: isAuthLoading, error: reduxError, token } = useAppSelector((state) => state.auth);
 
   const [isProcessing, setIsProcessing] = React.useState(false);
   const [statusMessage, setStatusMessage] = React.useState<string | null>(null);

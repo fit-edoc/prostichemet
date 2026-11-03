@@ -15,7 +15,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: "/login",
   },
   callbacks: {
-    async jwt({ token, account, user }) {
+    async jwt({ token, account }) {
       if (account) {
         token.idToken = account.id_token;
         token.googleId = account.providerAccountId;
@@ -30,7 +30,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return session;
     },
-    authorized({ auth, request: { nextUrl } }) {
+    authorized() {
       return true;
     },
   },
