@@ -45,13 +45,13 @@ const faqs: FAQItem[] = [
     id: "crm",
     question: "Can I export discovered leads and evidence to CSV or CRM?",
     answer:
-      "Yes. All enriched leads, verified corporate emails, LinkedIn URLs, scores, and evidence reasons can be exported to CSV or synced directly with HubSpot, Salesforce, and Webhook endpoints.",
+      "Yes. All enriched leads, verified corporate emails, LinkedIn URLs, fit scores, and evidence citations can be exported directly to CSV at any time, or managed within our built-in CRM lead pipeline.",
   },
   {
-    id: "keys",
-    question: "Can I connect my own custom AI models or API keys?",
+    id: "models",
+    question: "What AI infrastructure powers the research and outreach?",
     answer:
-      "Yes. Prospail comes with managed enterprise LLMs out of the box, but you can also configure your own OpenAI, Anthropic, or custom endpoint keys in workspace settings.",
+      "Prospail is powered by Google Gemini LLM infrastructure tightly coupled with our custom RAG retrieval pipeline. All AI research and outreach drafting run seamlessly out of the box without requiring you to supply or configure separate API keys.",
   },
 ];
 
@@ -86,16 +86,16 @@ export function FAQAccordion() {
           {/* Support / Contact Card */}
           <div className="mt-8 p-5 rounded-2xl bg-neutral-900/40 border border-neutral-800/80 shadow-[inset_0px_1px_1px_rgba(255,255,255,0.05),0_8px_24px_-4px_rgba(0,0,0,0.5)]">
             <h3 className="text-xs sm:text-sm font-medium text-white tracking-tight">
-              Have a custom workflow?
+              Need custom research criteria?
             </h3>
             <p className="text-xs text-neutral-400 mt-1 font-normal tracking-tight leading-relaxed">
-              Our engineering team can configure dedicated vector store integrations and custom scoring criteria.
+              Define your unique ICP, target geographies, and trigger signals directly inside your workspace settings.
             </p>
             <button
               onClick={() => router.push("/login")}
               className="mt-4 btn-bevel bg-gradient-to-b from-neutral-800 to-neutral-900 hover:from-neutral-700 hover:to-neutral-800 text-white border border-neutral-600/80 font-medium px-3.5 py-1.5 flex items-center gap-1.5 text-xs tracking-tight cursor-pointer shadow-[inset_0px_1px_1px_rgba(255,255,255,0.25),0_4px_16px_-2px_rgba(0,0,0,0.5)]"
             >
-              <span className="text-white font-medium">Contact Team</span>
+              <span className="text-white font-medium">Get Started Free</span>
               <ArrowRight className="w-3 h-3 text-white" />
             </button>
           </div>

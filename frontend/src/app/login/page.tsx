@@ -11,12 +11,9 @@ import { fetchProfiles } from "../../store/slices/profileSlice";
 import {
   ArrowLeft,
   ShieldCheck,
-  Sparkle,
   Check,
   CircleNotch,
   Lock,
-  TrendUp,
-  MagnifyingGlass,
 } from "@phosphor-icons/react";
 
 declare global {
@@ -228,99 +225,40 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen w-full grid grid-cols-1 lg:grid-cols-2 bg-[#FAFAFA] text-zinc-950 font-normal tracking-tight selection:bg-zinc-900 selection:text-white">
-      {/* LEFT: Clean Editorial Brand Showcase */}
-      <div className="relative hidden lg:flex flex-col justify-between overflow-hidden bg-zinc-950 p-12 text-white border-r border-zinc-800">
-        <div className="relative z-10 flex flex-col justify-between h-full space-y-12">
-          {/* Top Brand Header with Logo */}
-          <Link href="/" className="flex items-center gap-2.5">
-            <Image
-              src="/logo.png"
-              alt="Prospail"
-              width={26}
-              height={26}
-              className="w-6.5 h-6.5 rounded object-contain"
-              priority
-            />
-            <span className="text-base font-normal tracking-tight text-white">Prospail</span>
-            <span className="bg-blue-700/10 text-blue-400 rounded-[2px] border-0 py-[2px] px-2 text-[10px] font-normal tracking-tight">
-              Autonomous GTM
-            </span>
-          </Link>
+      {/* LEFT: Clean Minimal Brand Showcase */}
+      <div className="relative hidden lg:flex flex-col justify-between overflow-hidden bg-zinc-950 p-12 lg:p-16 text-white border-r border-zinc-800">
+        {/* Background Animated 400px Gradient Orb */}
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full blur-2xl pointer-events-none opacity-35 bg-gradient-to-tr from-white via-neutral-700 to-black animate-gradient-orb z-0"
+          aria-hidden="true"
+        />
 
-          {/* Centerpiece Hero Statement */}
-          <div className="space-y-6 max-w-lg">
-            <div className="space-y-3">
-              <span className="bg-green-700/10 text-green-400 rounded-[2px] border-0 py-[2px] px-2 text-[11px] font-normal tracking-tight inline-flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                Live Evidence Engine Active
-              </span>
-              <h1 className="text-3xl font-normal tracking-tight text-white leading-tight">
-                Turn unverified domains into verified, signal-backed pipeline.
-              </h1>
-              <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed font-normal tracking-tight">
-                Prospail autonomously monitors real-time buyer intent, hiring surges, and tech stack shifts to deliver high-converting B2B accounts.
-              </p>
-            </div>
+        {/* Top: Logo and Name of Company */}
+        <Link href="/" className="relative z-10 flex items-center gap-2.5 group w-fit">
+          <Image
+            src="/logo.png"
+            alt="Prospail"
+            width={28}
+            height={28}
+            className="w-7 h-7 rounded object-contain transition-transform group-hover:scale-105"
+            priority
+          />
+          <span className="text-base font-medium tracking-tight text-white">Prospail</span>
+        </Link>
 
-            {/* Live Signal Feed with Multi-color Badges */}
-            <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 p-4 space-y-3">
-              <div className="flex items-center justify-between text-xs text-zinc-400 pb-2 border-b border-zinc-800">
-                <div className="flex items-center gap-1.5">
-                  <Sparkle className="w-3.5 h-3.5 text-zinc-300" />
-                  <span className="text-zinc-200">Real-Time Signal Detection</span>
-                </div>
-                <span className="bg-green-700/10 text-green-400 rounded-[2px] border-0 py-[2px] px-2 text-[10px]">
-                  Streaming
-                </span>
-              </div>
+        {/* Center: Heading and Subheading about the project */}
+        <div className="relative z-10 my-auto max-w-lg space-y-4">
+          <h1 className="text-3xl sm:text-4xl font-normal tracking-tight text-white leading-[1.2]">
+            Turn unverified domains into verified, signal-backed pipeline.
+          </h1>
+          <p className="text-sm sm:text-base text-zinc-400 leading-relaxed font-normal tracking-tight">
+            Prospail autonomously monitors real-time buyer intent, hiring surges, and tech stack shifts to deliver high-converting B2B accounts.
+          </p>
+        </div>
 
-              {/* Feed Item 1 */}
-              <div className="flex items-start gap-2.5 p-2 rounded bg-zinc-900/70 border border-zinc-800/80">
-                <TrendUp className="w-4 h-4 text-zinc-400 shrink-0 mt-0.5" />
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between">
-                    <p className="text-xs font-normal text-white truncate">Acme Systems Inc.</p>
-                    <span className="text-[10px] text-zinc-500">1m ago</span>
-                  </div>
-                  <p className="text-[11px] text-zinc-400 truncate">Hired VP Sales + 6 AE roles posted</p>
-                </div>
-                <span className="bg-green-700/10 text-green-400 rounded-[2px] border-0 py-[2px] px-1.5 text-[10px] shrink-0">
-                  98% Fit
-                </span>
-              </div>
-
-              {/* Feed Item 2 */}
-              <div className="flex items-start gap-2.5 p-2 rounded bg-zinc-900/70 border border-zinc-800/80">
-                <MagnifyingGlass className="w-4 h-4 text-zinc-400 shrink-0 mt-0.5" />
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between">
-                    <p className="text-xs font-normal text-white truncate">FinScale Cloud</p>
-                    <span className="text-[10px] text-zinc-500">4m ago</span>
-                  </div>
-                  <p className="text-[11px] text-zinc-400 truncate">Adopting vector database for pipeline</p>
-                </div>
-                <span className="bg-amber-700/10 text-amber-400 rounded-[2px] border-0 py-[2px] px-1.5 text-[10px] shrink-0">
-                  Active
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom Metrics */}
-          <div className="pt-4 border-t border-zinc-800 flex items-center justify-between text-xs text-zinc-400">
-            <div>
-              <span className="block text-base font-normal text-white tracking-tight">3.2x</span>
-              <span className="text-[11px] text-zinc-500">Pipeline Lift</span>
-            </div>
-            <div>
-              <span className="block text-base font-normal text-white tracking-tight">99.4%</span>
-              <span className="text-[11px] text-zinc-500">Deliverability</span>
-            </div>
-            <div>
-              <span className="block text-base font-normal text-white tracking-tight">&lt; 30s</span>
-              <span className="text-[11px] text-zinc-500">Evidence Grounding</span>
-            </div>
-          </div>
+        {/* Bottom subtle copyright / branding note */}
+        <div className="relative z-10 text-xs text-zinc-500 font-normal tracking-tight">
+          © {new Date().getFullYear()} Prospail. All rights reserved.
         </div>
       </div>
 

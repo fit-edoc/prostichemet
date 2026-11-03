@@ -13,10 +13,10 @@ export function FeatureGrid() {
     <section id="features" className="w-full py-20 max-w-6xl mx-auto px-4">
       {/* Section Header */}
       <div className="text-center max-w-2xl mx-auto mb-14">
-        {/* Multi-color Badge: Blue Capabilities */}
+        {/* Monochromatic Shades of White Badge */}
         <div className="mb-3">
-          <span className="bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full py-[3px] px-3 text-[11px] font-normal tracking-tight inline-flex items-center gap-1.5 backdrop-blur-sm">
-            <Lightning className="w-3.5 h-3.5" />
+          <span className="bg-neutral-900 text-neutral-300 border border-neutral-700/80 rounded-full py-[3px] px-3 text-[11px] font-normal tracking-tight inline-flex items-center gap-1.5 backdrop-blur-sm">
+            <Lightning className="w-3.5 h-3.5 text-neutral-200" />
             Core Capabilities
           </span>
         </div>
@@ -30,14 +30,14 @@ export function FeatureGrid() {
         </p>
       </div>
 
-      {/* Editorial Bento Grid (3 balanced modules with RAW icons) */}
+      {/* Editorial Bento Grid (3 balanced modules in shades of white) */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Module 1: Autonomous Signal Radar */}
         <div className="rounded-2xl bg-neutral-900/80 border border-neutral-800/90 p-7 flex flex-col justify-between shadow-[inset_0px_1px_1px_rgba(255,255,255,0.08),0_8px_30px_-6px_rgba(0,0,0,0.6)] hover:border-neutral-700/80 transition-all backdrop-blur-md">
           <div>
-            {/* Raw Icon */}
-            <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-4 text-blue-400">
-              <Target className="w-5 h-5" />
+            {/* Raw Icon in shades of white */}
+            <div className="w-10 h-10 rounded-xl bg-neutral-800/80 border border-neutral-700/70 flex items-center justify-center mb-4 text-white">
+              <Target className="w-5 h-5 text-neutral-100" />
             </div>
 
             <h3 className="text-base text-white font-medium tracking-tight mb-2">
@@ -51,7 +51,7 @@ export function FeatureGrid() {
           <div className="p-4 rounded-xl bg-neutral-950/70 border border-neutral-800/80 text-xs space-y-2">
             <div className="flex items-center justify-between text-neutral-400 text-[11px]">
               <span>Recent Signal</span>
-              <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-md py-[2px] px-2 text-[10px]">
+              <span className="bg-neutral-800 text-neutral-200 border border-neutral-700/80 rounded-md py-[2px] px-2 text-[10px]">
                 Active Intent
               </span>
             </div>
@@ -64,9 +64,9 @@ export function FeatureGrid() {
         {/* Module 2: Grounded Copywriting */}
         <div className="rounded-2xl bg-neutral-900/80 border border-neutral-800/90 p-7 flex flex-col justify-between shadow-[inset_0px_1px_1px_rgba(255,255,255,0.08),0_8px_30px_-6px_rgba(0,0,0,0.6)] hover:border-neutral-700/80 transition-all backdrop-blur-md">
           <div>
-            {/* Raw Icon */}
-            <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-4 text-purple-400">
-              <EnvelopeSimple className="w-5 h-5" />
+            {/* Raw Icon in shades of white */}
+            <div className="w-10 h-10 rounded-xl bg-neutral-800/80 border border-neutral-700/70 flex items-center justify-center mb-4 text-white">
+              <EnvelopeSimple className="w-5 h-5 text-neutral-100" />
             </div>
 
             <h3 className="text-base text-white font-medium tracking-tight mb-2">
@@ -80,7 +80,7 @@ export function FeatureGrid() {
           <div className="p-4 rounded-xl bg-neutral-950/70 border border-neutral-800/80 text-xs space-y-2">
             <div className="flex items-center justify-between text-neutral-400 text-[11px]">
               <span>Outreach Format</span>
-              <span className="bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-md py-[2px] px-2 text-[10px]">
+              <span className="bg-neutral-800 text-neutral-200 border border-neutral-700/80 rounded-md py-[2px] px-2 text-[10px]">
                 68 Words PAS
               </span>
             </div>
@@ -93,9 +93,9 @@ export function FeatureGrid() {
         {/* Module 3: Anti-Hallucination Gate */}
         <div className="rounded-2xl bg-neutral-900/80 border border-neutral-800/90 p-7 flex flex-col justify-between shadow-[inset_0px_1px_1px_rgba(255,255,255,0.08),0_8px_30px_-6px_rgba(0,0,0,0.6)] hover:border-neutral-700/80 transition-all backdrop-blur-md">
           <div>
-            {/* Raw Icon */}
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-4 text-emerald-400">
-              <ShieldCheck className="w-5 h-5" />
+            {/* Raw Icon in shades of white */}
+            <div className="w-10 h-10 rounded-xl bg-neutral-800/80 border border-neutral-700/70 flex items-center justify-center mb-4 text-white">
+              <ShieldCheck className="w-5 h-5 text-neutral-100" />
             </div>
 
             <h3 className="text-base text-white font-medium tracking-tight mb-2">
@@ -109,8 +109,8 @@ export function FeatureGrid() {
           <div className="p-4 rounded-xl bg-neutral-950/70 border border-neutral-800/80 text-xs space-y-2">
             <div className="flex items-center justify-between text-neutral-400 text-[11px]">
               <span>Vector Grounding</span>
-              <span className="bg-purple-500/10 text-purple-400 border border-purple-500/20 rounded-md py-[2px] px-2 text-[10px]">
-                0% Hallucinations
+              <span className="bg-neutral-800 text-neutral-200 border border-neutral-700/80 rounded-md py-[2px] px-2 text-[10px]">
+                Evidence Verified
               </span>
             </div>
             <div className="text-white font-medium tracking-tight">

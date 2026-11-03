@@ -96,10 +96,10 @@ export function Navbar() {
             Capabilities
           </a>
           <a
-            href="#testimonials"
+            href="#comparison"
             className="px-3.5 py-1.5 rounded-full text-xs font-normal text-neutral-300 hover:text-white hover:bg-neutral-800/70 transition-all tracking-tight"
           >
-            Proof
+            Comparison
           </a>
           <a
             href="#faq"
@@ -165,11 +165,11 @@ export function Navbar() {
             Capabilities
           </a>
           <a
-            href="#testimonials"
+            href="#comparison"
             onClick={() => setMobileMenuOpen(false)}
             className="py-1.5 px-3 rounded-lg hover:bg-neutral-900 text-neutral-300 hover:text-white transition-colors"
           >
-            Proof
+            Comparison
           </a>
           <a
             href="#faq"

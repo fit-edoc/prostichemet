@@ -92,7 +92,7 @@ export function LiveTeaserDemo() {
             <div className="p-3.5 rounded-xl bg-neutral-950/70 border border-neutral-800/80 space-y-1 text-xs">
               <span className="text-neutral-400 block text-[11px]">Core Value Proposition</span>
               <p className="text-neutral-300 font-normal tracking-tight leading-relaxed">
-                Replaces cold generic spam with evidence-grounded messages referencing recent funding, tech stack updates, and hiring triggers to boost reply rates by 3.2x.
+                Replaces cold generic spam with evidence-grounded messages referencing recent funding, tech stack updates, and hiring triggers to maximize qualified replies.
               </p>
             </div>
           </div>

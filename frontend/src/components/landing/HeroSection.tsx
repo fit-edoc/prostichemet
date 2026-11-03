@@ -113,7 +113,7 @@ export function HeroSection() {
 
         {/* Subtitle */}
         <p className="text-sm sm:text-base text-neutral-300 max-w-xl mx-auto mt-5 mb-8 leading-relaxed font-normal tracking-tight">
-          Automate multi-source account discovery, real-time trigger classification, and evidence-grounded buyer synthesis — completely hallucination free.
+          Automate multi-source account discovery, real-time trigger classification, and evidence-grounded buyer synthesis — fully backed by public citations.
         </p>
 
         {/* Action Buttons */}
@@ -145,7 +145,7 @@ export function HeroSection() {
               <div className="flex items-center gap-2.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span className="text-xs font-normal tracking-tight text-white">
-                  Target Account Signal
+                  Sample Account Briefing
                 </span>
                 <span className="text-neutral-600">/</span>
                 <span className="text-xs font-normal tracking-tight text-neutral-400">
@@ -249,7 +249,7 @@ export function HeroSection() {
         <div className="flex flex-wrap items-center justify-center gap-6 text-xs text-neutral-400 mt-8 font-normal tracking-tight">
           <div className="flex items-center gap-1.5">
             <ShieldCheck className="w-3.5 h-3.5 text-white" />
-            <span>Zero Hallucinations</span>
+            <span>Verifiable Evidence Only</span>
           </div>
           <span className="text-neutral-600">·</span>
           <div className="flex items-center gap-1.5">
@@ -259,7 +259,7 @@ export function HeroSection() {
           <span className="text-neutral-600">·</span>
           <div className="flex items-center gap-1.5">
             <Database className="w-3.5 h-3.5 text-white" />
-            <span>Evidence-Backed Scoring</span>
+            <span>Multi-Source Signal Scoring</span>
           </div>
         </div>
       </div>

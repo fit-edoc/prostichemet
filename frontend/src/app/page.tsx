@@ -52,19 +52,19 @@ export default function LandingPage() {
         {/* Hero Section */}
         <HeroSection />
 
-        {/* Real Company Logos Marquee */}
+        {/* Public Signal Sources Marquee */}
         <LogoMarquee />
 
         {/* Interactive Engine Preview */}
         <LiveTeaserDemo />
 
-        {/* Metrics & Social Proof */}
+        {/* Research Standards & Verification */}
         <TrustProof />
 
         {/* Core Capabilities Bento */}
         <FeatureGrid />
 
-        {/* Customer Proof */}
+        {/* Product Comparison Matrix */}
         <TestimonialWall />
 
         {/* Technical FAQ */}

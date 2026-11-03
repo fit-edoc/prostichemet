@@ -107,8 +107,8 @@ export function Footer() {
             <ul className="space-y-2 text-xs text-neutral-400 font-normal tracking-tight">
               <li className="hover:text-white transition-colors cursor-default">Vector Grounding RAG</li>
               <li className="hover:text-white transition-colors cursor-default">Real-Time Signal Detection</li>
-              <li className="hover:text-white transition-colors cursor-default">Zero-Hallucination Threshold</li>
-              <li className="hover:text-white transition-colors cursor-default">CRM Continuous Sync</li>
+              <li className="hover:text-white transition-colors cursor-default">Verifiable Source Citations</li>
+              <li className="hover:text-white transition-colors cursor-default">Built-in CRM & CSV Export</li>
             </ul>
           </div>
         </div>
